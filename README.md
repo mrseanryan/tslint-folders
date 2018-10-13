@@ -1,8 +1,10 @@
 # tslint-folders
 
-use tslint to check for invalid imports between packages and folders in your project.
+Use tslint to check for invalid imports between packages and folders in your TypeScript project.
 
-automatic validation and documentation of package architecture.
+Automatic validation and documentation of package architecture.
+
+---
 
 ## usage
 
@@ -30,7 +32,9 @@ The tslint rules are enabled and configured in `tslint.json`.
 
 See the section under `tslint-folders-imports-between-packages` in [tslint.json](tslint.json) or the [unit tests](./test/rules/) for examples.
 
-## building and testing
+---
+
+## building and testing this source code
 
 To work on the source code for tstlint-folders, there are a few scripts:
 
@@ -41,6 +45,8 @@ To work on the source code for tstlint-folders, there are a few scripts:
 | yarn start    | Builds, tests and lints the code.                                       |
 | yarn test     | Tests the rules against spec files (\*.lint)                            |
 | yarn test-one | Test a single rule against spec files (\*.lint)                         |
+
+---
 
 ## Summary of the Custom Rules
 
@@ -54,6 +60,8 @@ here is a summary of the current custom rules.
 | tslint-folders-imports-from-self        | Detect an import from _this_ package (should use relative path, not the package name)                                                                                |
 | tslint-folders-test-with-breakpoint     | Detect when an integration test has a break point like `browser.debug()`                                                                                             |
 
+---
+
 ## approach taken
 
 All of the rules use the same prefix `tslint-folders-`.
@@ -66,6 +74,8 @@ However, having custom rules gives clearer messages to help the developer to kno
 Some rules are not related to 'folders', but are included as here as they also seem useful.
 
 For more details and examples please see the [unit tests](./test/rules/)
+
+---
 
 ## unit tests
 
@@ -87,7 +97,7 @@ The test data is based around a website that uses multiple packages:
 | grid-package | A UI grid that is used by area packages. It should not import any other recognised packages.                                              |
 | utils        | A 'utils' package used by the shell and area packages. It should not import any other recognised packages.                                |
 
-Example validation: 'shell' should be able to import from 'todo-area', but not the other way around (shell is at a higher level of abstraction, and also want to avoid 2-way dependencies).
+**Example validation**: 'shell' should be able to import from 'todo-area', but not the other way around (shell is at a higher level of abstraction, and also want to avoid 2-way dependencies).
 
 ### test data - packages with sub-folders
 
@@ -102,7 +112,7 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 | models          | models folder of UI components. Can only import from utils.                             |
 | utils           | A 'utils' folder. It should not import any other recognised folders.                    |
 
-Example validation: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).
+**Example validation**: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).
 
 ## that's it
 

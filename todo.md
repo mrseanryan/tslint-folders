@@ -10,6 +10,11 @@
 - [ ] publish to npm (dist only, not source), consume
 - [ ] yarn dump-graph
 
+if OK to open-source:
+
+- [ ] publish to npm with the source
+- [ ] make this repo public
+
 ---
 
 config:

@@ -1,0 +1,11 @@
+{
+    "rules": {
+        "tslint-folders-import-from-disallowed-folders": [
+            true,
+            {
+                "disallowed": ["/dist/", "/dist", "/node_modules/", "/node_modules", "mobx/lib/mobx"]
+            }
+        ]
+    },
+    "rulesDirectory": "../../../dist/"
+}

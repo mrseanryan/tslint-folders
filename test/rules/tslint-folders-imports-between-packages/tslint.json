@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "tslint-folders-imports-between-packages": true
+    },
+    "rulesDirectory": "../../../dist/"
+}

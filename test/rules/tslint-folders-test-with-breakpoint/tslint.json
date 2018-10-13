@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "tslint-folders-test-with-breakpoint": true
+    },
+    "rulesDirectory": "../../../dist/"
+}

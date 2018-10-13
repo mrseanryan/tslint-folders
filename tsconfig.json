@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "newLine": "LF",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "outDir": "dist/",
+    "plugins": [
+      {
+        "name": "tslint-language-service",
+        "configFile": "./tslint.json",
+        "alwaysShowRuleFailuresAsWarnings": true,
+        "disableNoUnusedVariableRule": false
+      }
+    ],
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

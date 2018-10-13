@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "tslint-folders-disabled-test": true
+    },
+    "rulesDirectory": "../../../dist/"
+}

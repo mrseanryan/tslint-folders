@@ -24,13 +24,19 @@ Normally this would be like:
   "rulesDirectory": "./node_modules/tslint-folders/dist/"
 ```
 
-See [tslint.json](tslint.json) for an example.
+See [tslint.tslint-folders.json](tslint.tslint-folders.json) for an example.
 
 3 Configuring the rules
 
 The tslint rules are enabled and configured in `tslint.json`.
 
-See the section under `tslint-folders-imports-between-packages` in [tslint.json](tslint.json) or the [unit tests](./test/rules/) for examples.
+See the section under `tslint-folders-imports-between-packages` in [tslint.tslint-folders.json](tslint.tslint-folders.json) or the [unit tests](./test/rules/) for examples.
+
+Optionally, you can split out the tslint-folders configuration into a separate file, like `tslint.tslint-folders.json`. To reference the file, add this code to `tslint.json`:
+
+```
+  "extends": "./tslint.tslint-folders.json"
+```
 
 ---
 
@@ -83,7 +89,7 @@ The unit tests for the rule `tslint-folders-imports-between-packages` are [here]
 
 The unit tests use test data to check the package boundaries of a fairly typical website.
 
-The matching configuration can be seen in [tslint.json](tslint.json)
+The matching configuration can be seen in [tslint.tslint-folders.json](tslint.tslint-folders.json)
 
 ### test data - packages
 
@@ -103,7 +109,7 @@ The test data is based around a website that uses multiple packages:
 
 tslint-folders can also validate imports between sub-folders of a package.
 
-The test data 'todo-area' package is configured with fairly typical sub-folders such as 'components' and 'models'. [tslint.json](tslint.json) has been configured to check the imports between these folders.
+The test data 'todo-area' package is configured with fairly typical sub-folders such as 'components' and 'models'. [tslint.tslint-folders.json](tslint.tslint-folders.json) has been configured to check the imports between these folders.
 
 | Sub-folder name | Description                                                                             |
 | --------------- | --------------------------------------------------------------------------------------- |

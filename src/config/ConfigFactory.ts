@@ -1,7 +1,6 @@
 import { PackageConfig } from "../model/PackageConfig";
 
 export namespace ConfigFactory {
-  // tslint:disable-next-line:no-any
   export function create(options: any): PackageConfig {
     if (options.length !== 1) {
       throw new Error(

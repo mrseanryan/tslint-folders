@@ -84,6 +84,7 @@ To work on the source code for tstlint-folders, there are a few scripts:
 | command       | description                                                             |
 | ------------- | ----------------------------------------------------------------------- |
 | yarn build    | Builds the rules to the 'dist' folder, from where they can be executed. |
+| yarn docs     | Generates summary of the package structure described in tslint.json.    |
 | yarn lint     | Lints the source code of the rules.                                     |
 | yarn start    | Builds, tests and lints the code.                                       |
 | yarn test     | Tests the rules against spec files (\*.lint)                            |

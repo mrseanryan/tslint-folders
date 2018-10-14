@@ -5,7 +5,7 @@
     "ban-types": false,
     "member-access": [true, "no-public"],
     "member-ordering": [true, "static-before-instance"],
-    "no-any": true,
+    "no-any": false,
     "no-empty-interface": true,
     "no-import-side-effect": false,
     "no-inferrable-types": false,

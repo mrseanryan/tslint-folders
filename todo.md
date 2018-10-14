@@ -10,9 +10,10 @@
 - [x] model as a _graph_
 - [x] list TODOs for the new tslint props
 - [x] publish to npm (dist only, not source), consume
+- [ ] yarn docs (generates a 'graph')
+- [ ] publish to npm (dist only, not source), consume
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [ ] publish to npm (dist only, not source), consume
-- [ ] yarn doc (generates a 'graph')
 
 if OK to open-source:
 
@@ -54,7 +55,7 @@ then only allow if in this.allowedFolders
 
 ## model dumping
 
-xxx - `yarn doc` outputs a text graph
+xxx - `yarn docs` outputs a text graph
 
 dump to simple text format
 
@@ -72,7 +73,7 @@ packageName1 --> packageName2, packageName3
 xx - dot as alt format could also be useful
 
 ```
-yarn doc --format=dot
+yarn docs --format=dot
 ```
 
 ---

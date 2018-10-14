@@ -40,20 +40,6 @@ Optionally, you can split out the tslint-folders configuration into a separate f
 
 ---
 
-## building and testing this source code
-
-To work on the source code for tstlint-folders, there are a few scripts:
-
-| command       | description                                                             |
-| ------------- | ----------------------------------------------------------------------- |
-| yarn build    | Builds the rules to the 'dist' folder, from where they can be executed. |
-| yarn lint     | Lints the source code of the rules.                                     |
-| yarn start    | Builds, tests and lints the code.                                       |
-| yarn test     | Tests the rules against spec files (\*.lint)                            |
-| yarn test-one | Test a single rule against spec files (\*.lint)                         |
-
----
-
 ## Summary of the Custom Rules
 
 here is a summary of the current custom rules.
@@ -77,9 +63,23 @@ To make it clear to developers that a _custom_ rule is involved, all messages fr
 Some of these rules could be replaced by standard tslint configuration.
 However, having custom rules gives clearer messages to help the developer to know what to fix (or what rule to disable for that piece of code).
 
-Some rules are not related to 'folders', but are included as here as they also seem useful.
+Some of the rules are not strictly about 'folders', but are included here as they also seem useful.
 
 For more details and examples please see the [unit tests](./test/rules/)
+
+---
+
+## building and testing this source code
+
+To work on the source code for tstlint-folders, there are a few scripts:
+
+| command       | description                                                             |
+| ------------- | ----------------------------------------------------------------------- |
+| yarn build    | Builds the rules to the 'dist' folder, from where they can be executed. |
+| yarn lint     | Lints the source code of the rules.                                     |
+| yarn start    | Builds, tests and lints the code.                                       |
+| yarn test     | Tests the rules against spec files (\*.lint)                            |
+| yarn test-one | Test a single rule against spec files (\*.lint)                         |
 
 ---
 

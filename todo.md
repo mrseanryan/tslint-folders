@@ -14,7 +14,10 @@
 - [x] publish to npm (dist only, not source), consume
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - NOT up major - too soon 
+- [ ] add keywords to package.json for npm
 - [ ] publish to npm (dist only, not source), consume
+
+- [ ] rename package to module ? is clearer. up minor.
 
 if OK to open-source:
 
@@ -22,8 +25,6 @@ if OK to open-source:
 - [ ] make this repo public (URL same?)
 - [ ] publish to npm with the source
 - [ ] consume
-
-- [ ] rename package to module ? is clearer 
 
 ---
 

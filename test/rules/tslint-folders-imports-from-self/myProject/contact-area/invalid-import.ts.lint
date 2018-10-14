@@ -1,2 +1,0 @@
-import {SomeClass} from "contact-area";
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [do not import a package from itself - use a relative path (tslint-folders-imports-from-self)]

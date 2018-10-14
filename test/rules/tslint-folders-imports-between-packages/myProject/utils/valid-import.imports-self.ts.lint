@@ -1,0 +1,4 @@
+import {SomeClass} from "lodash";
+import {SomeClass} from "../someCode";
+// some local directory that happens to use the package name:
+import {SomeClass} from "../../../utils/stores/AssistStore";

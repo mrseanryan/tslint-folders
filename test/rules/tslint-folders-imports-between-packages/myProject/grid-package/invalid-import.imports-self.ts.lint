@@ -1,5 +1,5 @@
 import {SomeClass} from "grid-package/someCode";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [do not import a package from itself - use a relative path (tslint-folders-imports-between-packages)]
 import {SomeClass} from "unrecognisedPackage/someCode";
-import {SomeClass} from "utils/someCode";
 import {SomeClass} from "./someFolder/someCode";
 import {SomeClass} from "../someCode";

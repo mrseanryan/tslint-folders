@@ -1,41 +1,34 @@
 import * as ts from "typescript";
 
-import { ConfigFactory } from "../config/ConfigFactory";
-import { IConfig } from "../config/IConfig";
-import { FolderConfig } from "../model/FolderNameToConfigMap";
-import { PackageLevel } from "../model/PackageLevel";
+import { PackageConfig, PackageFolder, PackageSubFolder } from "../model/PackageConfig";
 import { GeneralRuleUtils } from "./GeneralRuleUtils";
+import { PackageConfigHelper } from "./PackageConfigHelper";
 
 export enum PathSource {
   SourceFilePath,
   ImportText
 }
 
+export type PackageLocation = {
+  packageName: string;
+  packageFolder?: PackageFolder;
+  packageSubFolder?: PackageSubFolder;
+};
+
 export namespace ImportRuleUtils {
   export const IS_DEBUG_ENABLED = false;
 
-  export function getConfig(): IConfig {
-    return ConfigFactory.create();
-  }
-
-  export function isInTestFile(node: ts.Node): boolean {
-    const filePath = node.getSourceFile().fileName;
-    return GeneralRuleUtils.isInTestFile(filePath);
-  }
-
-  export function determinePackageLevelFromPath(
+  export function determinePackageLocationFromPath(
     filePath: string,
     ruleId: string,
-    config: IConfig,
+    config: PackageConfig,
     pathSource: PathSource
-  ): { folderConfig: FolderConfig; packageName: string } {
+  ): PackageLocation {
     const dirs = cleanPath(filePath).split("/");
-
-    const map = config.folderToPackageLevel.map;
 
     if (IS_DEBUG_ENABLED) {
       console.log(
-        `checking ${PathSource[pathSource]} against map:`,
+        `checking ${PathSource[pathSource]} against path:`,
         dirs.join(",")
       );
     }
@@ -51,7 +44,7 @@ export namespace ImportRuleUtils {
         break;
       case PathSource.SourceFilePath: {
         dirs.forEach(dir => {
-          if (map.has(dir)) {
+          if (PackageConfigHelper.hasPackage(config, dir)) {
             if (packageName === null) {
               // take the 1st recognised folder:
               packageName = dir;
@@ -70,31 +63,38 @@ export namespace ImportRuleUtils {
       }
     }
 
-    if (packageName === null || !map.has(packageName)) {
+    if (
+      packageName === null ||
+      !PackageConfigHelper.hasPackage(config, packageName)
+    ) {
       return {
-        folderConfig: {
-          packageLevel: PackageLevel.ThirdParty
-        },
         packageName: filePath
       };
     }
 
-    const folderConfig = map.get(packageName);
-
-    if (folderConfig === undefined) {
+    let packageFolder: PackageFolder | undefined;
+    try {
+      packageFolder = PackageConfigHelper.getPackage(config, packageName);
+    } catch (error) {
       GeneralRuleUtils.buildFailureString(
-        `unexpected: import had a recognised package: [${packageName}] but could not determine the level`,
+        `unexpected: import had a recognised package: [${packageName}] but could not find the PackageFolder in the config`,
         ruleId
       );
+
       return {
-        folderConfig: {
-          packageLevel: PackageLevel.ThirdParty
-        },
+        packageName: filePath
+      };
+    }
+
+    if (!packageFolder) {
+      return {
         packageName: packageName
       };
     }
 
-    return { folderConfig: folderConfig, packageName: packageName };
+    // TODO xxx determine packageSubFolder
+
+    return { packageName: packageName, packageFolder: packageFolder };
   }
 
   function cleanPath(filePath: string): string {
@@ -107,17 +107,15 @@ export namespace ImportRuleUtils {
   }
 
   export function isThisPackageThirdParty(
-    thisFolderConfig: FolderConfig,
-    node: ts.Node,
-    thisPackageName: string
+    thisFolderLocation: PackageLocation,
+    node: ts.Node
   ): boolean {
-    if (thisFolderConfig.packageLevel === PackageLevel.ThirdParty) {
+    if (isPackageThirdParty(thisFolderLocation)) {
       if (IS_DEBUG_ENABLED) {
         console.log(
           node.getSourceFile().fileName,
           "- this package ThirdParty!",
-          thisPackageName,
-          PackageLevel[thisFolderConfig.packageLevel]
+          thisFolderLocation.packageName
         );
       }
       return true;
@@ -126,23 +124,40 @@ export namespace ImportRuleUtils {
     return false;
   }
 
+  export function isPackageThirdParty(
+    folderLocation: PackageLocation
+  ): boolean {
+    return !folderLocation.packageFolder && !folderLocation.packageSubFolder;
+  }
+
   export function logPackageAndImport(
     node: ts.Node,
-    thisPackageName: string,
-    thisFolderConfig: FolderConfig,
-    importPackageName: string,
-    importConfig: FolderConfig
+    thisPackageLocation: PackageLocation,
+    importPackageLocation: PackageLocation
   ) {
     if (IS_DEBUG_ENABLED) {
       console.log(
         node.getSourceFile().fileName,
         "- this package:",
-        thisPackageName,
-        PackageLevel[thisFolderConfig.packageLevel],
+        thisPackageLocation.packageName,
+        getPackageName(thisPackageLocation.packageFolder),
         "- import:",
-        importPackageName,
-        PackageLevel[importConfig.packageLevel]
+        importPackageLocation.packageName,
+        getPackageName(importPackageLocation.packageFolder)
       );
     }
+  }
+
+  function getPackageName(packageFolder: PackageFolder | undefined): string {
+    return packageFolder ? packageFolder.importPath : "(unknown)";
+  }
+
+  export function shouldIgnoreFile(
+    node: ts.Node,
+    ignorePaths: string[]
+  ): boolean {
+    const filePath = node.getSourceFile().fileName;
+
+    return ignorePaths.some(ignore => filePath.indexOf(ignore) >= 0);
   }
 }

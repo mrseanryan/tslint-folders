@@ -1,12 +1,15 @@
 import * as Lint from "tslint";
 import * as ts from "typescript";
 
-import { PackageLevel } from "./model/PackageLevel";
-import { RecognisedImportPolicy } from "./model/RecognisedImportPolicy";
+import { ConfigFactory } from "./config/ConfigFactory";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
+import { PackageConfigHelper } from "./utils/PackageConfigHelper";
 
 const RULE_ID = "tslint-folders-imports-between-packages";
+
+const DISALLOW_IMPORT_FROM_SELF_MESSAGE =
+  "do not import a package from itself - use a relative path";
 
 export class Rule extends Lint.Rules.AbstractRule {
   apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -18,8 +21,6 @@ export class Rule extends Lint.Rules.AbstractRule {
 }
 
 class ImportsWalker extends Lint.RuleWalker {
-  private config = ImportRuleUtils.getConfig();
-
   visitImportDeclaration(node: ts.ImportDeclaration) {
     this.validate(node, node.moduleSpecifier.getText());
   }
@@ -33,86 +34,99 @@ class ImportsWalker extends Lint.RuleWalker {
   private validate(node: ts.Node, text: string) {
     // algorithm:
     /*
-        - determine this files package level
+        - determine this files PackageFolder, PackageSubFolder
         - if ThirdParty then skip
-        - disallow import from self
-        - determine package level of the import
-        - enforce ImportRecognised.Deny
-        - disallow import at same level
-        - disallow import at higher level
+        - determine the PackageFolder, PackageSubFolder of the import
+        - if ThirdParty then skip
+        - disallowImportFromSelf -> disallow if same
+        - check if the import is allowed
         */
 
-    const {
-      folderConfig: thisFolderConfig,
-      packageName: thisPackageName
-    } = ImportRuleUtils.determinePackageLevelFromPath(
+    const config = ConfigFactory.create(this.getOptions());
+
+    const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
       node.getSourceFile().fileName,
       RULE_ID,
-      this.config,
+      config,
       PathSource.SourceFilePath
     );
 
-    if (
-      ImportRuleUtils.isThisPackageThirdParty(
-        thisFolderConfig,
-        node,
-        thisPackageName
-      )
-    ) {
+    if (ImportRuleUtils.isThisPackageThirdParty(thisPackageLocation, node)) {
       return;
     }
 
-    const {
-      folderConfig: importConfig,
-      packageName: importPackageName
-    } = ImportRuleUtils.determinePackageLevelFromPath(
+    if (!thisPackageLocation.packageFolder) {
+      throw new Error(
+        "unexpected: this package is not ThirdParty, but has no packageFolder in its location"
+      );
+    }
+
+    const importPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
       text,
       RULE_ID,
-      this.config,
+      config,
       PathSource.ImportText
     );
 
     ImportRuleUtils.logPackageAndImport(
       node,
-      thisPackageName,
-      thisFolderConfig,
-      importPackageName,
-      importConfig
+      thisPackageLocation,
+      importPackageLocation
     );
 
-    const failureMessage = `'${thisPackageName}' is not allowed to import from '${importPackageName}'`;
-
-    const isImportRecognised =
-      importConfig.packageLevel !== PackageLevel.ThirdParty;
+    const isImportRecognised = !ImportRuleUtils.isPackageThirdParty(
+      importPackageLocation
+    );
 
     if (
       isImportRecognised &&
-      importPackageName !== thisPackageName &&
-      thisFolderConfig.recognisedImportPolicy === RecognisedImportPolicy.Deny
+      importPackageLocation.packageName === thisPackageLocation.packageName &&
+      config.disallowImportFromSelf.enabled &&
+      !ImportRuleUtils.shouldIgnoreFile(
+        node,
+        config.disallowImportFromSelf.ignorePaths
+      )
     ) {
       this.addFailureAtNode(
         node,
-        GeneralRuleUtils.buildFailureString(failureMessage, RULE_ID)
+        GeneralRuleUtils.buildFailureString(
+          DISALLOW_IMPORT_FROM_SELF_MESSAGE,
+          RULE_ID
+        )
       );
       return;
     }
 
-    if (thisFolderConfig.packageLevel === importConfig.packageLevel) {
-      if (thisPackageName !== importPackageName) {
+    if (
+      isImportRecognised &&
+      importPackageLocation.packageName !== thisPackageLocation.packageName &&
+      config.checkImportsBetweenPackages.enabled &&
+      !ImportRuleUtils.shouldIgnoreFile(
+        node,
+        config.checkImportsBetweenPackages.ignorePaths
+      )
+    ) {
+      const thisPackageFolder = thisPackageLocation.packageFolder;
+      if (thisPackageFolder.allowedToImport.find(allowed => allowed === "*")) {
+        return;
+      }
+
+      if (
+        !thisPackageFolder.allowedToImport.find(
+          allowed => allowed === importPackageLocation.packageName
+        )
+      ) {
+        const failureMessage = `'${
+          thisPackageLocation.packageName
+        }' is not allowed to import from '${
+          importPackageLocation.packageName
+        }'`;
+
         this.addFailureAtNode(
           node,
           GeneralRuleUtils.buildFailureString(failureMessage, RULE_ID)
         );
-        return;
       }
-    }
-
-    // note: this is inverted, to make ordering of PackageLevel easier to read
-    if (thisFolderConfig.packageLevel > importConfig.packageLevel) {
-      this.addFailureAtNode(
-        node,
-        GeneralRuleUtils.buildFailureString(failureMessage, RULE_ID)
-      );
     }
   }
 }

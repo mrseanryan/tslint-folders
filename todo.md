@@ -5,10 +5,11 @@
 - [x] remove refs to sdk
 - [x] re-make unit tests
 - [x] config in tslint.json
-- [ ] merge tests for 'tslint-folders-imports-from-self' into 'tslint-folders-imports-between-packages'
-- [ ] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
-- [ ] model as a _graph_
-- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured.
+- [x] merge tests for 'tslint-folders-imports-from-self' into 'tslint-folders-imports-between-packages'
+- [x] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
+- [x] model as a _graph_
+- [x] list TODOs for the new tslint props
+- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [ ] publish to npm (dist only, not source), consume
 - [ ] yarn dump-graph
 

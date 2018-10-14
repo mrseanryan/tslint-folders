@@ -4,59 +4,76 @@
     "tslint-folders-imports-between-packages": [
       true,
       {
-        "packages": [
-          {
-            "description": "Application Shell",
-            "importPath": "shell",
-            "allowedToImport": ["*"],
-            "subFolders": []
-          },
-          {
-            "description": "TODO Area Package",
-            "importPath": "todo-area",
-            "allowedToImport": ["grid-package", "utils-package"],
-            "subFolders": [
-              {
-                "description": "components",
-                "importPath": "components",
-                "allowedToImport": ["*"]
-              },
-              {
-                "description": "view models",
-                "importPath": "viewmodels",
-                "allowedToImport": ["models", "utils"]
-              },
-              {
-                "description": "models",
-                "importPath": "models",
-                "allowedToImport": ["utils"]
-              },
-              {
-                "description": "utils",
-                "importPath": "utils",
-                "allowedToImport": []
-              }
+        "config": {
+          "disallowImportFromSelf": {
+            "enabled": true,
+            "ignorePaths": [
+              "utils",
+              "utils/",
+              ".spec.ts",
+              ".spec.tsx",
+              ".ispec.ts",
+              ".ispec.tsx"
             ]
           },
-          {
-            "description": "Area that shows contact details",
-            "importPath": "contact-area",
-            "allowedToImport": ["grid-package", "utils-package"],
-            "subFolders": []
-          },
-          {
-            "description": "Grid Package with no dependencies",
-            "importPath": "grid-package",
-            "allowedToImport": [],
-            "subFolders": []
-          },
-          {
-            "description": "Utils package",
-            "importPath": "utils-package",
-            "allowedToImport": [],
-            "subFolders": []
+          "checkImportsBetweenPackages": {
+            "enabled": true,
+            "ignorePaths": [],
+            "packages": [
+              {
+                "description": "Application Shell",
+                "importPath": "shell",
+                "allowedToImport": ["*"],
+                "subFolders": []
+              },
+              {
+                "description": "TODO Area Package",
+                "importPath": "todo-area",
+                "allowedToImport": ["grid-package", "utils"],
+                "subFolders": [
+                  {
+                    "description": "components",
+                    "importPath": "components",
+                    "allowedToImport": ["*"]
+                  },
+                  {
+                    "description": "view models",
+                    "importPath": "viewmodels",
+                    "allowedToImport": ["models", "utils"]
+                  },
+                  {
+                    "description": "models",
+                    "importPath": "models",
+                    "allowedToImport": ["utils"]
+                  },
+                  {
+                    "description": "utils",
+                    "importPath": "utils",
+                    "allowedToImport": []
+                  }
+                ]
+              },
+              {
+                "description": "Area that shows contact details",
+                "importPath": "contact-area",
+                "allowedToImport": ["grid-package", "utils"],
+                "subFolders": []
+              },
+              {
+                "description": "Grid Package with no dependencies",
+                "importPath": "grid-package",
+                "allowedToImport": [],
+                "subFolders": []
+              },
+              {
+                "description": "Utils package",
+                "importPath": "utils",
+                "allowedToImport": [],
+                "subFolders": []
+              }
+            ]
           }
-        ]
+        }
       }
     ]
   }

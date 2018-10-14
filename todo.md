@@ -5,6 +5,7 @@
 - [x] remove refs to sdk
 - [x] re-make unit tests
 - [x] config in tslint.json
+- [ ] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
 - [ ] model as a _graph_
 - [ ] add tests for sub-folders (under todo-area)
 - [ ] publish to npm (dist only, not source), consume
@@ -13,6 +14,7 @@
 if OK to open-source:
 
 - [ ] publish to npm with the source
+- [ ] consume
 - [ ] make this repo public
 
 ---
@@ -74,7 +76,7 @@ then only allow if in this.allowedFolders
 
 yarn dump-graph
 
-outputs text â€˜graphâ€™
+outputs text ‘graph’
 
 dump to simple text format
 

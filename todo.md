@@ -6,14 +6,16 @@
 - [x] re-make unit tests
 - [x] config in tslint.json
 - [ ] merge tests for 'tslint-folders-imports-from-self' into 'tslint-folders-imports-between-packages'
+- [ ] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
 - [ ] model as a _graph_
-- [ ] add tests for sub-folders (under todo-area)
+- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured.
 - [ ] publish to npm (dist only, not source), consume
 - [ ] yarn dump-graph
 
 if OK to open-source:
 
 - [ ] publish to npm with the source
+- [ ] consume
 - [ ] make this repo public
 - [ ] consume
 
@@ -76,7 +78,7 @@ then only allow if in this.allowedFolders
 
 yarn dump-graph
 
-outputs text ‘graph’
+outputs text �graph�
 
 dump to simple text format
 
@@ -95,7 +97,16 @@ packageName1 --> packageName2, packageName3
 
 ---
 
-Separate rules, using the Config for:
+extend the main rule, using the Config for:
 
 - [ ] import from recognised package should not be relative (like /myPackage/)
 - [ ] import from recognised package should not include /src/
+      by adding a ban prop?
+
+Other rules:
+
+- [ ] make rule customisable: tslint-folders-test-with-breakpoint
+      by adding a debugTokens: [] and an includePaths prop
+
+- [ ] make rule customisable: tslint-folders-disabled-tests
+      by adding an includePaths prop

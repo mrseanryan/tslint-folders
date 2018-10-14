@@ -1,6 +1,20 @@
 {
   "rulesDirectory": "./dist/",
   "rules": {
+    "tslint-folders-disabled-test": true,
+    "tslint-folders-import-from-disallowed-folders": [
+      true,
+      {
+        "disallowed": [
+          "/dist/",
+          "/dist",
+          "/node_modules/",
+          "/node_modules",
+          "mobx/lib/mobx"
+        ]
+      }
+    ],
+    "tslint-folders-test-with-breakpoint": true,
     "tslint-folders-imports-between-packages": [
       true,
       {

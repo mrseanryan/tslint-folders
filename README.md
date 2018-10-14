@@ -44,12 +44,21 @@ Optionally, you can split out the tslint-folders configuration into a separate f
 
 here is a summary of the current custom rules.
 
-| Rule ID                                 | Description                                                                                                                                                                                                                                                            |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tslint-folders-disabled-test            | Detect a disabled unit test, test suite or integration test.                                                                                                                                                                                                           |
-| tslint-folders-from-disallowed-folders  | Detect an import from a non-standard folder like node_modules                                                                                                                                                                                                          |
-| tslint-folders-imports-between-packages | Detect an import from a 'higher level' package: for example, import from an application 'shell' package when inside an 'area' package. This is the main custom rule. Also can detect when a package has imports using this packages name (instead of a relative path). |
-| tslint-folders-test-with-breakpoint     | Detect when an integration test has a break point like `browser.debug()`                                                                                                                                                                                               |
+| Rule ID                                       | Description                                                                                                                                                                                                                                                            |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tslint-folders-disabled-test                  | Detect a disabled unit test, test suite or integration test.                                                                                                                                                                                                           |
+| tslint-folders-import-from-disallowed-folders | Detect an import from a non-standard folder like node_modules                                                                                                                                                                                                          |
+| tslint-folders-imports-between-packages       | Detect an import from a 'higher level' package: for example, import from an application 'shell' package when inside an 'area' package. This is the main custom rule. Also can detect when a package has imports using this packages name (instead of a relative path). |
+| tslint-folders-test-with-breakpoint           | Detect when an integration test has a break point like `browser.debug()`                                                                                                                                                                                               |
+
+---
+
+## sites
+
+| site                    | URL                                          |
+| ----------------------- | -------------------------------------------- |
+| bitbucket (source code) | https://bitbucket.org/str/tslint-folders     |
+| npm                     | https://www.npmjs.com/package/tslint-folders |
 
 ---
 

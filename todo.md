@@ -13,14 +13,15 @@
 - [x] yarn docs (generates a 'graph')
 - [x] publish to npm (dist only, not source), consume
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
+- [ ] up major to 1.0.1
 - [ ] publish to npm (dist only, not source), consume
 
 if OK to open-source:
 
-- [ ] publish to npm with the source
 - [ ] update readme: `node_modules/tslint-folders/tools` -> `node_modules/tslint-folders/dist/tools`
-- [ ] consume
 - [ ] make this repo public (URL same?)
+- [ ] publish to npm with the source
+- [ ] consume
 
 ---
 

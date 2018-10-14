@@ -7,7 +7,7 @@
 - [x] config in tslint.json
 - [ ] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
 - [ ] model as a _graph_
-- [ ] add tests for sub-folders (under todo-area)
+- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured.
 - [ ] publish to npm (dist only, not source), consume
 - [ ] yarn dump-graph
 

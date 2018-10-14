@@ -38,6 +38,51 @@ Optionally, you can split out the tslint-folders configuration into a separate f
   "extends": "./tslint.tslint-folders.json"
 ```
 
+4 Generating a summary of the package configuration
+
+Assuming that `tslint.tslint-folders.json` has been correctly configured to model the expected package structure, then you can run this command to generate a summary:
+
+```
+node node_modules/tslint-folders/tools/docsGenerator tslint.tslint-folders.json Text
+```
+
+example output:
+
+```
+package structure:
+_____
+shell - Application Shell
+  --> (any)
+
+todo-area - TODO Area Package
+  --> grid-package, utils
+    folders:
+      components - components
+        --> (any)
+
+      viewmodels - view models
+        --> models, utils
+
+      models - models
+        --> utils
+
+      utils - utils
+        --> (none)
+
+contact-area - Area that shows contact details
+  --> grid-package, utils
+
+grid-package - Grid Package with no dependencies
+  --> (none)
+
+utils - Utils package
+  --> (none)
+
+_____
+```
+
+Allowed imports are shown for each package, after the `-->` arrow.
+
 ---
 
 ## Summary of the Custom Rules

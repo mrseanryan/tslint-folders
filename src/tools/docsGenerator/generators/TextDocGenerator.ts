@@ -1,4 +1,4 @@
-import { PackageConfig } from "../../../model/PackageConfig";
+import { PackageConfig, PackageFolder, PackageSubFolder } from "../../../model/PackageConfig";
 import { DocConfig } from "../Config";
 import { IDocGenerator } from "../interfaces/IDocGenerator";
 import { IDocOutputter } from "../interfaces/IDocOutputter";
@@ -20,17 +20,58 @@ export class TextDocGenerator implements IDocGenerator {
 
       outputter.increaseIndent();
 
-      const allowedToImport =
-        pkg.allowedToImport.length > 0
-          ? `${pkg.allowedToImport.join(", ")}`
-          : "(none)";
-      outputter.outputLine(`--> ${allowedToImport}`);
+      this.outputAllowedImports(pkg, outputter);
+
+      this.outputSubFolders(outputter, pkg.subFolders);
 
       outputter.decreaseIndent();
-
-      outputter.outputLine("");
     });
 
     outputter.outputLine(SECTION_SEPARATOR);
+  }
+
+  private outputAllowedImports(pkg: PackageFolder, outputter: IDocOutputter) {
+    const allowedToImport = this.outputAllowedToImport(pkg.allowedToImport);
+    outputter.outputLine(`--> ${allowedToImport}`);
+  }
+
+  private outputAllowedToImport(allowed: string[]): string {
+    if (allowed.some(value => value === "*")) {
+      return "(any)";
+    }
+
+    return allowed.length > 0 ? `${allowed.join(", ")}` : "(none)";
+  }
+
+  private outputSubFolders(
+    outputter: IDocOutputter,
+    subFolders: PackageSubFolder[]
+  ) {
+    if (subFolders.length === 0) {
+      outputter.outputLine("");
+      return;
+    }
+
+    outputter.increaseIndent();
+
+    outputter.outputLine("folders:");
+
+    outputter.increaseIndent();
+
+    subFolders.forEach(folder => {
+      outputter.outputLine(`${folder.importPath} - ${folder.description}`);
+
+      const allowedToImport = this.outputAllowedToImport(
+        folder.allowedToImport
+      );
+
+      outputter.increaseIndent();
+      outputter.outputLine(`--> ${allowedToImport}`);
+      outputter.decreaseIndent();
+      outputter.outputLine("");
+    });
+
+    outputter.decreaseIndent();
+    outputter.decreaseIndent();
   }
 }

@@ -38,6 +38,8 @@ Optionally, you can split out the tslint-folders configuration into a separate f
   "extends": "./tslint.tslint-folders.json"
 ```
 
+Assuming tslint is already in place, then you should now see any unexpected imports (or disabled tests) be flagged by tslint. This should work as usual for tslint: on the command line, or in an editor such as Visual Code (may require refreshing the editor).
+
 4 Generating a summary of the package configuration
 
 Assuming that `tslint.tslint-folders.json` has been correctly configured to model the expected package structure, then you can run this command to generate a summary:

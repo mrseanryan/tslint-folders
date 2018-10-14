@@ -11,7 +11,7 @@
 - [x] list TODOs for the new tslint props
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [ ] publish to npm (dist only, not source), consume
-- [ ] yarn dump-graph
+- [ ] yarn doc (generates a 'graph')
 
 if OK to open-source:
 
@@ -24,34 +24,10 @@ if OK to open-source:
 
 config:
 
-- [ ] config from tslint-folders.json that's imported by tslint.json
+- [x] config from tslint-folders.json that's imported by tslint.json
 - [ ] throw if config has circ reference
 
----
-
-PackageFolder
-
--- allowedFolders: PackageFolder[]
-
--- importPath // regex
-
-- description
-
-Package : PackageFolder
-
-config:
-
-graph of Package - root: PackageFolder
-
-- a package can only import child (or sub-child)
-
-- pain to maintain? only if we mistakenly omit children
-
-- new package: will be ignored
-
-- some sub trees duplicated - e.g. all editors can use utils
-
-- 'separable package' - import no recognised packages : no special case needed (simply no children)
+- [x] 'separable package' - import no recognised packages : no special case needed (simply no children)
 
 ---
 
@@ -65,8 +41,6 @@ utils
 
 -- PackageSubFolder : PackageFolder
 
-- allowedFolders - throw if try to add a non PackageSubFolder
-
 - container: Package (no hierarchy of sub folders)
 
 - can import any PackageNode children of container
@@ -77,15 +51,13 @@ then only allow if in this.allowedFolders
 
 ---
 
-yarn dump-graph
+## model dumping
 
-outputs text �graph�
+xxx - `yarn doc` outputs a text graph
 
 dump to simple text format
 
 so don't need dot to ascii
-
-- but dot as alt format could be useful
 
 format:
 
@@ -96,18 +68,32 @@ packageName1 --> packageName2, packageName3
   folder3
 ```
 
+xx - dot as alt format could also be useful
+
+```
+yarn doc --format=dot
+```
+
 ---
 
-extend the main rule, using the Config for:
+## disallow import [relative, src] from recognised package
+
+extend the main rule, using the config:
 
 - [ ] import from recognised package should not be relative (like /myPackage/)
 - [ ] import from recognised package should not include /src/
-      by adding a ban prop?
+      by adding a ban prop into PackageFolder:
 
-Other rules:
+      ```
+      "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"]
+      ```
+
+---
+
+## make the 'test' rules be configurable
 
 - [ ] make rule customisable: tslint-folders-test-with-breakpoint
-      by adding a debugTokens: [] and an includePaths prop
+      by adding an includePaths: string[] prop and a debugTokens: ["browser.debug"]
 
 - [ ] make rule customisable: tslint-folders-disabled-tests
-      by adding an includePaths prop
+      by adding an includePaths: string[] prop and a ban: ["it.only", "it.skip","describe.only","describe.skip"]

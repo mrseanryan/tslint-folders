@@ -76,7 +76,7 @@ then only allow if in this.allowedFolders
 
 yarn dump-graph
 
-outputs text ‘graph’
+outputs text ï¿½graphï¿½
 
 dump to simple text format
 
@@ -95,7 +95,16 @@ packageName1 --> packageName2, packageName3
 
 ---
 
-Separate rules, using the Config for:
+extend the main rule, using the Config for:
 
 - [ ] import from recognised package should not be relative (like /myPackage/)
 - [ ] import from recognised package should not include /src/
+by adding a ban prop?
+
+Other rules:
+
+- [ ] make rule customisable: tslint-folders-test-with-breakpoint
+by adding a debugTokens: [] and an includePaths prop
+
+- [ ] make rule customisable: tslint-folders-disabled-tests
+by adding an includePaths prop

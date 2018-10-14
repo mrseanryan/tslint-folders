@@ -5,6 +5,7 @@
 - [x] remove refs to sdk
 - [x] re-make unit tests
 - [x] config in tslint.json
+- [ ] merge tests for 'tslint-folders-imports-from-self' into 'tslint-folders-imports-between-packages'
 - [ ] model as a _graph_
 - [ ] add tests for sub-folders (under todo-area)
 - [ ] publish to npm (dist only, not source), consume
@@ -14,6 +15,7 @@ if OK to open-source:
 
 - [ ] publish to npm with the source
 - [ ] make this repo public
+- [ ] consume
 
 ---
 

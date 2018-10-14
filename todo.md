@@ -13,7 +13,7 @@
 - [x] yarn docs (generates a 'graph')
 - [x] publish to npm (dist only, not source), consume
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
-- [ ] up major to 1.0.1
+- NOT up major - too soon 
 - [ ] publish to npm (dist only, not source), consume
 
 if OK to open-source:
@@ -22,6 +22,8 @@ if OK to open-source:
 - [ ] make this repo public (URL same?)
 - [ ] publish to npm with the source
 - [ ] consume
+
+- [ ] rename package to module ? is clearer 
 
 ---
 

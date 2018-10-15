@@ -8,13 +8,13 @@ Automatic validation and documentation of package architecture.
 
 ## usage
 
-1 Install via yarn into your website
+### 1 Install via yarn into your website
 
 ```
 yarn add tslint-folders
 ```
 
-2 Configure tslint to pick up the custom rules
+### 2 Configure tslint to pick up the custom rules
 
 Edit your `tslint.json` to have an entry `"rulesDirectory"` that points to tslint-folders.
 
@@ -26,7 +26,7 @@ Normally this would be like:
 
 See [tslint.tslint-folders.json](tslint.tslint-folders.json) for an example.
 
-3 Configuring the rules
+### 3 Configure the rules
 
 The tslint rules are enabled and configured in `tslint.json`.
 
@@ -40,7 +40,7 @@ Optionally, you can split out the tslint-folders configuration into a separate f
 
 Assuming tslint is already in place, then you should now see any unexpected imports (or disabled tests) be flagged by tslint. This should work as usual for tslint: on the command line, or in an editor such as Visual Code (may require refreshing the editor).
 
-4 Generating a summary of the package configuration
+### 4 Generate a summary of the package configuration
 
 Assuming that `tslint.tslint-folders.json` has been correctly configured to model the expected package structure, then you can run this command to generate a summary:
 
@@ -175,6 +175,8 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 | utils           | A 'utils' folder. It should not import any other recognised folders.                    |
 
 **Example validation**: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).
+
+---
 
 ## that's it
 

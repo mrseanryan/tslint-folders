@@ -29,7 +29,7 @@
               {
                 "description": "TODO Area Package",
                 "importPath": "todo-area",
-                "allowedToImport": ["grid-package", "utils"],
+                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
                 "subFolders": [
                   {
                     "description": "components",
@@ -56,18 +56,25 @@
               {
                 "description": "Area that shows contact details",
                 "importPath": "contact-area",
-                "allowedToImport": ["grid-package", "utils"],
+                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
                 "subFolders": []
               },
               {
                 "description": "Grid Package with no dependencies",
                 "importPath": "grid-package",
-                "allowedToImport": [],
+                "allowedToImport": ["thirdPartySdk"],
                 "subFolders": []
               },
               {
                 "description": "Utils package",
                 "importPath": "utils",
+                "allowedToImport": [],
+                "subFolders": []
+              },
+              {
+                "description": "Third party SDK",
+                "importPath": "thirdPartySdk",
+                "isThirdParty": true,
                 "allowedToImport": [],
                 "subFolders": []
               }

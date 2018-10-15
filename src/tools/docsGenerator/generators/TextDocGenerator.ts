@@ -13,19 +13,21 @@ export class TextDocGenerator implements IDocGenerator {
   ): void {
     outputter.outputLine(SECTION_SEPARATOR);
 
-    packageConfig.checkImportsBetweenPackages.packages.forEach(pkg => {
-      const packageName = pkg.importPath;
+    packageConfig.checkImportsBetweenPackages.packages
+      .filter(pkg => !pkg.isThirdParty)
+      .forEach(pkg => {
+        const packageName = pkg.importPath;
 
-      outputter.outputLine(`${packageName} - ${pkg.description}`);
+        outputter.outputLine(`${packageName} - ${pkg.description}`);
 
-      outputter.increaseIndent();
+        outputter.increaseIndent();
 
-      this.outputAllowedImports(pkg, outputter);
+        this.outputAllowedImports(pkg, outputter);
 
-      this.outputSubFolders(outputter, pkg.subFolders);
+        this.outputSubFolders(outputter, pkg.subFolders);
 
-      outputter.decreaseIndent();
-    });
+        outputter.decreaseIndent();
+      });
 
     outputter.outputLine(SECTION_SEPARATOR);
   }

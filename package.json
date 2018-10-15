@@ -33,5 +33,14 @@
   },
   "dependencies": {
     "ts-node": "^7.0.1"
-  }
+  },
+  "keywords": [
+    "tslint",
+    "architecture",
+    "structure",
+    "static code analysis",
+    "code analysis",
+    "disabled tests",
+    "dependencies"
+  ]
 }

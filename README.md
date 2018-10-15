@@ -45,7 +45,7 @@ Assuming tslint is already in place, then you should now see any unexpected impo
 Assuming that `tslint.tslint-folders.json` has been correctly configured to model the expected package structure, then you can run this command to generate a summary:
 
 ```
-node node_modules/tslint-folders/tools/docsGenerator tslint.tslint-folders.json Text
+node node_modules/tslint-folders/dist/tools/docsGenerator tslint.tslint-folders.json Text
 ```
 
 example output:

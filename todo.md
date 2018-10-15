@@ -12,19 +12,20 @@
 - [x] publish to npm (dist only, not source), consume
 - [x] yarn docs (generates a 'graph')
 - [x] publish to npm (dist only, not source), consume
-- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
-- NOT up major - too soon
-- [ ] add keywords to package.json for npm
-- [ ] publish to npm (dist only, not source), consume
-
-- [ ] rename package to module ? is clearer. up minor.
 
 if OK to open-source:
 
 - [x] update readme: `node_modules/tslint-folders/tools` -> `node_modules/tslint-folders/dist/tools`
 - [x] make this repo public (URL same?)
 - [x] publish to npm with the source
-- [ ] consume
+- [x] consume
+
+- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
+- NOT up major - too soon
+- [ ] add keywords to package.json for npm
+- [ ] publish to npm (dist only, not source), consume
+
+- [ ] rename package to module ? is clearer. up minor.
 
 ---
 

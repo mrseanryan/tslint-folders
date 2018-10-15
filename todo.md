@@ -20,6 +20,7 @@ if OK to open-source:
 - [x] publish to npm with the source
 - [x] consume
 
+- [ ] Add isThirdParty flag to PackageConfig so is not listed by docs.
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - NOT up major - too soon
 - [ ] add keywords to package.json for npm

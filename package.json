@@ -1,6 +1,6 @@
 {
   "name": "tslint-folders",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Custom TSLint rules for checking imports between packages and their folders",
   "author": "Sean Ryan",
   "main": "dist/",

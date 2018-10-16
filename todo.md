@@ -23,11 +23,13 @@ if OK to open-source:
 - [x] Add isThirdParty flag to PackageConfig so is not listed by docs.
 - [x] add keywords to package.json for npm
 
+- [ ] add examples folder with a site that has issues
+
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - NOT up major - too soon
 - [ ] publish to npm (with source), consume
 
-- [ ] rename package to module ? is clearer. up minor.
+- ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~
 
 ---
 

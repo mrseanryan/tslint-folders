@@ -79,12 +79,14 @@ packageName1 --> packageName2, packageName3
   folder3
 ```
 
-xx - md format?
+- ~~md format?~~
 
-xx - dot as alt format could also be useful
+* [ ] dot as alt format could also be useful
+
+* [ ] jpg format (internally dot -> jpg) in separate project tslint-folders-diagrams to control npm size
 
 ```
-yarn docs --format=dot
+yarn docs tslint.json Dot
 ```
 
 ---
@@ -110,3 +112,7 @@ extend the main rule, using the config:
 
 - [ ] make rule customisable: tslint-folders-disabled-tests
       by adding an includePaths: string[] prop and a ban: ["it.only", "it.skip","describe.only","describe.skip"]
+
+---
+
+## end

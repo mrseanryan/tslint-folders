@@ -23,7 +23,7 @@ if OK to open-source:
 - [x] Add isThirdParty flag to PackageConfig so is not listed by docs.
 - [x] add keywords to package.json for npm
 
-- [ ] rename isThirdParty to isExternal
+- [x] rename isThirdParty to isExternal
 
 - [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - NOT up major - too soon

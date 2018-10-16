@@ -88,7 +88,7 @@
               {
                 "description": "Third party SDK",
                 "importPath": "thirdPartySdk",
-                "isThirdParty": true,
+                "isExternal": true,
                 "allowedToImport": [],
                 "subFolders": []
               }

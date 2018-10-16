@@ -19,7 +19,7 @@ export type DisallowImportFromSelf = {
 export type PackageFolder = {
   description: string;
   importPath: string;
-  isThirdParty: boolean;
+  isExternal: boolean;
   allowedToImport: string[];
   subFolders: PackageSubFolder[];
 };

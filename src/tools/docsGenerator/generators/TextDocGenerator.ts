@@ -14,7 +14,7 @@ export class TextDocGenerator implements IDocGenerator {
     outputter.outputLine(SECTION_SEPARATOR);
 
     packageConfig.checkImportsBetweenPackages.packages
-      .filter(pkg => !pkg.isThirdParty)
+      .filter(pkg => !pkg.isExternal)
       .forEach(pkg => {
         const packageName = pkg.importPath;
 

@@ -35,6 +35,10 @@ if OK to open-source:
 
 - [ ] add Dot format
 
+- [ ] add Jpg format (new npm? from new src folder)
+
+- [ ] new rule file-name-casings allowing *multiple* values. see palantir file-name-casing 
+
 ---
 
 config:

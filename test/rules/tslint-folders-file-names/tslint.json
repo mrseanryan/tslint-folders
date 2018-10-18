@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "tslint-folders-file-names": [
+      true,
+      {
+        "file-name-casing": ["camel-case", "pascal-case"]
+      }
+    ]
+  },
+  "rulesDirectory": "../../../dist/"
+}

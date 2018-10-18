@@ -1,0 +1,2 @@
+import * as ts from "typescript";
+~~~ [file names should be pascal or camel case (tslint-folders-file-names)]

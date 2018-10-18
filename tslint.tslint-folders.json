@@ -15,6 +15,12 @@
       }
     ],
     "tslint-folders-test-with-breakpoint": true,
+    "tslint-folders-file-names": [
+      true,
+      {
+        "file-name-casing": ["camel-case", "pascal-case"]
+      }
+    ],
     "tslint-folders-imports-between-packages": [
       true,
       {

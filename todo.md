@@ -37,7 +37,7 @@ if OK to open-source:
 
 - [ ] add Jpg format (new npm? from new src folder)
 
-- [ ] new rule file-name-casings allowing *multiple* values. see palantir file-name-casing 
+- [ ] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
 
 ---
 

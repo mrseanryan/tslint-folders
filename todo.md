@@ -35,6 +35,8 @@ if OK to open-source:
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 
+- [ ] add vs code debug config 
+
 ## 'nice to have' TODOs
 
 - ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~

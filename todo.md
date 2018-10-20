@@ -29,15 +29,19 @@ if OK to open-source:
 - NOT up major - too soon
 - [ ] publish to npm (with source), consume
 
-- ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~
-
-- [ ] add examples folder with a site that has issues
+- [ ] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
 
 - [ ] add Dot format
 
-- [ ] add Jpg format (new npm? from new src folder)
+- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 
-- [ ] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
+## 'nice to have' TODOs
+
+- ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~
+
+- [ ] ? add Jpg format (new npm? from new src folder)
+
+- [ ] ? add examples folder with a site that has issues
 
 ---
 
@@ -114,6 +118,8 @@ extend the main rule, using the config:
 ---
 
 ## make the 'test' rules be configurable
+
+- make configurable, without breaking config (cover via test sub-folders named by version)
 
 - [ ] make rule customisable: tslint-folders-test-with-breakpoint
       by adding an includePaths: string[] prop and a debugTokens: ["browser.debug"]

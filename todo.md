@@ -37,7 +37,7 @@ if OK to open-source:
 
 - [ ] add Jpg format (new npm? from new src folder)
 
-- [ ] new rule file-name-casings allowing *multiple* values. see palantir file-name-casing 
+- [x] new rule file-name-casings allowing _multiple_ values. see palantir file-name-casing
 
 ---
 

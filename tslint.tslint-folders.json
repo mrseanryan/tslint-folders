@@ -18,7 +18,8 @@
     "tslint-folders-file-names": [
       true,
       {
-        "file-name-casing": ["camel-case", "pascal-case"]
+        "file-name-casing": ["camel-case", "pascal-case"],
+        "ignorePaths": []
       }
     ],
     "tslint-folders-imports-between-packages": [

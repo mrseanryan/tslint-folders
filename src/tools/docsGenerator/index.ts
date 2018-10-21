@@ -2,6 +2,7 @@ import * as fs from "fs";
 
 import { ConfigFactory } from "../../config/ConfigFactory";
 import { ImportsBetweenPackagesRuleConfig } from "../../model/ImportsBetweenPackagesRuleConfig";
+import { EnumUtils } from "../../utils/EnumUtils";
 import { DocConfig, DocFormat } from "./Config";
 import { ErrorHandler, ErrorLevel } from "./ErrorHandler";
 import { DocGeneratorFactory } from "./generators/DocGeneratorFactory";
@@ -39,7 +40,7 @@ function main() {
   }
 
   const formatString = process.argv[3];
-  const format: DocFormat = (<any>DocFormat)[formatString];
+  const format = EnumUtils.parseDocFormat(formatString);
 
   const config: DocConfig = {
     pathToTslintJson: process.argv[2],

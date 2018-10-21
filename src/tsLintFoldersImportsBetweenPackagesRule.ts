@@ -4,9 +4,9 @@ import * as ts from "typescript";
 import { ConfigFactory } from "./config/ConfigFactory";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
-import { PackageConfigHelper } from "./utils/PackageConfigHelper";
 
-const RULE_ID = "tslint-folders-imports-between-packages";
+export const IMPORTS_BETWEEN_PACKAGES_RULE_ID =
+  "tslint-folders-imports-between-packages";
 
 const DISALLOW_IMPORT_FROM_SELF_MESSAGE =
   "do not import a package from itself - use a relative path";
@@ -46,7 +46,7 @@ class ImportsWalker extends Lint.RuleWalker {
 
     const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
       node.getSourceFile().fileName,
-      RULE_ID,
+      IMPORTS_BETWEEN_PACKAGES_RULE_ID,
       config,
       PathSource.SourceFilePath
     );
@@ -63,7 +63,7 @@ class ImportsWalker extends Lint.RuleWalker {
 
     const importPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
       text,
-      RULE_ID,
+      IMPORTS_BETWEEN_PACKAGES_RULE_ID,
       config,
       PathSource.ImportText
     );
@@ -91,7 +91,7 @@ class ImportsWalker extends Lint.RuleWalker {
         node,
         GeneralRuleUtils.buildFailureString(
           DISALLOW_IMPORT_FROM_SELF_MESSAGE,
-          RULE_ID
+          IMPORTS_BETWEEN_PACKAGES_RULE_ID
         )
       );
       return;
@@ -124,7 +124,10 @@ class ImportsWalker extends Lint.RuleWalker {
 
         this.addFailureAtNode(
           node,
-          GeneralRuleUtils.buildFailureString(failureMessage, RULE_ID)
+          GeneralRuleUtils.buildFailureString(
+            failureMessage,
+            IMPORTS_BETWEEN_PACKAGES_RULE_ID
+          )
         );
       }
     }

@@ -160,6 +160,13 @@ export namespace ImportRuleUtils {
   ): boolean {
     const filePath = node.getSourceFile().fileName;
 
-    return ignorePaths.some(ignore => filePath.indexOf(ignore) >= 0);
+    return shouldIgnorePath(filePath, ignorePaths);
+  }
+
+  export function shouldIgnorePath(
+    path: string,
+    ignorePaths: string[]
+  ): boolean {
+    return ignorePaths.some(ignore => path.indexOf(ignore) >= 0);
   }
 }

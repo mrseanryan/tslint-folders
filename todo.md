@@ -25,11 +25,11 @@ if OK to open-source:
 
 - [x] rename isThirdParty to isExternal
 
-- [ ] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
-- NOT up major - too soon
-- [ ] publish to npm (with source), consume
-
 - [x] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
+
+- [x] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
+- [x] publish to npm (with source), consume
+- [ ] consume
 
 - [ ] add Dot format
 

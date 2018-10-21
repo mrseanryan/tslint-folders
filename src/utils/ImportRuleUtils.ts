@@ -24,13 +24,14 @@ export namespace ImportRuleUtils {
     filePath: string,
     ruleId: string,
     config: ImportsBetweenPackagesRuleConfig,
-    pathSource: PathSource
+    pathSource: PathSource,
+    thisPackageLocation?: PackageLocation
   ): PackageLocation {
     const dirs = cleanPath(filePath).split("/");
 
     if (IS_DEBUG_ENABLED) {
       console.log(
-        `checking ${PathSource[pathSource]} against path:`,
+        `\nchecking ${PathSource[pathSource]} against path:`,
         dirs.join(",")
       );
     }
@@ -67,7 +68,8 @@ export namespace ImportRuleUtils {
 
     if (
       packageName === null ||
-      !PackageConfigHelper.hasPackage(config, packageName)
+      (pathSource === PathSource.SourceFilePath &&
+        !PackageConfigHelper.hasPackage(config, packageName))
     ) {
       return {
         packageName: filePath
@@ -75,17 +77,30 @@ export namespace ImportRuleUtils {
     }
 
     let packageFolder: PackageFolder | undefined;
-    try {
-      packageFolder = PackageConfigHelper.getPackage(config, packageName);
-    } catch (error) {
-      GeneralRuleUtils.buildFailureString(
-        `unexpected: import had a recognised package: [${packageName}] but could not find the PackageFolder in the config`,
-        ruleId
-      );
 
-      return {
-        packageName: filePath
-      };
+    if (pathSource === PathSource.ImportText && isRelativeImport(dirs[0])) {
+      if (!thisPackageLocation) {
+        throw new Error(
+          "for path source = ImportText - expect thisPackageLocation to be set"
+        );
+      }
+
+      // assumption: we are importing from 'this' package
+      // (assuming is not ..'ing back into other package! - that would require 'virtual directories')
+      packageFolder = thisPackageLocation!.packageFolder;
+    } else {
+      try {
+        packageFolder = PackageConfigHelper.getPackage(config, packageName);
+      } catch (error) {
+        GeneralRuleUtils.buildFailureString(
+          `unexpected: import had a recognised package: [${packageName}] but could not find the PackageFolder in the config`,
+          ruleId
+        );
+
+        return {
+          packageName: filePath
+        };
+      }
     }
 
     if (!packageFolder) {
@@ -94,9 +109,81 @@ export namespace ImportRuleUtils {
       };
     }
 
-    // TODO xxx determine packageSubFolder
+    if (packageFolder.subFolders.length === 0) {
+      return {
+        packageName: packageName,
+        packageFolder: packageFolder
+      };
+    }
 
-    return { packageName: packageName, packageFolder: packageFolder };
+    // TODO xxx extract fun?
+    // determine packageSubFolder
+    let packageSubFolder: PackageSubFolder | undefined;
+
+    switch (pathSource) {
+      case PathSource.ImportText:
+        {
+          // take the 1st part of the path:
+          // (ignore local directories that happen to have same name as a package)
+          packageName = dirs[0];
+
+          const isImportingFromSubFolder = isRelativeImport(dirs[0]);
+          if (isImportingFromSubFolder) {
+            for (let i = 1; i < dirs.length; i++) {
+              const subFolder = packageFolder.subFolders.find(
+                folder => folder.importPath === dirs[i]
+              );
+              if (subFolder) {
+                packageSubFolder = subFolder;
+
+                packageName = subFolder.importPath;
+                break;
+              }
+            }
+          }
+        }
+        break;
+      case PathSource.SourceFilePath: {
+        let hasPackageDir = false;
+
+        dirs.forEach(dir => {
+          if (packageSubFolder) {
+            return;
+          }
+
+          if (packageFolder!.importPath === dir) {
+            hasPackageDir = true;
+            return;
+          }
+
+          {
+            if (hasPackageDir) {
+              const subFolder = packageFolder!.subFolders.find(
+                folder => folder.importPath === dir
+              );
+              if (subFolder) {
+                packageSubFolder = subFolder;
+                return;
+              }
+            }
+          }
+        });
+        break;
+      }
+      default: {
+        throw new Error(`unhandled PathSource ${pathSource}`);
+      }
+    }
+
+    return {
+      packageName: packageName,
+      packageFolder: packageFolder,
+      packageSubFolder: packageSubFolder
+    };
+  }
+
+  export function isRelativeImport(pathDir: string): boolean {
+    return pathDir === "." || pathDir === "..";
   }
 
   function cleanPath(filePath: string): string {

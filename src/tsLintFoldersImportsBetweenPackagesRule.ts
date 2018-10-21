@@ -65,7 +65,8 @@ class ImportsWalker extends Lint.RuleWalker {
       text,
       IMPORTS_BETWEEN_PACKAGES_RULE_ID,
       config,
-      PathSource.ImportText
+      PathSource.ImportText,
+      thisPackageLocation
     );
 
     ImportRuleUtils.logPackageAndImport(
@@ -99,37 +100,92 @@ class ImportsWalker extends Lint.RuleWalker {
 
     if (
       isImportRecognised &&
-      importPackageLocation.packageName !== thisPackageLocation.packageName &&
       config.checkImportsBetweenPackages.enabled &&
       !ImportRuleUtils.shouldIgnoreFile(
         node,
         config.checkImportsBetweenPackages.ignorePaths
       )
     ) {
-      const thisPackageFolder = thisPackageLocation.packageFolder;
-      if (thisPackageFolder.allowedToImport.find(allowed => allowed === "*")) {
+      if (
+        !thisPackageLocation.packageFolder ||
+        !importPackageLocation.packageFolder
+      ) {
         return;
       }
 
       if (
-        !thisPackageFolder.allowedToImport.find(
-          allowed => allowed === importPackageLocation.packageName
-        )
+        importPackageLocation.packageFolder ===
+        thisPackageLocation.packageFolder
       ) {
-        const failureMessage = `'${
-          thisPackageLocation.packageName
-        }' is not allowed to import from '${
-          importPackageLocation.packageName
-        }'`;
+        // TODO xxx extract fun?
+        // check sub-folders
 
-        this.addFailureAtNode(
-          node,
-          GeneralRuleUtils.buildFailureString(
-            failureMessage,
-            IMPORTS_BETWEEN_PACKAGES_RULE_ID
+        if (
+          thisPackageLocation.packageSubFolder &&
+          importPackageLocation.packageSubFolder &&
+          thisPackageLocation.packageSubFolder.importPath !==
+            importPackageLocation.packageSubFolder.importPath
+        ) {
+          if (
+            thisPackageLocation.packageSubFolder.allowedToImport.some(
+              allowed => allowed === "*"
+            )
+          ) {
+            return;
+          }
+
+          if (
+            !thisPackageLocation.packageSubFolder.allowedToImport.some(
+              allowed => {
+                return (
+                  importPackageLocation.packageSubFolder!.importPath === allowed
+                );
+              }
+            )
+          ) {
+            const failureMessage = `'${
+              thisPackageLocation.packageName
+            }' sub folder '${
+              thisPackageLocation.packageSubFolder.importPath
+            }' is not allowed to import from '${
+              importPackageLocation.packageSubFolder.importPath
+            }'`;
+
+            this.addFailureAtNodeWithMessage(node, failureMessage);
+          }
+        }
+      } else {
+        const thisPackageFolder = thisPackageLocation.packageFolder;
+        if (
+          thisPackageFolder.allowedToImport.find(allowed => allowed === "*")
+        ) {
+          return;
+        }
+
+        if (
+          !thisPackageFolder.allowedToImport.find(
+            allowed => allowed === importPackageLocation.packageName
           )
-        );
+        ) {
+          const failureMessage = `'${
+            thisPackageLocation.packageName
+          }' is not allowed to import from '${
+            importPackageLocation.packageName
+          }'`;
+
+          this.addFailureAtNodeWithMessage(node, failureMessage);
+        }
       }
     }
+  }
+
+  private addFailureAtNodeWithMessage(node: ts.Node, failureMessage: string) {
+    this.addFailureAtNode(
+      node,
+      GeneralRuleUtils.buildFailureString(
+        failureMessage,
+        IMPORTS_BETWEEN_PACKAGES_RULE_ID
+      )
+    );
   }
 }

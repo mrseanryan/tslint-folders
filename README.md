@@ -140,6 +140,20 @@ To work on the source code for tstlint-folders, there are a few scripts:
 
 ---
 
+### git notes
+
+merging a feature branch into master: (after unit testing!)
+
+```
+git checkout master
+git fetch
+git pull
+git merge feature/my-feature
+git push
+```
+
+---
+
 ## unit tests
 
 The unit tests for the rule `tslint-folders-imports-between-packages` are [here](./test/rules/tslint-folders-imports-between-packages).

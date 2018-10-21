@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 
-import { PackageConfig, PackageFolder, PackageSubFolder } from "../model/PackageConfig";
+import {
+    ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
+} from "../model/ImportsBetweenPackagesRuleConfig";
 import { GeneralRuleUtils } from "./GeneralRuleUtils";
 import { PackageConfigHelper } from "./PackageConfigHelper";
 
@@ -21,7 +23,7 @@ export namespace ImportRuleUtils {
   export function determinePackageLocationFromPath(
     filePath: string,
     ruleId: string,
-    config: PackageConfig,
+    config: ImportsBetweenPackagesRuleConfig,
     pathSource: PathSource
   ): PackageLocation {
     const dirs = cleanPath(filePath).split("/");
@@ -158,6 +160,13 @@ export namespace ImportRuleUtils {
   ): boolean {
     const filePath = node.getSourceFile().fileName;
 
-    return ignorePaths.some(ignore => filePath.indexOf(ignore) >= 0);
+    return shouldIgnorePath(filePath, ignorePaths);
+  }
+
+  export function shouldIgnorePath(
+    path: string,
+    ignorePaths: string[]
+  ): boolean {
+    return ignorePaths.some(ignore => path.indexOf(ignore) >= 0);
   }
 }

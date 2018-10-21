@@ -1,0 +1,2 @@
+// tslint:disable:tslint-folders-file-names
+import * as ts from "typescript";

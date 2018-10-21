@@ -1,7 +1,10 @@
-import { PackageConfig } from "../model/PackageConfig";
+import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackagesRuleConfig";
 
 export namespace PackageConfigHelper {
-  export function getPackage(config: PackageConfig, importPath: string) {
+  export function getPackage(
+    config: ImportsBetweenPackagesRuleConfig,
+    importPath: string
+  ) {
     if (!hasPackage(config, importPath)) {
       throw new Error(
         `config does not have a PackageFolder for importPath '${importPath}'`
@@ -27,7 +30,7 @@ export namespace PackageConfigHelper {
   }
 
   export function hasPackage(
-    config: PackageConfig,
+    config: ImportsBetweenPackagesRuleConfig,
     importPath: string
   ): boolean {
     return config.checkImportsBetweenPackages.packages.some(

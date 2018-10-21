@@ -1,6 +1,8 @@
-// Models the config in tslint.tslint-folders.JSON
-
-export type PackageConfig = {
+/**
+ * Models the config in tslint.tslint-folders.JSON
+ * for rule 'tslint-folders-imports-between-packages'
+ */
+export type ImportsBetweenPackagesRuleConfig = {
   checkImportsBetweenPackages: CheckImportsBetweenPackages;
   disallowImportFromSelf: DisallowImportFromSelf;
 };

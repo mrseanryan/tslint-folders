@@ -1,18 +1,63 @@
-import { PackageConfig } from "../model/PackageConfig";
+import { FilenamesRuleConfig } from "../model/FilenamesRuleConfig";
+import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackagesRuleConfig";
+import { FILE_NAMES_RULE_ID } from "../tsLintFoldersFileNamesRule";
+import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsLintFoldersImportsBetweenPackagesRule";
 
 export namespace ConfigFactory {
-  export function create(options: any): PackageConfig {
+  export function createForBetweenPackages(
+    options: any
+  ): ImportsBetweenPackagesRuleConfig {
+    const config = create<ImportsBetweenPackagesRuleConfig>(
+      options,
+      IMPORTS_BETWEEN_PACKAGES_RULE_ID
+    );
+
+    // TODO xxx validate a bit (at least importPath should be set, allowedToImport should refer to recognised importPath)
+
+    return config;
+  }
+
+  export function createForFilenames(options: any): FilenamesRuleConfig {
+    const config = createFromArguments<FilenamesRuleConfig>(
+      options,
+      FILE_NAMES_RULE_ID
+    );
+
+    config.casings = (<any>config)["file-name-casing"];
+
+    // validate
+    if (!config.casings || !config.ignorePaths) {
+      throw new Error(`invalid config for rule ${FILE_NAMES_RULE_ID}`);
+    }
+
+    return config;
+  }
+
+  function create<T>(options: any, ruleId: string): T {
     if (options.length !== 1) {
       throw new Error(
-        `tslint rule is misconfigured (tslint-folders-imports-between-packages) - options length is ${
+        `tslint rule is misconfigured (${ruleId}) - options length is ${
           options.length
         }`
       );
     }
 
-    const config: PackageConfig = options[0].config;
+    const config: T = options[0].config;
+    return config;
+  }
 
-    // TODO xxx validate a bit (at least importPath should be set, allowedToImport should refer to recognised importPath)
+  function createFromArguments<T>(options: any, ruleId: string): T {
+    const args = options.ruleArguments;
+
+    if (args.length !== 1) {
+      throw new Error(
+        `tslint rule is misconfigured (${ruleId}) - options.ruleArguments length is ${
+          args.length
+        }`
+      );
+    }
+
+    const config: T = args[0];
 
     return config;
   }

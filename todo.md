@@ -29,13 +29,13 @@ if OK to open-source:
 - NOT up major - too soon
 - [ ] publish to npm (with source), consume
 
-- [ ] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
+- [x] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
 
 - [ ] add Dot format
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 
-- [ ] add vs code debug config 
+- [ ] add vs code debug config
 
 ## 'nice to have' TODOs
 

@@ -29,6 +29,8 @@ if OK to open-source:
 
 - [x] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [x] publish to npm (with source), consume
+- [ ] refactor
+- [ ] bad import from sub folder should be warning not error
 - [ ] consume
 
 - [ ] add Dot format

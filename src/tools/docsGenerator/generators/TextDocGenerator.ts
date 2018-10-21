@@ -1,4 +1,6 @@
-import { PackageConfig, PackageFolder, PackageSubFolder } from "../../../model/PackageConfig";
+import {
+    ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
+} from "../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../Config";
 import { IDocGenerator } from "../interfaces/IDocGenerator";
 import { IDocOutputter } from "../interfaces/IDocOutputter";
@@ -8,7 +10,7 @@ const SECTION_SEPARATOR = "_____";
 export class TextDocGenerator implements IDocGenerator {
   generateDoc(
     config: DocConfig,
-    packageConfig: PackageConfig,
+    packageConfig: ImportsBetweenPackagesRuleConfig,
     outputter: IDocOutputter
   ): void {
     outputter.outputLine(SECTION_SEPARATOR);

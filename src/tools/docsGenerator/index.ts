@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 import { ConfigFactory } from "../../config/ConfigFactory";
-import { PackageConfig } from "../../model/PackageConfig";
+import { ImportsBetweenPackagesRuleConfig } from "../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig, DocFormat } from "./Config";
 import { ErrorHandler, ErrorLevel } from "./ErrorHandler";
 import { DocGeneratorFactory } from "./generators/DocGeneratorFactory";
@@ -55,7 +55,9 @@ function main() {
   });
 }
 
-function loadTslintConfig(config: DocConfig): Promise<PackageConfig> {
+function loadTslintConfig(
+  config: DocConfig
+): Promise<ImportsBetweenPackagesRuleConfig> {
   return new Promise((resolve, reject) => {
     fs.readFile(config.pathToTslintJson, "utf8", function(err, data) {
       if (err) {
@@ -66,7 +68,9 @@ function loadTslintConfig(config: DocConfig): Promise<PackageConfig> {
         const packageConfigJson =
           json.rules["tslint-folders-imports-between-packages"][1];
 
-        const packageConfig = ConfigFactory.create([packageConfigJson]);
+        const packageConfig = ConfigFactory.createForBetweenPackages([
+          packageConfigJson
+        ]);
 
         resolve(packageConfig);
       }

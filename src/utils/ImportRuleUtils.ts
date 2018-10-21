@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 
-import { PackageConfig, PackageFolder, PackageSubFolder } from "../model/PackageConfig";
+import {
+    ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
+} from "../model/ImportsBetweenPackagesRuleConfig";
 import { GeneralRuleUtils } from "./GeneralRuleUtils";
 import { PackageConfigHelper } from "./PackageConfigHelper";
 
@@ -21,7 +23,7 @@ export namespace ImportRuleUtils {
   export function determinePackageLocationFromPath(
     filePath: string,
     ruleId: string,
-    config: PackageConfig,
+    config: ImportsBetweenPackagesRuleConfig,
     pathSource: PathSource
   ): PackageLocation {
     const dirs = cleanPath(filePath).split("/");

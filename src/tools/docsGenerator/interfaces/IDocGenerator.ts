@@ -1,11 +1,11 @@
-import { PackageConfig } from "../../../model/PackageConfig";
+import { ImportsBetweenPackagesRuleConfig } from "../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../Config";
 import { IDocOutputter } from "./IDocOutputter";
 
 export interface IDocGenerator {
   generateDoc(
     config: DocConfig,
-    packageConfig: PackageConfig,
+    packageConfig: ImportsBetweenPackagesRuleConfig,
     outputter: IDocOutputter
   ): void;
 }

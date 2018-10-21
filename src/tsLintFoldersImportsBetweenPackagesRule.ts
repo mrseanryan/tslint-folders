@@ -42,7 +42,7 @@ class ImportsWalker extends Lint.RuleWalker {
         - check if the import is allowed
         */
 
-    const config = ConfigFactory.create(this.getOptions());
+    const config = ConfigFactory.createForBetweenPackages(this.getOptions());
 
     const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
       node.getSourceFile().fileName,

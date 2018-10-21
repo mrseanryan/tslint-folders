@@ -33,6 +33,8 @@ if OK to open-source:
 - [ ] bad import from sub folder should be warning not error
 - [ ] consume
 
+- [ ] ts-node can be *dev* dep?
+
 - [ ] add Dot format
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)

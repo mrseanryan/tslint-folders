@@ -33,6 +33,8 @@ if OK to open-source:
 - [ ] bad import from sub folder should be warning not error
 - [ ] consume
 
+- [ ] allow gen doc w/o sub folders
+
 - [ ] ts-node can be *dev* dep?
 
 - [ ] add Dot format

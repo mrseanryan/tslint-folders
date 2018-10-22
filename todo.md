@@ -31,6 +31,7 @@ if OK to open-source:
 - [x] publish to npm (with source), consume
 - [ ] add test where sub folders are below another folder
 - [ ] refactor
+- [ ] allow disable check on sub folders
 - [ ] bad import from sub folder should be warning not error
 - [ ] consume
 

@@ -30,7 +30,7 @@ See [tslint.tslint-folders.json](tslint.tslint-folders.json) for an example.
 
 The tslint rules are enabled and configured in `tslint.json`.
 
-See the section under `tslint-folders-imports-between-packages` in [tslint.tslint-folders.json](tslint.tslint-folders.json) or the [unit tests](./test/rules/) for examples.
+See the section under `tsf-folders-imports-between-packages` in [tslint.tslint-folders.json](tslint.tslint-folders.json) or the [unit tests](./test/rules/) for examples.
 
 Optionally, you can split out the tslint-folders configuration into a separate file, like `tslint.tslint-folders.json`. To reference the file, add this code to `tslint.json`:
 
@@ -93,11 +93,11 @@ here is a summary of the current custom rules.
 
 | Rule ID                                       | Description                                                                                                                                                                                                                                                            |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tslint-folders-disabled-test                  | Detect a disabled unit test, test suite or integration test.                                                                                                                                                                                                           |
-| tslint-folders-file-names                     | Validates casing of filenames. Similar to standard rule `file-name-casing` except it supports multiple allowed casings, and disallows file names with invalid characters (such as spaces or commas).                                                                   |
-| tslint-folders-import-from-disallowed-folders | Detect an import from a non-standard folder like node_modules                                                                                                                                                                                                          |
-| tslint-folders-imports-between-packages       | Detect an import from a 'higher level' package: for example, import from an application 'shell' package when inside an 'area' package. This is the main custom rule. Also can detect when a package has imports using this packages name (instead of a relative path). |
-| tslint-folders-test-with-breakpoint           | Detect when an integration test has a break point like `browser.debug()`                                                                                                                                                                                               |
+| tsf-folders-disabled-test                  | Detect a disabled unit test, test suite or integration test.                                                                                                                                                                                                           |
+| tsf-folders-file-names                     | Validates casing of filenames. Similar to standard rule `file-name-casing` except it supports multiple allowed casings, and disallows file names with invalid characters (such as spaces or commas).                                                                   |
+| tsf-folders-import-from-disallowed-folders | Detect an import from a non-standard folder like node_modules                                                                                                                                                                                                          |
+| tsf-folders-imports-between-packages       | Detect an import from a 'higher level' package: for example, import from an application 'shell' package when inside an 'area' package. This is the main custom rule. Also can detect when a package has imports using this packages name (instead of a relative path). |
+| tsf-folders-test-with-breakpoint           | Detect when an integration test has a break point like `browser.debug()`                                                                                                                                                                                               |
 
 ---
 
@@ -112,7 +112,7 @@ here is a summary of the current custom rules.
 
 ## approach taken
 
-All of the rules use the same prefix `tslint-folders-`.
+All of the rules use the same prefix `tsf-folders-`.
 
 To make it clear to developers that a _custom_ rule is involved, all messages from the rules also include the rule id.
 
@@ -127,7 +127,7 @@ For more details and examples please see the [unit tests](./test/rules/)
 
 ## building and testing this source code
 
-To work on the source code for tstlint-folders, there are a few scripts:
+To work on the source code for tslint-folders, there are a few scripts:
 
 | command       | description                                                             |
 | ------------- | ----------------------------------------------------------------------- |
@@ -156,7 +156,7 @@ git push
 
 ## unit tests
 
-The unit tests for the rule `tslint-folders-imports-between-packages` are [here](./test/rules/tslint-folders-imports-between-packages).
+The unit tests for the rule `tsf-folders-imports-between-packages` are [here](./test/rules/tsf-folders-imports-between-packages).
 
 The unit tests use test data to check the package boundaries of a fairly typical website.
 

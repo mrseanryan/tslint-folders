@@ -1,7 +1,7 @@
 import { FilenamesRuleConfig } from "../model/FilenamesRuleConfig";
 import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackagesRuleConfig";
-import { FILE_NAMES_RULE_ID } from "../tsLintFoldersFileNamesRule";
-import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsLintFoldersImportsBetweenPackagesRule";
+import { FILE_NAMES_RULE_ID } from "../tsfFoldersFileNamesRule";
+import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsfFoldersImportsBetweenPackagesRule";
 
 export namespace ConfigFactory {
   export function createForBetweenPackages(

@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "tsf-folders-file-names": [
+      true,
+      {
+        "file-name-casing": ["snake-case"],
+        "ignorePaths": ["invalid_file,-ignoredByTslintJson.ts"]
+      }
+    ]
+  },
+  "rulesDirectory": "../../../../dist/"
+}

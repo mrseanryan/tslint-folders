@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "tsf-folders-test-with-breakpoint": true
+    },
+    "rulesDirectory": "../../../dist/"
+}

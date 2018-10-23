@@ -67,7 +67,7 @@ function loadTslintConfig(
         const json = JSON.parse(data);
 
         const packageConfigJson =
-          json.rules["tslint-folders-imports-between-packages"][1];
+          json.rules["tsf-folders-imports-between-packages"][1];
 
         const packageConfig = ConfigFactory.createForBetweenPackages([
           packageConfigJson

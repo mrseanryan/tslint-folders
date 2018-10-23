@@ -5,7 +5,7 @@
 - [x] remove refs to sdk
 - [x] re-make unit tests
 - [x] config in tslint.json
-- [x] merge tests for 'tslint-folders-imports-from-self' into 'tslint-folders-imports-between-packages'
+- [x] merge tests for 'tsf-folders-imports-from-self' into 'tsf-folders-imports-between-packages'
 - [x] replace ignoreTests, ignoreFolders with ignorePaths: regex[]. also add to main rule
 - [x] model as a _graph_
 - [x] list TODOs for the new tslint props
@@ -25,15 +25,15 @@ if OK to open-source:
 
 - [x] rename isThirdParty to isExternal
 
-- [x] new rule `tslint-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
+- [x] new rule `tsf-folders-file-names` [see branch 'feature/file-name-casing'] allowing _multiple_ values. see palantir `file-name-casing`
 
 - [x] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [x] publish to npm (with source), consume
 - [x] allow disable check on sub folders
 - [x] add test where sub folders are below another folder
 - ~~bad import from sub folder should be warning not error~~
-- [ ] rename rules to tsf- to avoid rules failing to load in projects that use other rule packages
-- [ ] up minor version, pub
+- [x] rename rules to tsf- to avoid rules failing to load in projects that use other rule packages
+- [x] up minor version, pub
 - [ ] refactor
 - [ ] consume
 
@@ -133,10 +133,10 @@ extend the main rule, using the config:
 
 - make configurable, without breaking config (cover via test sub-folders named by version)
 
-- [ ] make rule customisable: tslint-folders-test-with-breakpoint
+- [ ] make rule customisable: tsf-folders-test-with-breakpoint
       by adding an includePaths: string[] prop and a debugTokens: ["browser.debug"]
 
-- [ ] make rule customisable: tslint-folders-disabled-tests
+- [ ] make rule customisable: tsf-folders-disabled-tests
       by adding an includePaths: string[] prop and a ban: ["it.only", "it.skip","describe.only","describe.skip"]
 
 ---

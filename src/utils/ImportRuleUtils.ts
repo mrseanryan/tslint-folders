@@ -36,35 +36,7 @@ export namespace ImportRuleUtils {
       );
     }
 
-    let packageName: string | null = null;
-    switch (pathSource) {
-      case PathSource.ImportText:
-        {
-          // take the 1st part of the path:
-          // (ignore local directories that happen to have same name as a package)
-          packageName = dirs[0];
-        }
-        break;
-      case PathSource.SourceFilePath: {
-        dirs.forEach(dir => {
-          if (PackageConfigHelper.hasPackage(config, dir)) {
-            if (packageName === null) {
-              // take the 1st recognised folder:
-              packageName = dir;
-            } else if (IS_DEBUG_ENABLED) {
-              // this can occur with package names like 'utils'
-              console.warn(
-                `import has more than one recognised package: [${packageName},${dir}]`
-              );
-            }
-          }
-        });
-        break;
-      }
-      default: {
-        throw new Error(`unhandled PathSource ${pathSource}`);
-      }
-    }
+    let packageName = determinePackageName(config, dirs, pathSource);
 
     if (
       packageName === null ||
@@ -116,16 +88,67 @@ export namespace ImportRuleUtils {
       };
     }
 
-    // TODO xxx extract fun?
-    // determine packageSubFolder
-    let packageSubFolder: PackageSubFolder | undefined;
+    return determinePackageLocationWithSubFolder(
+      dirs,
+      packageName,
+      packageFolder,
+      pathSource
+    );
+  }
 
+  function determinePackageName(
+    config: ImportsBetweenPackagesRuleConfig,
+    dirs: string[],
+    pathSource: PathSource
+  ): string | null {
+    let packageName: string | null = null;
     switch (pathSource) {
       case PathSource.ImportText:
         {
           // take the 1st part of the path:
           // (ignore local directories that happen to have same name as a package)
           packageName = dirs[0];
+        }
+        break;
+      case PathSource.SourceFilePath: {
+        dirs.forEach(dir => {
+          if (PackageConfigHelper.hasPackage(config, dir)) {
+            if (packageName === null) {
+              // take the 1st recognised folder:
+              packageName = dir;
+            } else if (IS_DEBUG_ENABLED) {
+              // this can occur with package names like 'utils'
+              console.warn(
+                `import has more than one recognised package: [${packageName},${dir}]`
+              );
+            }
+          }
+        });
+        break;
+      }
+      default: {
+        throw new Error(`unhandled PathSource ${pathSource}`);
+      }
+    }
+
+    return packageName;
+  }
+
+  function determinePackageLocationWithSubFolder(
+    dirs: string[],
+    packageName: string,
+    packageFolder: PackageFolder,
+    pathSource: PathSource
+  ): PackageLocation {
+    let packageSubFolder: PackageSubFolder | undefined;
+    let activePackageName = packageName;
+
+    switch (pathSource) {
+      case PathSource.ImportText:
+        {
+          // take the 1st part of the path:
+          // (ignore local directories that happen to have same name as a package)
+          activePackageName = dirs[0];
 
           const isImportingFromSubFolder = isRelativeImport(dirs[0]);
           if (isImportingFromSubFolder) {
@@ -136,7 +159,7 @@ export namespace ImportRuleUtils {
               if (subFolder) {
                 packageSubFolder = subFolder;
 
-                packageName = subFolder.importPath;
+                activePackageName = subFolder.importPath;
                 break;
               }
             }
@@ -176,7 +199,7 @@ export namespace ImportRuleUtils {
     }
 
     return {
-      packageName: packageName,
+      packageName: activePackageName,
       packageFolder: packageFolder,
       packageSubFolder: packageSubFolder
     };

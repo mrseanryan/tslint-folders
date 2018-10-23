@@ -25,12 +25,16 @@ export namespace ConfigFactory {
 
     config.casings = (<any>config)["file-name-casing"];
 
-    // validate
-    if (!config.casings || !config.ignorePaths) {
-      throw new Error(`invalid config for rule ${FILE_NAMES_RULE_ID}`);
-    }
+    validate(config, "casings", FILE_NAMES_RULE_ID);
+    validate(config, "ignorePaths", FILE_NAMES_RULE_ID);
 
     return config;
+  }
+
+  function validate(config: any, prop: string, ruleId: string) {
+    if (config[prop] === undefined) {
+      throw new Error(`invalid config for rule ${ruleId} - ${prop} is missing`);
+    }
   }
 
   function create<T>(options: any, ruleId: string): T {

@@ -48,6 +48,52 @@ export namespace ImportRuleUtils {
       };
     }
 
+    const packageFolderAndName = determinePackageFolderAndName(
+      config,
+      dirs,
+      filePath,
+      thisPackageLocation,
+      packageName,
+      pathSource,
+      ruleId
+    );
+    packageName = packageFolderAndName.packageName;
+
+    if (!packageFolderAndName.packageFolder) {
+      return {
+        packageName: packageName
+      };
+    }
+
+    if (packageFolderAndName.packageFolder.subFolders.length === 0) {
+      return {
+        packageName: packageName,
+        packageFolder: packageFolderAndName.packageFolder
+      };
+    }
+
+    return determinePackageLocationWithSubFolder(
+      dirs,
+      packageName,
+      packageFolderAndName.packageFolder,
+      pathSource
+    );
+  }
+
+  // TODO xxx review - too many params!
+  function determinePackageFolderAndName(
+    config: ImportsBetweenPackagesRuleConfig,
+    dirs: string[],
+    filePath: string,
+    thisPackageLocation: PackageLocation | undefined,
+    packageName: string,
+    pathSource: PathSource,
+    ruleId: string
+  ): {
+    packageFolder: PackageFolder | undefined;
+    packageName: string;
+  } {
+    let activePackageName: string = packageName;
     let packageFolder: PackageFolder | undefined;
 
     if (pathSource === PathSource.ImportText && isRelativeImport(dirs[0])) {
@@ -69,31 +115,15 @@ export namespace ImportRuleUtils {
           ruleId
         );
 
-        return {
-          packageName: filePath
-        };
+        packageFolder = undefined;
+        activePackageName = filePath;
       }
     }
 
-    if (!packageFolder) {
-      return {
-        packageName: packageName
-      };
-    }
-
-    if (packageFolder.subFolders.length === 0) {
-      return {
-        packageName: packageName,
-        packageFolder: packageFolder
-      };
-    }
-
-    return determinePackageLocationWithSubFolder(
-      dirs,
-      packageName,
-      packageFolder,
-      pathSource
-    );
+    return {
+      packageFolder: packageFolder,
+      packageName: activePackageName
+    };
   }
 
   function determinePackageName(

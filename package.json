@@ -1,6 +1,6 @@
 {
   "name": "tslint-folders",
-  "version": "0.2.2",
+  "version": "0.3.1",
   "description": "Custom TSLint rules for checking imports between packages and their folders",
   "author": "Sean Ryan",
   "main": "dist/",
@@ -20,7 +20,7 @@
     "build": "tsc",
     "lint": "tslint --project tsconfig.json --format msbuild",
     "test": "tslint --test test/rules/**/tslint.json && yarn docs:test",
-    "test-one": "tslint --test test/rules/tslint-folders-imports-between-packages/**/tslint.json",
+    "test-one": "tslint --test test/rules/tsf-folders-imports-between-packages/**/tslint.json",
     "start": "yarn clean && yarn build && yarn test && yarn lint",
     "pub": "yarn clean && yarn build && yarn publish --patch",
     "pub-prepare-no-source": "yarn clean && yarn build && yarn clean-sourcemaps && cd dist && cp ../readme.md . && cp ../package.json .",

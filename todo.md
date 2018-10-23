@@ -32,6 +32,7 @@ if OK to open-source:
 - [x] allow disable check on sub folders
 - [x] add test where sub folders are below another folder
 - ~~bad import from sub folder should be warning not error~~
+- [ ] rename rules to ts- to avoid conflict in projects that use other rule packages
 - [ ] refactor
 - [ ] consume
 

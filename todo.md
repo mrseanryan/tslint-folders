@@ -34,20 +34,19 @@ if OK to open-source:
 - ~~bad import from sub folder should be warning not error~~
 - [x] rename rules to tsf- to avoid rules failing to load in projects that use other rule packages
 - [x] up minor version, pub
+- [x] ts-node can be _dev_ dep?
 - [ ] refactor
 - [ ] consume
 
 - [ ] allow gen doc w/o sub folders
 
-- [ ] ts-node can be _dev_ dep?
-
 - [ ] add Dot format
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 
-- [ ] add vs code debug config
-
 ## 'nice to have' TODOs
+
+- [ ] ?add vs code debug config
 
 - ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~
 

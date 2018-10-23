@@ -8,7 +8,8 @@ export type ImportsBetweenPackagesRuleConfig = {
 };
 
 export type CheckImportsBetweenPackages = {
-  enabled: true;
+  enabled: boolean;
+  checkSubFoldersEnabled: boolean;
   ignorePaths: string[];
   packages: PackageFolder[];
 };

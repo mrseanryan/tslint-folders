@@ -29,15 +29,15 @@ if OK to open-source:
 
 - [x] add tests for sub-folders (under todo-area). include false positives: similar folders under package with no sub folders configured (contact-area).
 - [x] publish to npm (with source), consume
+- [x] allow disable check on sub folders
 - [ ] add test where sub folders are below another folder
 - [ ] refactor
-- [ ] allow disable check on sub folders
 - [ ] bad import from sub folder should be warning not error
 - [ ] consume
 
 - [ ] allow gen doc w/o sub folders
 
-- [ ] ts-node can be *dev* dep?
+- [ ] ts-node can be _dev_ dep?
 
 - [ ] add Dot format
 

@@ -117,6 +117,10 @@ class ImportsWalker extends Lint.RuleWalker {
         importPackageLocation.packageFolder ===
         thisPackageLocation.packageFolder
       ) {
+        if (!config.checkImportsBetweenPackages.checkSubFoldersEnabled) {
+          return;
+        }
+
         // TODO xxx extract fun?
         // check sub-folders
 

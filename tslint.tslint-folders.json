@@ -39,6 +39,7 @@
           },
           "checkImportsBetweenPackages": {
             "enabled": true,
+            "checkSubFoldersEnabled": true,
             "ignorePaths": [],
             "packages": [
               {

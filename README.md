@@ -8,6 +8,8 @@ Automatic validation and documentation of package architecture.
 
 ## usage
 
+*note: the links in this readme do not work on npmjs.com - they do work locally or on the source code site.*
+
 ### 1 Install via yarn into your website
 
 ```
@@ -185,8 +187,8 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 | Sub-folder name | Description                                                                             |
 | --------------- | --------------------------------------------------------------------------------------- |
 | components      | Top-level folder of UI components. Can import from any of the other recognised folders. |
-| viewmodels      | view models folder of UI components. Can only import from models or utils.              |
-| models          | models folder of UI components. Can only import from utils.                             |
+| viewmodels      | Folder of view models, used by the UI components. Can only import from models or utils.              |
+| models          | Folder of models, used by the view models. Can only import from utils.                             |
 | utils           | A 'utils' folder. It should not import any other recognised folders.                    |
 
 **Example validation**: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).

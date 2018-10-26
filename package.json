@@ -35,11 +35,14 @@
   "dependencies": {},
   "keywords": [
     "tslint",
+    "folders",
+    "checker",
     "architecture",
     "structure",
+    "analysis",
+    "disabled tests",
     "static code analysis",
     "code analysis",
-    "disabled tests",
     "dependencies"
   ]
 }

@@ -36,17 +36,13 @@ if OK to open-source:
 - [x] up minor version, pub
 - [x] ts-node can be _dev_ dep?
 - [x] consume
-- [ ] refactor
 
 - [ ] allow gen doc w/o sub folders
 
 - [ ] add Dot format - allow any case
 
-- [ ] add example to generate png:
-- install graphviz.
-```
-dot file.dot -Tpng -o image.png
-```
+- [x] add example to generate png
+- [ ] refactor
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 

@@ -8,7 +8,7 @@ Automatic validation and documentation of package architecture.
 
 ## usage
 
-*note: the links in this readme do not work on npmjs.com - they do work locally or on the source code site.*
+_note: the links in this readme do not work on npmjs.com - they do work locally or on the source code site._
 
 ### 1 Install via yarn into your website
 
@@ -93,8 +93,8 @@ Allowed imports are shown for each package, after the `-->` arrow.
 
 here is a summary of the current custom rules.
 
-| Rule ID                                       | Description                                                                                                                                                                                                                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rule ID                                    | Description                                                                                                                                                                                                                                                            |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | tsf-folders-disabled-test                  | Detect a disabled unit test, test suite or integration test.                                                                                                                                                                                                           |
 | tsf-folders-file-names                     | Validates casing of filenames. Similar to standard rule `file-name-casing` except it supports multiple allowed casings, and disallows file names with invalid characters (such as spaces or commas).                                                                   |
 | tsf-folders-import-from-disallowed-folders | Detect an import from a non-standard folder like node_modules                                                                                                                                                                                                          |
@@ -187,11 +187,17 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 | Sub-folder name | Description                                                                             |
 | --------------- | --------------------------------------------------------------------------------------- |
 | components      | Top-level folder of UI components. Can import from any of the other recognised folders. |
-| viewmodels      | Folder of view models, used by the UI components. Can only import from models or utils.              |
-| models          | Folder of models, used by the view models. Can only import from utils.                             |
+| viewmodels      | Folder of view models, used by the UI components. Can only import from models or utils. |
+| models          | Folder of models, used by the view models. Can only import from utils.                  |
 | utils           | A 'utils' folder. It should not import any other recognised folders.                    |
 
 **Example validation**: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).
+
+---
+
+## using graphviz to generate image diagrams of the architecture
+
+see [generating diagrams](./readme.generating-diagram-images.md) for details.
 
 ---
 

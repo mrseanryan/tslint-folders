@@ -37,9 +37,9 @@ if OK to open-source:
 - [x] ts-node can be _dev_ dep?
 - [x] consume
 
-- [ ] allow gen doc w/o sub folders
+- [x] allow gen doc w/o sub folders
 
-- [ ] add Dot format - allow any case
+- [ ] add Dot format, DotStyled - allow any case
 
 - [x] add example to generate png
 - [ ] refactor

@@ -8,6 +8,9 @@ import { ErrorHandler, ErrorLevel } from "./ErrorHandler";
 import { DocGeneratorFactory } from "./generators/DocGeneratorFactory";
 import { ConsoleOutputter } from "./outputters/ConsoleOutputter";
 
+const NEW_LINE = "\n";
+const NUM_MANDATORY_ARGS = 4;
+
 const handleError: ErrorHandler = (
   message: any,
   errorLevel: ErrorLevel = ErrorLevel.Fatal
@@ -31,29 +34,69 @@ function getFormats(): string {
   return texts.join(", ");
 }
 
+function showUsage() {
+  handleError(
+    `USAGE: index.ts <path to tslint.json> <format> [options]${NEW_LINE}` +
+      `  where format is one of: ${getFormats()}${NEW_LINE}` +
+      `  where options can be:${NEW_LINE}` +
+      `    -skipSubFolders`,
+    ErrorLevel.Fatal
+  );
+}
+
 function main() {
-  console.log("package structure:");
-  if (process.argv.length !== 4) {
-    handleError(
-      `USAGE: index.ts <path to tslint.json> <format>\n  where format is one of: ${getFormats()}`
-    );
+  if (process.argv.length < NUM_MANDATORY_ARGS) {
+    showUsage();
+    return;
   }
 
-  const formatString = process.argv[3];
-  const format = EnumUtils.parseDocFormat(formatString);
+  const config = getConfigFromArgs();
+  if (!config) {
+    showUsage();
+    return;
+  }
 
-  const config: DocConfig = {
-    pathToTslintJson: process.argv[2],
-    format: format
-  };
-
-  const generator = DocGeneratorFactory.create(format);
+  const generator = DocGeneratorFactory.create(config.format);
 
   const outputter = new ConsoleOutputter();
 
   loadTslintConfig(config).then(packageConfig => {
     generator.generateDoc(config, packageConfig, outputter);
   });
+}
+
+function getConfigFromArgs(): DocConfig | null {
+  try {
+    const formatString = process.argv[3];
+    const format = EnumUtils.parseDocFormat(formatString);
+
+    const config: DocConfig = {
+      pathToTslintJson: process.argv[2],
+      format: format,
+      skipSubFolders: false
+    };
+
+    updateConfigFromOptionalArgs(config);
+
+    return config;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+function updateConfigFromOptionalArgs(config: DocConfig) {
+  for (let i = NUM_MANDATORY_ARGS; i < process.argv.length; i++) {
+    const optionArg = process.argv[i];
+
+    switch (optionArg) {
+      case "-skipSubFolders":
+        config.skipSubFolders = true;
+        break;
+      default:
+        throw new Error(`unrecognised option ${optionArg}`);
+    }
+  }
 }
 
 function loadTslintConfig(

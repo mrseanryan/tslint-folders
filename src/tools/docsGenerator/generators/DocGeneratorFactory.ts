@@ -8,7 +8,7 @@ export namespace DocGeneratorFactory {
       case DocFormat.Text:
         return new TextDocGenerator();
       default:
-        throw new Error(`unhandled format!`);
+        throw new Error(`unhandled format '${format}'`);
     }
   }
 }

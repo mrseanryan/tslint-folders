@@ -26,7 +26,11 @@ export class TextDocGenerator implements IDocGenerator {
 
         this.outputAllowedImports(pkg, outputter);
 
-        this.outputSubFolders(outputter, pkg.subFolders);
+        if (!config.skipSubFolders) {
+          this.outputSubFolders(outputter, pkg.subFolders);
+        } else {
+          outputter.outputLine("");
+        }
 
         outputter.decreaseIndent();
       });

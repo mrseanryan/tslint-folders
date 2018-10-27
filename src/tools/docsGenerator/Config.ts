@@ -1,6 +1,6 @@
 export enum DocFormat {
-  Text = "Text"
-  // TODO Dot
+  Text = "Text",
+  Dot = "Dot"
   // TODO DotStyled
 }
 

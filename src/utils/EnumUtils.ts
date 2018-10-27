@@ -12,6 +12,8 @@ export namespace EnumUtils {
 
   function validateDocFormat(format: DocFormat) {
     switch (format) {
+      case DocFormat.Dot:
+        return format;
       case DocFormat.Text:
         return format;
       default:

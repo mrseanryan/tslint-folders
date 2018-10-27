@@ -27,6 +27,7 @@
     "pub-prepare-no-source": "yarn clean && yarn build && yarn clean-sourcemaps && cd dist && cp ../readme.md . && cp ../package.json .",
     "docs": "node -r ts-node/register src/tools/docsGenerator/index.ts",
     "docs:test": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text",
+    "docs:test-dot": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Dot",
     "docs:test-no-subfolders": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text -skipSubFolders"
   },
   "repository": {

@@ -35,14 +35,22 @@ if OK to open-source:
 - [x] rename rules to tsf- to avoid rules failing to load in projects that use other rule packages
 - [x] up minor version, pub
 - [x] ts-node can be _dev_ dep?
+- [x] consume
 - [ ] refactor
-- [ ] consume
 
 - [ ] allow gen doc w/o sub folders
 
-- [ ] add Dot format
+- [ ] add Dot format - allow any case
+
+- [ ] add example to generate png:
+- install graphviz.
+```
+dot file.dot -Tpng -o image.png
+```
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
+
+- [ ] consume
 
 ## 'nice to have' TODOs
 
@@ -50,7 +58,7 @@ if OK to open-source:
 
 - ~~rename package to module ? is clearer? but not really correct, usually is 1 file. up minor.~~
 
-- [ ] ? add Jpg format (new npm? from new src folder)
+- ~~? add Jpg format (new npm? from new src folder)~~ use graphviz!
 
 - [ ] ? add examples folder with a site that has issues
 

@@ -1,27 +1,6 @@
 {
-  "rulesDirectory": "./dist/",
+  "rulesDirectory": "../../../../dist/",
   "rules": {
-    "tsf-folders-disabled-test": true,
-    "tsf-folders-import-from-disallowed-folders": [
-      true,
-      {
-        "disallowed": [
-          "/dist/",
-          "/dist",
-          "/node_modules/",
-          "/node_modules",
-          "mobx/lib/mobx"
-        ]
-      }
-    ],
-    "tsf-folders-test-with-breakpoint": true,
-    "tsf-folders-file-names": [
-      true,
-      {
-        "file-name-casing": ["camel-case", "pascal-case"],
-        "ignorePaths": []
-      }
-    ],
     "tsf-folders-imports-between-packages": [
       true,
       {
@@ -96,7 +75,7 @@
               {
                 "description": "Third party SDK",
                 "importPath": "thirdPartySdk",
-                "isExternal": true,
+                "isThirdParty": true,
                 "allowedToImport": [],
                 "subFolders": []
               }

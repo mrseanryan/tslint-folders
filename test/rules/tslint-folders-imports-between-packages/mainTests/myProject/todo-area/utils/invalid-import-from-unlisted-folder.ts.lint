@@ -1,7 +1,0 @@
-import {SomeClass} from "../components/SomeClass";
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ['todo-area' sub folder 'utils' is not allowed to import from 'components' (tslint-folders-imports-between-packages)]
-import {SomeClass} from "../viewmodels/SomeClass";
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ['todo-area' sub folder 'utils' is not allowed to import from 'viewmodels' (tslint-folders-imports-between-packages)]
-import {SomeClass} from "unrecognisedPackage/someCode";
-import {SomeClass} from "./someFolder/someCode";
-import {SomeClass} from "../someCode";

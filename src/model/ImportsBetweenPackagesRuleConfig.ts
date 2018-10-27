@@ -1,6 +1,6 @@
 /**
  * Models the config in tslint.tslint-folders.JSON
- * for rule 'tslint-folders-imports-between-packages'
+ * for rule 'tsf-folders-imports-between-packages'
  */
 export type ImportsBetweenPackagesRuleConfig = {
   checkImportsBetweenPackages: CheckImportsBetweenPackages;

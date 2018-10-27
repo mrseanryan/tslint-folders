@@ -40,7 +40,7 @@ if OK to open-source:
 
 - [ ] allow gen doc w/o sub folders
 
-- [ ] add Dot format - allow any case
+- [ ] add Dot format, DotStyled - allow any case
 
 - [ ] add example to generate png:
 - install graphviz.

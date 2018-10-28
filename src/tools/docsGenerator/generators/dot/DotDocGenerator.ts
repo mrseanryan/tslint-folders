@@ -17,22 +17,30 @@ export class DotDocGenerator implements IDocGenerator {
   ): void {
     this.outputSectionSeparator("Header", outputter);
     this.outputHeader(config, outputter);
+    outputter.outputLine(``);
 
     this.outputSectionSeparator("Styling", outputter);
     this.outputStyling(config, outputter);
+    outputter.outputLine(``);
 
     const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
 
     this.outputSectionSeparator("Nodes", outputter);
     this.outputPackages(config, packageFolders, outputter);
+    outputter.outputLine(``);
 
-    this.outputSectionSeparator("Sub-graphs for sub-folders", outputter);
-    packageFolders.forEach(pkg =>
-      this.outputPackageSubFolders(config, pkg, outputter)
-    );
+    if (!config.skipSubFolders) {
+      this.outputSectionSeparator("Sub-graphs for sub-folders", outputter);
+      packageFolders.forEach(pkg => {
+        this.outputPackageSubFolders(config, pkg, outputter);
+      });
+    } else {
+      outputter.outputLine(``);
+    }
 
     this.outputSectionSeparator("Edges", outputter);
     this.outputEdges(config, packageFolders, outputter);
+    outputter.outputLine(``);
 
     this.outputFooter(outputter);
   }
@@ -40,30 +48,35 @@ export class DotDocGenerator implements IDocGenerator {
   private outputHeader(config: DocConfig, outputter: IDocOutputter) {
     outputter.outputLine("digraph packages {");
     outputter.increaseIndent();
-    // forcelabels, to ensure xlabels are always placed (even if they overlap)
 
-    outputter.outputLine(`graph [
-      label = "${config.dot.title}"
-      labelloc = t
+    this.outputSectionSeparator("Graph settings", outputter);
+    outputter.outputLine(`graph [`);
+    outputter.increaseIndent();
 
-      //dpi = 200
-      ranksep=0.65
-      nodesep=0.40
-      rankdir=BT
+    outputter.outputLines([
+      `label = "${config.dot.title}"`,
+      `labelloc = t`,
+      ``,
+      `//dpi = 200`,
+      `ranksep=0.65`,
+      `nodesep=0.40`,
+      `rankdir=BT`,
+      ``,
+      `style="filled"`,
+      ``,
+      `len=0`
+    ]);
 
-      style="filled"
-
-      len=0
-    ]
-  `);
+    outputter.decreaseIndent();
+    outputter.outputLine(`]`);
   }
 
   private outputGraphStyle(outputter: IDocOutputter) {
-    outputter.outputLine(`    graph [
-        bgcolor="#FFFFFF"
-        fillcolor="#FFFFFF"
-      ]
-    `);
+    outputter.outputLine(`graph [`);
+    outputter.increaseIndent();
+    outputter.outputLines([`bgcolor="#FFFFFF"`, `fillcolor="#FFFFFF"`]);
+    outputter.decreaseIndent();
+    outputter.outputLine(`]`);
   }
 
   private outputFooter(outputter: IDocOutputter) {
@@ -73,11 +86,8 @@ export class DotDocGenerator implements IDocGenerator {
 
   // TODO xxx extract to DotStyleGenerator.ts
   private outputStyling(config: DocConfig, outputter: IDocOutputter) {
-    // TODO add optional extra styling (more colors) via colorscheme
-    outputter.increaseIndent();
     this.outputGraphStyle(outputter);
     this.outputDefaultNodeStyling(config, outputter);
-    outputter.decreaseIndent();
   }
 
   private outputStylingForExternalNode(outputter: IDocOutputter) {
@@ -89,17 +99,27 @@ export class DotDocGenerator implements IDocGenerator {
     outputter: IDocOutputter
   ) {
     // ref: working_copy.dot
-    // ref: colors = https://graphviz.gitlab.io/_pages/doc/info/colors.html
-    outputter.outputLine(`    node [
-      labeljust="l"
-      colorscheme="${config.dot.colorScheme}"
-      style=filled
-      fillcolor=3
-      shape=record
-  ]
 
-  edge [arrowhead=vee, style=dashed, color="black"]
-`);
+    outputter.outputLine("node [");
+    outputter.increaseIndent();
+
+    // ref: colorscheme = https://graphviz.gitlab.io/_pages/doc/info/colors.html
+
+    outputter.outputLines([
+      `labeljust="l"`,
+      `colorscheme="${config.dot.colorScheme}"`,
+      `style=filled`,
+      `fillcolor=3`,
+      `shape=record`
+    ]);
+
+    outputter.decreaseIndent();
+
+    outputter.outputLines([
+      `]`,
+      ``,
+      `edge [arrowhead=vee, style=dashed, color="black"]`
+    ]);
   }
 
   private outputSectionSeparator(
@@ -116,8 +136,6 @@ export class DotDocGenerator implements IDocGenerator {
     packageFolders: PackageFolder[],
     outputter: IDocOutputter
   ) {
-    outputter.increaseIndent();
-
     this.outputTopLevelSubGraphBegin(config, outputter);
 
     packageFolders.forEach(pkg => {
@@ -125,8 +143,6 @@ export class DotDocGenerator implements IDocGenerator {
     });
 
     this.outputTopLevelSubGraphEnd(outputter);
-
-    outputter.decreaseIndent();
   }
 
   // TODO xxx why not this.outputter this.config
@@ -134,8 +150,10 @@ export class DotDocGenerator implements IDocGenerator {
     config: DocConfig,
     outputter: IDocOutputter
   ) {
-    outputter.outputLine(`    subgraph cluster_topLevel {
-      label = "${config.dot.subTitle}"`);
+    outputter.outputLine(`subgraph cluster_topLevel {`);
+    outputter.increaseIndent();
+
+    outputter.outputLine(`label = "${config.dot.subTitle}"`);
 
     this.outputPlaceLabelsAtTop(outputter);
 
@@ -144,9 +162,11 @@ export class DotDocGenerator implements IDocGenerator {
 
   private outputPlaceLabelsAtTop(outputter: IDocOutputter) {
     outputter.outputLine("labelloc = b");
+    outputter.outputLine("");
   }
 
   private outputTopLevelSubGraphEnd(outputter: IDocOutputter) {
+    outputter.decreaseIndent();
     outputter.outputLine("}");
   }
 
@@ -192,7 +212,7 @@ export class DotDocGenerator implements IDocGenerator {
     pkg: PackageFolder,
     outputter: IDocOutputter
   ) {
-    const isContainer = pkg.subFolders.length > 0 && !config.skipSubFolders;
+    const isContainer = pkg.subFolders.length > 0;
     if (!isContainer) {
       return;
     }
@@ -202,6 +222,7 @@ export class DotDocGenerator implements IDocGenerator {
     this.outputSubFolders(config, outputter, pkg.importPath, pkg.subFolders);
 
     this.outputContainerNodeEnd(outputter);
+    outputter.outputLine(``);
   }
 
   private outputContainerNodeStart(
@@ -217,7 +238,7 @@ export class DotDocGenerator implements IDocGenerator {
     const formattedDescription =
       description.length > 0 ? ` - ${description}` : "";
 
-    outputter.outputLine(`  label = "${name}${formattedDescription}";`);
+    outputter.outputLine(`label = "${name}${formattedDescription}";`);
 
     this.containerId++;
   }
@@ -350,10 +371,6 @@ export class DotDocGenerator implements IDocGenerator {
       return;
     }
 
-    // TODO xxx fix indentation in the dot file
-
-    outputter.increaseIndent();
-
     subFolders.forEach(folder => {
       this.outputNode(
         config,
@@ -365,7 +382,5 @@ export class DotDocGenerator implements IDocGenerator {
 
       outputter.outputLine("");
     });
-
-    outputter.decreaseIndent();
   }
 }

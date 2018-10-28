@@ -16,9 +16,13 @@ export class ConsoleOutputter implements IDocOutputter {
     this.indent++;
   }
 
-  outputLine(text: string): void {
-    const indexText = " ".repeat(this.indent * SPACES_PER_TAB);
+  outputLine(line: string): void {
+    const indentText = " ".repeat(this.indent * SPACES_PER_TAB);
 
-    console.log(`${indexText}${text}`);
+    console.log(`${indentText}${line}`);
+  }
+
+  outputLines(lines: string[]): void {
+    lines.forEach(line => this.outputLine(line));
   }
 }

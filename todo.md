@@ -59,12 +59,13 @@ if OK to open-source:
 - [ ] support typescript 3 - from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
 
 - version to match ts ? else confusing. but need minor to make a breaking change!
+```
 -- tsf 2.9m.p = ts 2.9 
 -- tsf 3.0m.p = ts 3.0
 -- tsf 3.1m.p = ts 3.1
 -- tsf 3.2m.p = ts 3.2
 where m = minor, p = patch
-...
+```
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master

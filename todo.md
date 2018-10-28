@@ -56,6 +56,8 @@ if OK to open-source:
 
 - [ ] consume
 
+- [ ] support typescript 3 - from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
+
 - [ ] try add jest snapshot tests for the doc gen
 
 ## 'nice to have' TODOs

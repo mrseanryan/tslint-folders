@@ -276,7 +276,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       );
       // output reversed, to make top level packages appear at top:
       this.outputter.outputLine(
-        `${allowedPkgId}-> ${thisPkgId} [arrowhead="back", dir="back"]`
+        `${allowedPkgId}-> ${thisPkgId} [dir="back"]`
       );
     });
   }

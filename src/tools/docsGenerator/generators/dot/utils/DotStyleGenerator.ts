@@ -60,7 +60,8 @@ export class DotStyleGenerator {
     this.outputter.outputLines([
       `]`,
       ``,
-      `edge [arrowhead=vee, style=dashed, color="black"]`
+      // setting both head, tail as normally only one will apply
+      `edge [arrowhead="vee", arrowtail="vee", style=dashed, color="black"]`
     ]);
   }
 }

@@ -64,10 +64,16 @@ https://devhints.io/bash
 
 https://www.graphviz.org/
 
-### graphviz online
+### graphviz color schemes
+
+https://graphviz.gitlab.io/_pages/doc/info/colors.html
+
+The default used is `pastel19`.
+
+#### graphviz online
 
 http://www.webgraphviz.com/
 
-### graphviz in visual code
+#### graphviz in Visual Code
 
 extension 'Graphviz Preview'

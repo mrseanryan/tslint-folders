@@ -36,6 +36,8 @@ export namespace ArgsParser {
         case "-skipSubFolders":
           config.skipSubFolders = true;
           break;
+        // xxx -title=xxx
+        // xxx -colorscheme=xxx
         default:
           throw new Error(`unrecognised option ${optionArg}`);
       }

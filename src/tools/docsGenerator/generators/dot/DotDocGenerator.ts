@@ -7,6 +7,7 @@ import { IDocOutputter } from "../../interfaces/IDocOutputter";
 import { MapNameToId } from "./MapNameToId";
 
 export class DotDocGenerator implements IDocGenerator {
+  private containerId = 1;
   private mapNameToId = new MapNameToId();
 
   generateDoc(
@@ -23,7 +24,7 @@ export class DotDocGenerator implements IDocGenerator {
     const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
 
     this.outputSectionSeparator("Nodes", outputter);
-    this.outputNodes(config, packageFolders, outputter);
+    this.outputPackages(config, packageFolders, outputter);
 
     this.outputSectionSeparator("Edges", outputter);
     this.outputEdges(config, packageFolders, outputter);
@@ -58,8 +59,9 @@ export class DotDocGenerator implements IDocGenerator {
   }
 
   private outputDefaultNodeStyling(outputter: IDocOutputter) {
-    outputter.outputLine("edge [color=black];");
-    outputter.outputLine("node [style=filled color=gold1];");
+    // ref: colors = https://graphviz.gitlab.io/_pages/doc/info/colors.html
+    outputter.outputLine("edge [color=lightsteelblue2, style=dashed];");
+    outputter.outputLine("node [style=filled, color=gold1];");
   }
 
   private outputSectionSeparator(
@@ -71,7 +73,7 @@ export class DotDocGenerator implements IDocGenerator {
     );
   }
 
-  private outputNodes(
+  private outputPackages(
     config: DocConfig,
     packageFolders: PackageFolder[],
     outputter: IDocOutputter
@@ -79,26 +81,79 @@ export class DotDocGenerator implements IDocGenerator {
     outputter.increaseIndent();
 
     packageFolders.forEach(pkg => {
-      const packageName = pkg.importPath;
-
-      if (pkg.isExternal) {
-        this.outputStylingForExternalNode(outputter);
-      }
-
-      this.outputNode(packageName, pkg.description, outputter);
-
-      if (pkg.isExternal) {
-        this.outputDefaultNodeStyling(outputter);
-      }
-
-      if (!config.skipSubFolders) {
-        this.outputSubFolders(outputter, packageName, pkg.subFolders);
-      } else {
-        outputter.outputLine("");
-      }
+      this.outputPackage(config, pkg, outputter);
     });
 
     outputter.decreaseIndent();
+  }
+
+  private outputPackage(
+    config: DocConfig,
+    pkg: PackageFolder,
+    outputter: IDocOutputter
+  ) {
+    const packageName = pkg.importPath;
+
+    if (pkg.isExternal) {
+      this.outputStylingForExternalNode(outputter);
+    }
+
+    let isContainer = pkg.subFolders.length > 0 && !config.skipSubFolders;
+    if (isContainer) {
+      this.outputContainerNodeStart(outputter, pkg.importPath, pkg.description);
+      isContainer = true;
+    }
+
+    this.outputNode(packageName, pkg.description, outputter);
+
+    if (pkg.isExternal) {
+      this.outputDefaultNodeStyling(outputter);
+    }
+
+    if (!config.skipSubFolders) {
+      this.outputSubFolders(outputter, packageName, pkg.subFolders);
+    } else {
+      outputter.outputLine("");
+    }
+
+    if (isContainer) {
+      this.outputContainerNodeEnd(outputter);
+    }
+  }
+
+  private outputContainerNodeStart(
+    outputter: IDocOutputter,
+    name: string,
+    description: string
+  ) {
+    outputter.outputLine(`subgraph cluster_${this.containerId} {`);
+    outputter.increaseIndent();
+
+    const formattedDescription =
+      description.length > 0 ? `- ${description}` : description;
+
+    outputter.outputLine(`  label = "${name}${formattedDescription}";`);
+
+    this.containerId++;
+  }
+
+  private outputContainerNodeEnd(outputter: IDocOutputter) {
+    // styling at END so is not broken by contained node styling
+    this.outputContainerStylingBegin(outputter);
+
+    outputter.decreaseIndent();
+
+    outputter.outputLine("}");
+
+    this.outputContainerStylingEnd(outputter);
+  }
+
+  private outputContainerStylingBegin(outputter: IDocOutputter) {
+    outputter.outputLine("color=orange;");
+  }
+
+  private outputContainerStylingEnd(outputter: IDocOutputter) {
+    outputter.outputLine(`color="";`);
   }
 
   private outputNode(

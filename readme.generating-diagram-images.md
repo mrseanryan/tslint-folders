@@ -8,7 +8,7 @@ If you install `graphviz`, then you can generate image diagrams from those dot f
 
 So, you can automatically generate architecture diagrams from the same configuration that `tslint-folders` uses to validate the source code.
 
-![example diagram](./static/images/example_diagram_from_Dot_output.png)
+![example diagram](https://bitbucket.org/str/tslint-folders/raw/d91fc49/static/images/example_diagram_from_Dot_output.png)
 
 ---
 

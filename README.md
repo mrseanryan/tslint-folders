@@ -199,7 +199,7 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 
 A diagram can be automatically generated from the same config used to validated the code:
 
-![example diagram](./static/images/example_diagram_from_Dot_output.png)
+![example diagram](https://bitbucket.org/str/tslint-folders/raw/d91fc49/static/images/example_diagram_from_Dot_output.png)
 
 see [generating diagrams](./readme.generating-diagram-images.md) for details.
 

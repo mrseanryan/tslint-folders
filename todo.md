@@ -39,14 +39,18 @@ if OK to open-source:
 
 - [x] allow gen doc w/o sub folders
 
-- [ ] add Dot format
+- [x] add Dot format
 
 - ~~add DotStyled~~ ~~allow any case~~
-- add option -dotColorScheme=path to pick up colors
-- use dot colorscheme
 
 - [x] add example to generate png
+
+- [ ] add the missing options -dotColorScheme=path to pick up colors
+- [ ] doc the new options - at least set them in package.json
+
 - [ ] refactor
+
+- [ ] consume
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 

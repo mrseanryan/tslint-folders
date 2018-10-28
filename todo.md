@@ -42,6 +42,8 @@ if OK to open-source:
 - [ ] add Dot format
 
 - [ ] add DotStyled ~~allow any case~~
+- use dot colorscheme
+- add arg pathToDotColorScheme to pick up colors
 
 - [x] add example to generate png
 - [ ] refactor

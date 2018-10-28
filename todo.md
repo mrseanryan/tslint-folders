@@ -36,21 +36,27 @@ if OK to open-source:
 - [x] up minor version, pub
 - [x] ts-node can be _dev_ dep?
 - [x] consume
-- [ ] refactor
 
-- [ ] allow gen doc w/o sub folders
+- [x] allow gen doc w/o sub folders
 
-- [ ] add Dot format, DotStyled - allow any case
+- [x] add Dot format
 
-- [ ] add example to generate png:
-- install graphviz.
-```
-dot file.dot -Tpng -o image.png
-```
+- ~~add DotStyled~~ ~~allow any case~~
+
+- [x] add example to generate png
+
+- [x] add the missing options -dotColorScheme=path to pick up colors
+- [x] doc the new options - at least set them in package.json
+
+- [x] refactor
+
+- [ ] consume
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
 
 - [ ] consume
+
+- [ ] try add jest snapshot tests for the doc gen
 
 ## 'nice to have' TODOs
 

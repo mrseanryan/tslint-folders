@@ -1,10 +1,18 @@
 export enum DocFormat {
-  Text
-  // TODO Markdown
-  // TODO Dot
+  Text = "Text",
+  Dot = "Dot"
 }
 
 export type DocConfig = {
-  pathToTslintJson: string;
   format: DocFormat;
+  pathToTslintJson: string;
+  skipSubFolders: boolean;
+  dot: DotDocConfig;
+};
+
+export type DotDocConfig = {
+  colorScheme: string;
+  title: string;
+  subTitle: string;
+  maxColors: number;
 };

@@ -20,13 +20,16 @@
     "clean-sourcemaps": "rm -rf dist/*.js.map && rm -rf dist/**/*.js.map",
     "build": "tsc",
     "lint": "tslint --project tsconfig.json --format msbuild",
-    "test": "tslint --test test/rules/**/tslint.json && yarn docs:test",
+    "test": "tslint --test test/rules/**/tslint.json && yarn docs:test && yarn docs:test-no-subfolders && yarn docs:test-dot && yarn docs:test-dot-no-subfolders",
     "test-one": "tslint --test test/rules/tsf-folders-imports-between-packages/**/tslint.json",
     "start": "yarn clean && yarn build && yarn test && yarn lint",
     "pub": "yarn clean && yarn build && yarn publish --patch",
     "pub-prepare-no-source": "yarn clean && yarn build && yarn clean-sourcemaps && cd dist && cp ../readme.md . && cp ../package.json .",
     "docs": "node -r ts-node/register src/tools/docsGenerator/index.ts",
-    "docs:test": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text"
+    "docs:test": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text",
+    "docs:test-no-subfolders": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text -skipSubFolders",
+    "docs:test-dot": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Dot",
+    "docs:test-dot-no-subfolders": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Dot -skipSubFolders"
   },
   "repository": {
     "type": "git",

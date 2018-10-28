@@ -10,7 +10,7 @@ OUT_IMAGE_PATH=$TEMP_OUT_DIR/tslint-folders-docs.png;
 PATH_TO_TSLINT_JSON=$1;
 
 ECHO yarn docs ...;
-yarn --silent docs $PATH_TO_TSLINT_JSON Dot > $OUT_DOT_PATH;
+yarn --silent docs $PATH_TO_TSLINT_JSON Dot "$2" "$3" "$4" "$5" "$6" "$7" > $OUT_DOT_PATH;
 
 ECHO dot ...;
 dot $OUT_DOT_PATH -Tpng -o $OUT_IMAGE_PATH;

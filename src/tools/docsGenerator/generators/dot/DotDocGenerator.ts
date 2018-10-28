@@ -43,7 +43,7 @@ export class DotDocGenerator implements IDocGenerator {
     // forcelabels, to ensure xlabels are always placed (even if they overlap)
 
     outputter.outputLine(`graph [
-      label = "${config.title}"
+      label = "${config.dot.title}"
       labelloc = t
 
       //dpi = 200
@@ -92,7 +92,7 @@ export class DotDocGenerator implements IDocGenerator {
     // ref: colors = https://graphviz.gitlab.io/_pages/doc/info/colors.html
     outputter.outputLine(`    node [
       labeljust="l"
-      colorscheme="${config.colorScheme}"
+      colorscheme="${config.dot.colorScheme}"
       style=filled
       fillcolor=3
       shape=record
@@ -118,7 +118,7 @@ export class DotDocGenerator implements IDocGenerator {
   ) {
     outputter.increaseIndent();
 
-    this.outputTopLevelSubGraphBegin(outputter);
+    this.outputTopLevelSubGraphBegin(config, outputter);
 
     packageFolders.forEach(pkg => {
       this.outputPackage(config, pkg, outputter);
@@ -130,9 +130,12 @@ export class DotDocGenerator implements IDocGenerator {
   }
 
   // TODO xxx why not this.outputter this.config
-  private outputTopLevelSubGraphBegin(outputter: IDocOutputter) {
+  private outputTopLevelSubGraphBegin(
+    config: DocConfig,
+    outputter: IDocOutputter
+  ) {
     outputter.outputLine(`    subgraph cluster_topLevel {
-      label = "Top level packages"`);
+      label = "${config.dot.subTitle}"`);
 
     this.outputPlaceLabelsAtTop(outputter);
 
@@ -212,7 +215,7 @@ export class DotDocGenerator implements IDocGenerator {
     this.outputSubFolderStyle(outputter);
 
     const formattedDescription =
-      description.length > 0 ? `- ${description}` : description;
+      description.length > 0 ? ` - ${description}` : "";
 
     outputter.outputLine(`  label = "${name}${formattedDescription}";`);
 
@@ -254,8 +257,8 @@ export class DotDocGenerator implements IDocGenerator {
   private getColorNumber(config: DocConfig, packageIdKey: string): number {
     let packageNumber = this.mapNameToId.getNumberOrThrow(packageIdKey);
 
-    if (packageNumber > config.maxColors) {
-      packageNumber = packageNumber % config.maxColors;
+    if (packageNumber > config.dot.maxColors) {
+      packageNumber = packageNumber % config.dot.maxColors;
     }
 
     if (packageNumber === 0) {

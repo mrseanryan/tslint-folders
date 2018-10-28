@@ -89,7 +89,7 @@ export class DotDocGenerator implements IDocGenerator {
   ) {
     const packageId = this.mapNameToId.getId(`${prefix}_${packageName}`);
 
-    // TODO xxx label is too long - is there a way to add an annotation?
+    // TODO xxx label is too long - is there a way to add an annotation? xlabel forcelabels 
     outputter.outputLine(
       `P${packageId} [label="${packageName} - ${description}"]`
     );

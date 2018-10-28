@@ -197,6 +197,10 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 
 ## using graphviz to generate image diagrams of the architecture
 
+A diagram can be automatically generated from the same config used to validated the code:
+
+![example diagram](./static/images/example_diagram_from_Dot_output.png)
+
 see [generating diagrams](./readme.generating-diagram-images.md) for details.
 
 ---

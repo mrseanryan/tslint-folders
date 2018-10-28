@@ -31,30 +31,55 @@ digraph ClassDiagram {
         ranksep=0.65
         nodesep=0.40
         rankdir=BT
-        bgcolor="#FFFFFF"
 
-        style="dotted, filled"
-        fillcolor="#FFFFFF"
+        style="filled"
+
+        len=0
     ]
 
-    edge [arrowhead=none]
+    graph [
+            bgcolor="#FFFFFF"
+            fillcolor="#FFFFFF"
+    ]
 
     node [
         labeljust="l"
-        colorscheme="pastel13"
+        colorscheme="pastel19" // set312
         style=filled
         fillcolor=3
         shape=record
     ]
 
+    edge [arrowhead=vee, style=dashed, color="black"]
+
 #/////////////////////////// Sub Graphs and Clusters \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-        {// Interface
-            node [style=filled, fillcolor=1]
-            ExampleInterface [label="{interface\n\nblah blah blah}"]
+    subgraph cluster_topLevel {
+        label = "Top level packages"
+        labelloc = b
+
+        node [shape="ellipse"]
+
+        class [label="Class", fillcolor=3]
+        abstract [label="Abstract", fillcolor=2]
+        interface [label="Interface", fillcolor=1]
+
+        thirdParty [style="dashed"]
+
+        class -> thirdParty
+    }
+
+    subgraph cluster_subFolders_1 {
+        label = "TODO-area"
+        labelloc = b
+        node [shape="folder"]
+
+        {
+            node [fillcolor=1]
+            ExampleInterface [label="interface\n\nblah blah blah"]
         }
 
-        {// Abstracts
+        {
             node [fillcolor=2]
             AbstractExample
         }
@@ -63,11 +88,10 @@ digraph ClassDiagram {
         ExampleFoo
         ExampleBar
         ExampleBaz
-
+    }
 
 #//////////////////////////////// Connections \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     {// Implements
-        edge [arrowhead=vee, style=dashed]
         AbstractExample -> ExampleInterface
         ExampleFoo -> AbstractExample
         ExampleBar -> ExampleFoo

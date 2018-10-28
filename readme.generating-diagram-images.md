@@ -8,11 +8,31 @@ If you install `graphviz`, then you can generate image diagrams from those dot f
 
 So, you can automatically generate architecture diagrams from the same configuration that `tslint-folders` uses to validate the source code.
 
+![example diagram](./static/images/example_diagram_from_Dot_output.png)
+
+---
+
 ## install graphviz
 
 https://graphviz.gitlab.io
 
-## Windows
+---
+
+## generating a graph image from tslint-folders
+
+`./generate_graph_image <path to tslint.json>`
+
+### example
+
+`./generate_graph_image_example`
+
+## assumptions
+
+- the machine has an environment variable `TEMP` pointing to a temporary files location.
+
+---
+
+## notes for Windows
 
 ### Windows download
 
@@ -26,23 +46,13 @@ C:\Program Files (x86)\Graphviz2.38\bin
 
 So then `dot.exe` is reachable.
 
-### executing bash script on Windows
+### executing bash scripts on Windows
 
 - use cmder (bash)
 
 http://cmder.net/
 
-## generating a graph image from tslint-folders
-
-`./generate_graph_image <path to tslint.json>`
-
-### example
-
-`./generate_graph_image_example`
-
-## assumptions
-
-- the machine has an environment variable `TEMP` pointing to a temporary files location.
+---
 
 ## references
 

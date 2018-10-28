@@ -16,7 +16,14 @@ export namespace ArgsParser {
       const config: DocConfig = {
         pathToTslintJson: process.argv[2],
         format: format,
-        skipSubFolders: false
+        colorScheme: "pastel19",
+        // TODO xxx move down to dot: DotConfig
+        // TODO xxx parse
+        // TODO xxx provide (current) defaults
+        skipSubFolders: false,
+        subTitle: "Top-level Packages",
+        title: "Project Packages",
+        maxColors: 9 // should match the colorScheme
       };
 
       updateConfigFromOptionalArgs(config);
@@ -37,7 +44,7 @@ export namespace ArgsParser {
           config.skipSubFolders = true;
           break;
         // xxx -title=xxx
-        // xxx -colorscheme=xxx
+        // xxx -colorScheme=pastel19 -maxColors=9
         default:
           throw new Error(`unrecognised option ${optionArg}`);
       }

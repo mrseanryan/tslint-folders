@@ -54,22 +54,22 @@
                 "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
                 "subFolders": [
                   {
-                    "description": "components",
+                    "description": "UI components",
                     "importPath": "components",
                     "allowedToImport": ["*"]
                   },
                   {
-                    "description": "view models",
+                    "description": "View models used by the UI",
                     "importPath": "viewmodels",
                     "allowedToImport": ["models", "utils"]
                   },
                   {
-                    "description": "models",
+                    "description": "Models used by the view models",
                     "importPath": "models",
                     "allowedToImport": ["utils"]
                   },
                   {
-                    "description": "utils",
+                    "description": "general utils",
                     "importPath": "utils",
                     "allowedToImport": []
                   }

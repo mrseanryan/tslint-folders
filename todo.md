@@ -48,7 +48,7 @@ if OK to open-source:
 - [x] add the missing options -dotColorScheme=path to pick up colors
 - [x] doc the new options - at least set them in package.json
 
-- [ ] refactor
+- [x] refactor
 
 - [ ] consume
 

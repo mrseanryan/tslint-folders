@@ -6,11 +6,19 @@ import { IDocGenerator } from "../../interfaces/IDocGenerator";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
 import { DateHelper } from "../../utils/DateHelper";
 import { DocGeneratorBase } from "../shared/DocGeneratorBase";
-import { MapNameToId } from "./MapNameToId";
+import { DotStyleGenerator } from "./utils/DotStyleGenerator";
+import { MapNameToId } from "./utils/MapNameToId";
 
 export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   private containerId = 1;
   private mapNameToId = new MapNameToId();
+  private styler: DotStyleGenerator;
+
+  constructor(protected config: DocConfig, protected outputter: IDocOutputter) {
+    super(config, outputter);
+
+    this.styler = new DotStyleGenerator(config, outputter);
+  }
 
   generateDoc(packageConfig: ImportsBetweenPackagesRuleConfig): void {
     this.outputSectionSeparator("Header");
@@ -18,7 +26,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(``);
 
     this.outputSectionSeparator("Styling");
-    this.outputStyling();
+    this.styler.outputStyling();
     this.outputter.outputLine(``);
 
     const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
@@ -51,6 +59,10 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine("digraph packages {");
     this.outputter.increaseIndent();
 
+    this.outputGraphSettings();
+  }
+
+  private outputGraphSettings() {
     this.outputSectionSeparator("Graph settings");
     this.outputter.outputLine(`graph [`);
     this.outputter.increaseIndent();
@@ -73,52 +85,9 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(`]`);
   }
 
-  private outputGraphStyle() {
-    this.outputter.outputLine(`graph [`);
-    this.outputter.increaseIndent();
-    this.outputter.outputLines([`bgcolor="#FFFFFF"`, `fillcolor="#FFFFFF"`]);
-    this.outputter.decreaseIndent();
-    this.outputter.outputLine(`]`);
-  }
-
   private outputFooter() {
     this.outputter.decreaseIndent();
     this.outputter.outputLine("}");
-  }
-
-  // TODO xxx extract to DotStyleGenerator.ts
-  private outputStyling() {
-    this.outputGraphStyle();
-    this.outputDefaultNodeStyling();
-  }
-
-  private outputStylingForExternalNode() {
-    this.outputter.outputLine("node [style=dashed]");
-  }
-
-  private outputDefaultNodeStyling() {
-    // ref: working_copy.dot
-
-    this.outputter.outputLine("node [");
-    this.outputter.increaseIndent();
-
-    // ref: colorscheme = https://graphviz.gitlab.io/_pages/doc/info/colors.html
-
-    this.outputter.outputLines([
-      `labeljust="l"`,
-      `colorscheme="${this.config.dot.colorScheme}"`,
-      `style=filled`,
-      `fillcolor=3`,
-      `shape=record`
-    ]);
-
-    this.outputter.decreaseIndent();
-
-    this.outputter.outputLines([
-      `]`,
-      ``,
-      `edge [arrowhead=vee, style=dashed, color="black"]`
-    ]);
   }
 
   private outputSectionSeparator(sectionName: string) {
@@ -143,23 +112,14 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
 
     this.outputter.outputLine(`label = "${this.config.dot.subTitle}"`);
 
-    this.outputPlaceLabelsAtTop();
+    this.styler.outputPlaceLabelsAtTop();
 
-    this.outputTopLevelSubGraphStyle();
-  }
-
-  private outputPlaceLabelsAtTop() {
-    this.outputter.outputLine("labelloc = b");
-    this.outputter.outputLine("");
+    this.styler.outputTopLevelSubGraphStyle();
   }
 
   private outputTopLevelSubGraphEnd() {
     this.outputter.decreaseIndent();
     this.outputter.outputLine("}");
-  }
-
-  private outputTopLevelSubGraphStyle() {
-    this.outputter.outputLine(`node [shape="ellipse"]`);
   }
 
   private outputPackage(pkg: PackageFolder) {
@@ -168,7 +128,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputScopeBegin();
 
     if (pkg.isExternal) {
-      this.outputStylingForExternalNode();
+      this.styler.outputStylingForExternalNode();
     }
 
     this.outputNode(packageName, pkg.description);
@@ -209,7 +169,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(`subgraph cluster_${this.containerId} {`);
     this.outputter.increaseIndent();
 
-    this.outputSubFolderStyle();
+    this.styler.outputSubFolderStyle();
 
     const formattedDescription =
       description.length > 0 ? ` - ${description}` : "";
@@ -217,12 +177,6 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(`label = "${name}${formattedDescription}"`);
 
     this.containerId++;
-  }
-
-  private outputSubFolderStyle() {
-    this.outputPlaceLabelsAtTop();
-
-    this.outputter.outputLine(`node [shape="folder"]`);
   }
 
   private outputContainerNodeEnd() {

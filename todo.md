@@ -39,7 +39,9 @@ if OK to open-source:
 
 - [x] allow gen doc w/o sub folders
 
-- [ ] add Dot format, DotStyled - allow any case
+- [ ] add Dot format
+
+- [ ] add DotStyled ~~allow any case~~
 
 - [x] add example to generate png
 - [ ] refactor

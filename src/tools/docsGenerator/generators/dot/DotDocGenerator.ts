@@ -352,8 +352,6 @@ export class DotDocGenerator implements IDocGenerator {
 
     // TODO xxx fix indentation in the dot file
 
-    // TODO xxx add a sub folder to contact-area, for testing
-
     outputter.increaseIndent();
 
     subFolders.forEach(folder => {

@@ -93,7 +93,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   }
 
   private outputStylingForExternalNode() {
-    this.outputter.outputLine("node [style=dashed];");
+    this.outputter.outputLine("node [style=dashed]");
   }
 
   private outputDefaultNodeStyling() {
@@ -137,7 +137,6 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputTopLevelSubGraphEnd();
   }
 
-  // TODO xxx why not this.outputter this.config
   private outputTopLevelSubGraphBegin() {
     this.outputter.outputLine(`subgraph cluster_topLevel {`);
     this.outputter.increaseIndent();
@@ -215,7 +214,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     const formattedDescription =
       description.length > 0 ? ` - ${description}` : "";
 
-    this.outputter.outputLine(`label = "${name}${formattedDescription}";`);
+    this.outputter.outputLine(`label = "${name}${formattedDescription}"`);
 
     this.containerId++;
   }
@@ -321,10 +320,9 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       const allowedPkgId = this.mapNameToId.getIdOrThrow(
         this.getPackageIdKey(allowedPkg, packageIdPrefix)
       );
-      // TODO xxx remove ;
       // output reversed, to make top level packages appear at top:
       this.outputter.outputLine(
-        `${allowedPkgId}-> ${thisPkgId} [arrowhead="back", dir="back"];`
+        `${allowedPkgId}-> ${thisPkgId} [arrowhead="back", dir="back"]`
       );
     });
   }

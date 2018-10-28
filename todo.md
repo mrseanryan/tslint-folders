@@ -56,6 +56,8 @@ if OK to open-source:
 
 - [ ] consume
 
+- [ ] try add jest snapshot tests for the doc gen
+
 ## 'nice to have' TODOs
 
 - [ ] ?add vs code debug config

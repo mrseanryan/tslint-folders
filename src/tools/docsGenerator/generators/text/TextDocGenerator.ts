@@ -4,43 +4,41 @@ import {
 import { DocConfig } from "../../Config";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
+import { DocGeneratorBase } from "../shared/DocGeneratorBase";
 
 const SECTION_SEPARATOR = "_____";
 
-export class TextDocGenerator implements IDocGenerator {
-  generateDoc(
-    config: DocConfig,
-    packageConfig: ImportsBetweenPackagesRuleConfig,
-    outputter: IDocOutputter
-  ): void {
-    outputter.outputLine(SECTION_SEPARATOR);
+export class TextDocGenerator extends DocGeneratorBase
+  implements IDocGenerator {
+  generateDoc(packageConfig: ImportsBetweenPackagesRuleConfig): void {
+    this.outputter.outputLine(SECTION_SEPARATOR);
 
     packageConfig.checkImportsBetweenPackages.packages
       .filter(pkg => !pkg.isExternal)
       .forEach(pkg => {
         const packageName = pkg.importPath;
 
-        outputter.outputLine(`${packageName} - ${pkg.description}`);
+        this.outputter.outputLine(`${packageName} - ${pkg.description}`);
 
-        outputter.increaseIndent();
+        this.outputter.increaseIndent();
 
-        this.outputAllowedImports(pkg, outputter);
+        this.outputAllowedImports(pkg);
 
-        if (!config.skipSubFolders) {
-          this.outputSubFolders(outputter, pkg.subFolders);
+        if (!this.config.skipSubFolders) {
+          this.outputSubFolders(pkg.subFolders);
         } else {
-          outputter.outputLine("");
+          this.outputter.outputLine("");
         }
 
-        outputter.decreaseIndent();
+        this.outputter.decreaseIndent();
       });
 
-    outputter.outputLine(SECTION_SEPARATOR);
+    this.outputter.outputLine(SECTION_SEPARATOR);
   }
 
-  private outputAllowedImports(pkg: PackageFolder, outputter: IDocOutputter) {
+  private outputAllowedImports(pkg: PackageFolder) {
     const allowedToImport = this.outputAllowedToImport(pkg.allowedToImport);
-    outputter.outputLine(`--> ${allowedToImport}`);
+    this.outputter.outputLine(`--> ${allowedToImport}`);
   }
 
   private outputAllowedToImport(allowed: string[]): string {
@@ -51,35 +49,32 @@ export class TextDocGenerator implements IDocGenerator {
     return allowed.length > 0 ? `${allowed.join(", ")}` : "(none)";
   }
 
-  private outputSubFolders(
-    outputter: IDocOutputter,
-    subFolders: PackageSubFolder[]
-  ) {
+  private outputSubFolders(subFolders: PackageSubFolder[]) {
     if (subFolders.length === 0) {
-      outputter.outputLine("");
+      this.outputter.outputLine("");
       return;
     }
 
-    outputter.increaseIndent();
+    this.outputter.increaseIndent();
 
-    outputter.outputLine("folders:");
+    this.outputter.outputLine("folders:");
 
-    outputter.increaseIndent();
+    this.outputter.increaseIndent();
 
     subFolders.forEach(folder => {
-      outputter.outputLine(`${folder.importPath} - ${folder.description}`);
+      this.outputter.outputLine(`${folder.importPath} - ${folder.description}`);
 
       const allowedToImport = this.outputAllowedToImport(
         folder.allowedToImport
       );
 
-      outputter.increaseIndent();
-      outputter.outputLine(`--> ${allowedToImport}`);
-      outputter.decreaseIndent();
-      outputter.outputLine("");
+      this.outputter.increaseIndent();
+      this.outputter.outputLine(`--> ${allowedToImport}`);
+      this.outputter.decreaseIndent();
+      this.outputter.outputLine("");
     });
 
-    outputter.decreaseIndent();
-    outputter.decreaseIndent();
+    this.outputter.decreaseIndent();
+    this.outputter.decreaseIndent();
   }
 }

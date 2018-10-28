@@ -11,12 +11,12 @@ function main() {
     return;
   }
 
-  const generator = DocGeneratorFactory.create(config.format);
-
   const outputter = new ConsoleOutputter();
 
+  const generator = DocGeneratorFactory.create(config, outputter);
+
   TslintConfigLoader.loadTslintConfig(config).then(packageConfig => {
-    generator.generateDoc(config, packageConfig, outputter);
+    generator.generateDoc(packageConfig);
   });
 }
 

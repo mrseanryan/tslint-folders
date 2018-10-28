@@ -1,17 +1,21 @@
-import { DocFormat } from "../Config";
+import { DocConfig, DocFormat } from "../Config";
 import { IDocGenerator } from "../interfaces/IDocGenerator";
+import { IDocOutputter } from "../interfaces/IDocOutputter";
 import { DotDocGenerator } from "./dot/DotDocGenerator";
 import { TextDocGenerator } from "./text/TextDocGenerator";
 
 export namespace DocGeneratorFactory {
-  export function create(format: DocFormat): IDocGenerator {
-    switch (format) {
+  export function create(
+    config: DocConfig,
+    outputter: IDocOutputter
+  ): IDocGenerator {
+    switch (config.format) {
       case DocFormat.Dot:
-        return new DotDocGenerator();
+        return new DotDocGenerator(config, outputter);
       case DocFormat.Text:
-        return new TextDocGenerator();
+        return new TextDocGenerator(config, outputter);
       default:
-        throw new Error(`unhandled format '${format}'`);
+        throw new Error(`unhandled format '${config.format}'`);
     }
   }
 }

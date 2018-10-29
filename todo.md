@@ -52,31 +52,17 @@ if OK to open-source:
 
 - [ ] consume
 
-- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) (see below)
+- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 - [ ] consume
 
-- [ ] support typescript 3 - from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
+- [ ] support typescript 3 -
 
-- version to match ts ? else confusing. but need minor to make a breaking change!
-```
--- tsf 2.9m.p = ts 2.9 
--- tsf 3.0m.p = ts 3.0
--- tsf 3.1m.p = ts 3.1
--- tsf 3.2m.p = ts 3.2
-where m = minor, p = patch
-```
-- branch like versions/tsf2.9
-- pub to npm as normal, with correct peer deps
-- dev on feature/x -> master
-- also merge into a version branch, as needed
-- do NOT dev on version branch
-- doc in readme
-- how does tslint manage it?
-
-- release notes file?
+- [ ] release notes file?
 
 - [ ] try add jest snapshot tests for the doc gen
+
+- [ ] switch format to C4 like -
 
 ## 'nice to have' TODOs
 
@@ -89,6 +75,8 @@ where m = minor, p = patch
 - [ ] ? add examples folder with a site that has issues
 
 ---
+
+## notes
 
 config:
 
@@ -119,7 +107,7 @@ then only allow if in this.allowedFolders
 
 ---
 
-## model dumping
+### model dumping
 
 [x] - `yarn docs` outputs a text graph
 
@@ -138,9 +126,9 @@ packageName1 --> packageName2, packageName3
 
 - ~~md format?~~
 
-* [ ] dot as alt format could also be useful
+* [x] dot as alt format could also be useful
 
-* [ ] jpg format (internally dot -> jpg) in separate project tslint-folders-diagrams to control npm size
+* ~~jpg format (internally dot -> jpg) in separate project tslint-folders-diagrams to control npm size~~
 
 ```
 yarn docs tslint.json Dot
@@ -148,7 +136,7 @@ yarn docs tslint.json Dot
 
 ---
 
-## disallow import [relative, src] from recognised package
+### TODO disallow import [relative, src] from recognised package
 
 extend the main rule, using the config:
 
@@ -162,7 +150,7 @@ extend the main rule, using the config:
 
 ---
 
-## make the 'test' rules be configurable
+### TODO make the 'test' rules be configurable
 
 - make configurable, without breaking config (cover via test sub-folders named by version)
 
@@ -171,6 +159,43 @@ extend the main rule, using the config:
 
 - [ ] make rule customisable: tsf-folders-disabled-tests
       by adding an includePaths: string[] prop and a ban: ["it.only", "it.skip","describe.only","describe.skip"]
+
+---
+
+### TODO ts versions
+
+- support typescript 3 
+
+- from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
+
+- ts version history:
+
+https://github.com/Microsoft/TypeScript/commits/master/package.json
+
+- version to match ts ? else confusing. but need minor to make a breaking change!
+```
+-- tsf 2.9m.p = ts 2.9 
+-- tsf 3.0m.p = ts 3.0
+-- tsf 3.1m.p = ts 3.1
+-- tsf 3.2m.p = ts 3.2
+where m = minor, p = patch
+```
+- branch like versions/tsf2.9
+- pub to npm as normal, with correct peer deps
+- dev on feature/x -> master
+- also merge into a version branch, as needed
+- do NOT dev on version branch
+- doc in readme
+- how does tslint manage it?
+
+---
+
+### todo c4
+- [ ] add support for alt format C4
+
+https://c4model.com/#notation
+
+context, container, component, (code)
 
 ---
 

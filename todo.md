@@ -62,6 +62,7 @@ if OK to open-source:
 
 - [ ] add `-package=<package name>` to out for that package only
 - [ ] add `-packageWhitelist=<package name,package name>` to filter the imports
+- [ ] add -diagramType=blocks|nodes 
 
 - [ ] support typescript 3 -
 

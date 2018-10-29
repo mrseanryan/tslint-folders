@@ -56,6 +56,11 @@ if OK to open-source:
 
 - [ ] consume
 
+- the diagram is too crowded!
+
+- [ ] add `-package=<package name>` to out for that package only
+- [ ] add `-packageWhitelist=<package name,package name>` to filter the imports
+
 - [ ] support typescript 3 -
 
 - [ ] release notes file?

@@ -54,6 +54,8 @@ if OK to open-source:
  
 - the diagram is too crowded!
 
+- [ ] ? group pkgs with same ins, outs
+
 - [ ] add `-package=<package name>` to out for that package only
 - [ ] add `-packageWhitelist=<package name,package name>` to filter the imports
 - [ ] ?add -diagramType=blocks|nodes 

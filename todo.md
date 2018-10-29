@@ -187,7 +187,7 @@ where m = minor, p = patch
 - do NOT dev on version branch
 - doc in readme
 - how does tslint manage it?
-
+- is tslint format more important? But less so for user
 ---
 
 ### todo c4

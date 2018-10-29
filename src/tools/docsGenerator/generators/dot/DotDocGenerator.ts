@@ -211,7 +211,8 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     }
 
     if (packageNumber === 0) {
-      throw new Error("color number must be 1 based - cannot be 0");
+      // for a graphviz color scheme, the color number must be 1 based:
+      packageNumber = 1;
     }
 
     return packageNumber;

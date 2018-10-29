@@ -56,6 +56,8 @@ if OK to open-source:
 
 - [ ] consume
 
+- [ ] add `-outpath=<path to output.dot>`
+ 
 - the diagram is too crowded!
 
 - [ ] add `-package=<package name>` to out for that package only

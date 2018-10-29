@@ -50,19 +50,21 @@ if OK to open-source:
 
 - [x] refactor
 
-- [ ] consume
-
-- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
-
-- [ ] consume
-
 - [ ] add `-outpath=<path to output.dot>`
  
 - the diagram is too crowded!
 
 - [ ] add `-package=<package name>` to out for that package only
 - [ ] add `-packageWhitelist=<package name,package name>` to filter the imports
-- [ ] add -diagramType=blocks|nodes 
+- [ ] ?add -diagramType=blocks|nodes 
+
+- [ ] consume
+
+- [ ] d3 format - mini site - as need interaction to filter edges
+
+- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
+
+- [ ] consume
 
 - [ ] support typescript 3 -
 

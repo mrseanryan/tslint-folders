@@ -63,7 +63,7 @@ digraph G {
 	d1 -> d;
 	d -> e;
 }
-``
+```
 
 - [ ] try add multiple such points to give layouter flexibility `
 

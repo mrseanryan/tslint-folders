@@ -54,11 +54,12 @@ if OK to open-source:
  
 - the diagram is too crowded!
 
-- [ ] ? group pkgs with same ins, outs
+- [ ] group pkgs with same incomings. use points or invisible nodes
+- [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only
-- [ ] add `-packageWhitelist=<package name,package name>` to filter the imports
-- [ ] ?add -diagramType=blocks|nodes 
+- [ ] add `-importWhitelist=<package name,package name>` to filter the imports
+- [ ] add -nodeType=blocks|ovals 
 
 - [ ] consume
 

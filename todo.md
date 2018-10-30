@@ -55,6 +55,16 @@ if OK to open-source:
 - the diagram is too crowded!
 
 - [ ] group pkgs with same incomings. use points or invisible nodes
+
+```
+digraph G {
+	d1 [shape=point,width=0.01,height=0.01];
+	{a, b, c} -> d1 [dir=none];
+	d1 -> d;
+	d -> e;
+}
+```
+
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only

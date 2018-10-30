@@ -158,10 +158,7 @@ export class GraphGenerator {
       const origin = this.mapIdToNode.getByIdOrThrow(thisPkgId);
       const destination = this.mapIdToNode.getByIdOrThrow(allowedPkgId);
 
-      const edge = new Edge(origin, destination);
-
-      origin.outgoingEdges.push(edge);
-      destination.incomingEdges.push(edge);
+      Edge.create(origin, destination);
     });
   }
 

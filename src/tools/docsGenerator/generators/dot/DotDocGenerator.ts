@@ -6,7 +6,8 @@ import { Edge } from "../../graph/Edge";
 import { GraphCluster } from "../../graph/GraphCluster";
 import { GraphGenerator } from "../../graph/GraphGenerator";
 import { GraphNode } from "../../graph/GraphNode";
-import { GraphVisitor } from "../../graph/utils/GraphWalker";
+import { GraphOptimizer } from "../../graph/utils/GraphOptimizer";
+import { GraphVisitor } from "../../graph/utils/GraphVisitor";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
 import { DateHelper } from "../../utils/DateHelper";
@@ -15,7 +16,6 @@ import { DotStyleGenerator } from "./utils/DotStyleGenerator";
 import { MapNameToId } from "./utils/MapNameToId";
 
 export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
-  private containerId = 1;
   private mapNameToId = new MapNameToId();
   private styler: DotStyleGenerator;
 
@@ -26,8 +26,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   }
 
   generateDoc(packageConfig: ImportsBetweenPackagesRuleConfig): void {
-    const generator = new GraphGenerator(this.config);
-    const root = generator.generateGraph(packageConfig);
+    const graph = this.generateGraph(packageConfig);
 
     this.outputSectionSeparator("Header");
     this.outputHeader();
@@ -38,28 +37,42 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(``);
 
     this.outputSectionSeparator("Nodes");
-    this.outputTopLevelNodes(
-      root.nodes.filter(node => !(node instanceof GraphCluster))
+
+    const topLevelNodes = graph.nodes.filter(
+      // render the 'from optimization' clusters with the top-level nodes, so looks nice:
+      node => !(node instanceof GraphCluster) || node.isFromOptimization
     );
+
+    this.outputTopLevelNodes(topLevelNodes);
     this.outputter.outputLine(``);
 
-    if (!this.config.skipSubFolders) {
+    {
       this.outputSectionSeparator("Sub-graphs");
 
-      const subClusters = root.nodes.filter(
-        node => node instanceof GraphCluster
+      const subClusters = graph.nodes.filter(
+        node => node instanceof GraphCluster && !node.isFromOptimization
       ) as GraphCluster[];
 
-      subClusters.map(cluster => this.outputCluster(cluster));
-    } else {
-      this.outputter.outputLine(``);
+      subClusters.forEach(cluster => this.outputCluster(cluster));
     }
 
     this.outputSectionSeparator("Edges");
-    this.outputEdges(root);
+    this.outputEdges(graph);
     this.outputter.outputLine(``);
 
     this.outputFooter();
+  }
+
+  private generateGraph(
+    packageConfig: ImportsBetweenPackagesRuleConfig
+  ): GraphCluster {
+    const generator = new GraphGenerator(this.config);
+    const graph = generator.generateGraph(packageConfig);
+
+    const optimizer = new GraphOptimizer();
+    const optimizedGraph = optimizer.optimize(graph);
+
+    return optimizedGraph;
   }
 
   private outputHeader() {
@@ -79,13 +92,16 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.increaseIndent();
 
     this.outputter.outputLines([
+      // needed to allow edge to have *cluster* as a destination:
+      `compound=true`,
       `label = "${this.config.dot.title}"`,
       `labelloc = t`,
       ``,
       `//dpi = 200`,
       `ranksep=0.65`,
       `nodesep=0.40`,
-      `rankdir=BT`,
+      // top to bottom:
+      `rankdir=TB`,
       ``,
       `style="filled"`,
       ``,
@@ -111,7 +127,11 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputTopLevelSubGraphBegin();
 
     nodes.forEach(node => {
-      this.outputGraphNode(node);
+      if (node instanceof GraphCluster) {
+        this.outputCluster(node);
+      } else {
+        this.outputGraphNode(node);
+      }
     });
 
     this.outputTopLevelSubGraphEnd();
@@ -140,7 +160,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       this.styler.outputStylingForExternalNode();
     }
 
-    this.outputNode(node.name, node.description);
+    this.outputNode(node);
 
     this.outputScopeEnd();
 
@@ -164,7 +184,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       return;
     }
 
-    this.outputContainerNodeStart(cluster.name, cluster.description);
+    this.outputContainerNodeStart(cluster);
 
     this.outputSubNodes(cluster);
 
@@ -172,18 +192,18 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(``);
   }
 
-  private outputContainerNodeStart(name: string, description: string) {
-    this.outputter.outputLine(`subgraph cluster_${this.containerId} {`);
+  private outputContainerNodeStart(cluster: GraphCluster) {
+    this.outputter.outputLine(`subgraph cluster_${cluster.id} {`);
     this.outputter.increaseIndent();
 
     this.styler.outputSubFolderStyle();
 
     const formattedDescription =
-      description.length > 0 ? ` - ${description}` : "";
+      cluster.description.length > 0 ? ` - ${cluster.description}` : "";
 
-    this.outputter.outputLine(`label = "${name}${formattedDescription}"`);
-
-    this.containerId++;
+    this.outputter.outputLine(
+      `label = "${cluster.name}${formattedDescription}"`
+    );
   }
 
   private outputContainerNodeEnd() {
@@ -194,23 +214,24 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine("}");
   }
 
-  private outputNode(
-    packageName: string,
-    description: string,
-    prefix?: string
-  ) {
-    const packageIdKey = this.getPackageIdKey(packageName, prefix);
-
-    const packageId = this.mapNameToId.getId(packageIdKey);
+  private outputNode(node: GraphNode, prefix?: string) {
+    const packageIdKey = this.getPrefixedPackageId(node.id, prefix);
 
     const fillColor = this.getColorNumber(packageIdKey);
 
     this.outputter.outputLine(
-      `${packageId} [label="${packageName}\n${description}" fillcolor=${fillColor}]`
+      `${node.id} [label="${node.name}\n${
+        node.description
+      }" fillcolor=${fillColor}]`
     );
   }
 
   private getColorNumber(packageIdKey: string): number {
+    // TODO xxx review
+    if (!this.mapNameToId.hasId(packageIdKey)) {
+      this.mapNameToId.getId(packageIdKey);
+    }
+
     let packageNumber = this.mapNameToId.getNumberOrThrow(packageIdKey);
 
     if (packageNumber > this.config.dot.maxColors) {
@@ -225,20 +246,42 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     return packageNumber;
   }
 
-  private getPackageIdKey(packageName: string, prefix?: string): string {
+  private getPrefixedPackageId(packageName: string, prefix?: string): string {
     return `${prefix}_${packageName}`;
   }
 
   private outputEdges(root: GraphCluster) {
-    const walker = new GraphVisitor(root);
-    walker.visitEdges(edge => this.outputEdge(edge));
+    const visitor = new GraphVisitor(root);
+    visitor.visitEdges(edge => this.outputEdge(edge));
   }
 
   private outputEdge(edge: Edge) {
-    this.outputter.outputLine(
-      // reversing, so that 'top-level' nodes appear at top:
-      `${edge.destination.id}-> ${edge.origin.id} [dir="back"]`
-    );
+    let destination = edge.destination;
+
+    if (edge.destination instanceof GraphCluster) {
+      // the destination needs to switch to some node in the cluster:
+      const nodes = edge.destination.nodes;
+      if (nodes.length === 0) {
+        console.warn(
+          `The cluster ${
+            edge.destination.id
+          } is empty, but is the destination for an edge. edge cannot render!`
+        );
+        return;
+      }
+
+      destination = nodes[0];
+      const extraAttribute = ` lhead=cluster_${edge.destination.id}`;
+
+      // NOT reversing, as does not work and messes up flows
+      this.outputter.outputLine(
+        `${edge.origin.id}-> ${destination.id} [${extraAttribute}]`
+      );
+
+      return;
+    }
+
+    this.outputter.outputLine(`${edge.origin.id}-> ${destination.id}`);
   }
 
   private outputSubNodes(cluster: GraphCluster) {
@@ -248,7 +291,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     }
 
     cluster.nodes.forEach(node => {
-      this.outputNode(node.name, node.description, cluster.name);
+      this.outputNode(node, cluster.name);
 
       this.outputter.outputLine("");
     });

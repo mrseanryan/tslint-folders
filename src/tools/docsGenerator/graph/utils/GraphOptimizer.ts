@@ -12,6 +12,7 @@ import { GraphVisitor } from "./GraphVisitor";
  *
  * [done] 1. all nodes with same set of incoming edges -> place in an 'optimization' cluster, and replace those edges with 1 edge to the cluster
  * 1b. edges with same origin, and destinations are all in same *optimization* cluster -> replace with 1 edge to that cluster
+ * 1c. edges with same destination, and origins are all in same *optimization* cluster -> replace with 1 edge from that cluster
  * 2. all remaining nodes with multiple incoming edges -> inject a 'way point' node to help layout
  * (future) could detect nodes with *mostly* same incoming edges -> place in cluster, and replace *some* edges
  * (alt option) nodes in same cluster as 'records' (just a rendering option?)
@@ -19,6 +20,9 @@ import { GraphVisitor } from "./GraphVisitor";
 export class GraphOptimizer {
   optimize(root: GraphCluster): GraphCluster {
     this.optimizeNodesWithSameIncomings(root);
+
+    // TODO xxx optimization 1b
+    // TODO xxx optimization 1c
 
     this.optimizeNodesWithMultipleIncomings(root);
 
@@ -68,7 +72,7 @@ export class GraphOptimizer {
       if (nodeIds.length > 1) {
         // We have a set of nodes that can be clustered
 
-        // TODO xxx what about clustering within an existing cluster? (sub folders)
+        // TODO what about clustering within an existing cluster? (sub folders)
         const topLevelNodeIds = nodeIds.filter(node =>
           root.nodes.find(n => n.id === node)
         );
@@ -114,6 +118,6 @@ export class GraphOptimizer {
 
   private optimizeNodesWithMultipleIncomings(root: GraphCluster) {
     // 2. all remaining nodes with multiple incoming edges -> inject a 'way point' node to help layout
-    // TODO implement optimization xxx
+    // TODO xxx implement optimization 2
   }
 }

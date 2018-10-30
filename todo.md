@@ -51,10 +51,10 @@ if OK to open-source:
 - [x] refactor
 
 - [ ] add `-outpath=<path to output.dot>`
- 
+
 - the diagram is too crowded!
 
-- [ ] group pkgs with same incomings. use points or invisible nodes
+- ... group pkgs with same incomings. use points or invisible nodes
 
 ```
 digraph G {
@@ -70,12 +70,13 @@ digraph G {
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only
-- [ ] add `-importWhitelist=<package name,package name>` to filter the imports
-- [ ] add -nodeType=blocks|ovals 
+- [ ] add `-importWhitelist=<package name,package name>` to filter the imports (the referenced packages)
+
+- [ ] add -nodeType=blocks|ovals
 
 - [ ] consume
 
-- [ ] d3 format - mini site - as need interaction to filter edges
+- [ ] ? d3 format (will not work in .md) - mini site - as need interaction to filter edges
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
@@ -189,7 +190,7 @@ extend the main rule, using the config:
 
 ### TODO ts versions
 
-- support typescript 3 
+- support typescript 3
 
 - from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
 
@@ -198,13 +199,15 @@ extend the main rule, using the config:
 https://github.com/Microsoft/TypeScript/commits/master/package.json
 
 - version to match ts ? else confusing. but need minor to make a breaking change!
+
 ```
--- tsf 2.9m.p = ts 2.9 
+-- tsf 2.9m.p = ts 2.9
 -- tsf 3.0m.p = ts 3.0
 -- tsf 3.1m.p = ts 3.1
 -- tsf 3.2m.p = ts 3.2
 where m = minor, p = patch
 ```
+
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master
@@ -213,9 +216,11 @@ where m = minor, p = patch
 - doc in readme
 - how does tslint manage it?
 - is tslint format more important? But less so for user
+
 ---
 
 ### todo c4
+
 - [ ] add support for alt format C4
 
 https://c4model.com/#notation

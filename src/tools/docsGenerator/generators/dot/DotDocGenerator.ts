@@ -258,6 +258,8 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   private outputEdge(edge: Edge) {
     let destination = edge.destination;
 
+    let extraAttribute = "";
+
     if (edge.destination instanceof GraphCluster) {
       // the destination needs to switch to some node in the cluster:
       const nodes = edge.destination.nodes;
@@ -271,17 +273,12 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       }
 
       destination = nodes[0];
-      const extraAttribute = ` lhead=cluster_${edge.destination.id}`;
-
-      // NOT reversing, as does not work and messes up flows
-      this.outputter.outputLine(
-        `${edge.origin.id}-> ${destination.id} [${extraAttribute}]`
-      );
-
-      return;
+      extraAttribute = ` lhead=cluster_${edge.destination.id}`;
     }
 
-    this.outputter.outputLine(`${edge.origin.id}-> ${destination.id}`);
+    this.outputter.outputLine(
+      `${edge.origin.id}-> ${destination.id} [${extraAttribute}]`
+    );
   }
 
   private outputSubNodes(cluster: GraphCluster) {

@@ -22,7 +22,7 @@ export class GraphGenerator {
   private root: GraphCluster;
 
   constructor(private config: DocConfig) {
-    this.root = GraphCluster.create(this.containerId++, "root");
+    this.root = GraphCluster.create(this.containerId++, "root", "");
     this.mapIdToNode.add(this.root);
   }
 
@@ -71,7 +71,11 @@ export class GraphGenerator {
       return;
     }
 
-    const cluster = GraphCluster.create(this.containerId++, pkg.importPath);
+    const cluster = GraphCluster.create(
+      this.containerId++,
+      pkg.importPath,
+      pkg.description
+    );
     this.mapIdToNode.add(cluster);
 
     const nodes = this.generateSubFolders(pkg.importPath, pkg.subFolders);

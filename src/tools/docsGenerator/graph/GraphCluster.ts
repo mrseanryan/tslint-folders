@@ -2,8 +2,8 @@ import { ArrayUtils } from "../utils/ArrayUtils";
 import { GraphNode } from "./GraphNode";
 
 export class GraphCluster extends GraphNode {
-  static create(numericId: number, name: string) {
-    return new GraphCluster("C" + numericId, name);
+  static create(numericId: number, name: string, description: string) {
+    return new GraphCluster("C" + numericId, name, description);
   }
 
   readonly nodes: GraphNode[] = [];

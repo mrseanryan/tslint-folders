@@ -23,7 +23,7 @@ export class DotStyleGenerator {
   }
 
   outputPlaceLabelsAtTop() {
-    this.outputter.outputLine("labelloc = b");
+    this.outputter.outputLine("labelloc = t");
     this.outputter.outputLine("");
   }
 

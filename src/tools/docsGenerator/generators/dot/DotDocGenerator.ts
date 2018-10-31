@@ -39,6 +39,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputSectionSeparator("Nodes");
 
     const topLevelNodes = graph.nodes.filter(
+      // TODO xxx create toplevel cluster in graph than isFromOptimization only for making cluster border grey
       // render the 'from optimization' clusters with the top-level nodes, so looks nice:
       node => !(node instanceof GraphCluster) || node.isFromOptimization
     );

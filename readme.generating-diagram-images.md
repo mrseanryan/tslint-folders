@@ -28,6 +28,7 @@ https://graphviz.gitlab.io
 
 ## assumptions
 
+- graphviz has been installed and 'dot' is available at the command line.
 - the machine has an environment variable `TEMP` pointing to a temporary files location.
 
 ---
@@ -42,7 +43,9 @@ Windows + Q -> Environment variables.
 
 Add this to the PATH environment variable:
 
+```
 C:\Program Files (x86)\Graphviz2.38\bin
+```
 
 So then `dot.exe` is reachable.
 

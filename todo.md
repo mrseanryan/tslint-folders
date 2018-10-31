@@ -52,6 +52,8 @@ if OK to open-source:
 
 - [ ] add `-outpath=<path to output.dot>`
 
+- [ ] `-orientation=<landscape|portrait>`   -> landscape=true
+
 ---
 ### BEGIN diagrams
 
@@ -60,6 +62,7 @@ if OK to open-source:
 - ... group pkgs with same incomings. use points or invisible nodes
 
 ```
+/* graph with invisible points  */
 digraph G {
 	d1 [shape=point,width=0.01,height=0.01];
 	{a, b, c} -> d1 [dir=none];
@@ -70,26 +73,28 @@ digraph G {
 
 - [ ] try `graph [ concentrate=true ...`
 
-- [ ] try `compound=true`
+- [x] try `compound=true`
 
-// note: compound and concentrate do NOT work together
+// note: compound and concentrate do NOT work together? (would see error from dot)
 
 - try: `strict digraph x { ...`
 
-- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
-
 ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
-- [ ] try add multiple such points to give layouter flexibility `
+- [ ] try add multiple invisible points (see above) to give layouter flexibility `
 
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 - [ ] add `-importWhitelist=<package name,package name>` to filter the imports (the referenced packages)
 
-- [ ] add `-hideEdgesFromImportAny` - renders * as 1 edge to a "(any)" node
+- [ ] add `-hideEdgesToImportAny` - renders * as 1 edge to an "(any)" node
 
-- [ ] (cosmetic?) add -nodeType=blocks|ovals 
+- [ ] (cosmetic) add -nodeType=blocks|ovals 
+
+- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
+- [ ] try `group` (avoids edge crossings?)
+
 - [ ] consume
 
 - [ ] ? d3 format (will not work in .md) - mini site - as need interaction to filter edges

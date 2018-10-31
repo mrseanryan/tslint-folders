@@ -52,6 +52,9 @@ if OK to open-source:
 
 - [ ] add `-outpath=<path to output.dot>`
 
+---
+### BEGIN diagrams
+
 - the diagram is too crowded!
 
 - ... group pkgs with same incomings. use points or invisible nodes
@@ -65,20 +68,36 @@ digraph G {
 }
 ```
 
+- [ ] try `graph [ concentrate=true ...`
+
+- [ ] try `compound=true`
+
+// note: compound and concentrate do NOT work together
+
+- try: `strict digraph x { ...`
+
+- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
+
+ref: https://graphviz.gitlab.io/faq/#FaqMerge
+
 - [ ] try add multiple such points to give layouter flexibility `
 
 - [ ] other graphviz diagram type?
 
-- [ ] add `-package=<package name>` to out for that package only
+- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 - [ ] add `-importWhitelist=<package name,package name>` to filter the imports (the referenced packages)
 
-- [ ] add -nodeType=blocks|ovals
+- [ ] add `-hideEdgesFromImportAny` - renders * as 1 edge to a "(any)" node
 
+- [ ] (cosmetic?) add -nodeType=blocks|ovals 
 - [ ] consume
 
 - [ ] ? d3 format (will not work in .md) - mini site - as need interaction to filter edges
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
+
+---
+### END digrams
 
 - [ ] consume
 

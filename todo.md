@@ -65,6 +65,18 @@ digraph G {
 }
 ```
 
+- [ ] try `graph [ concentrate=true ...`
+
+- [ ] try `compound=true`
+
+// note: compound and concentrate do NOT work together
+
+- try: `strict digraph x { ...`
+
+- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
+
+ref: https://graphviz.gitlab.io/faq/#FaqMerge
+
 - [ ] try add multiple such points to give layouter flexibility `
 
 - [ ] other graphviz diagram type?

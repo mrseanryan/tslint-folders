@@ -71,7 +71,10 @@ digraph G {
 
 - [ ] add `-package=<package name>` to out for that package only
 - [ ] add `-importWhitelist=<package name,package name>` to filter the imports
-- [ ] add -nodeType=blocks|ovals 
+
+- [ ] add `-hideEdgesFromImportAny` - renders * as 1 edge to a "(any)" node
+
+- [ ] (cosmetic?) add -nodeType=blocks|ovals 
 
 - [ ] consume
 

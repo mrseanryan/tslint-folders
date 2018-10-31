@@ -102,6 +102,13 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 ---
+
+- [ ] output to plantUml format? (see crafting doc)
+
+- [ ] output to plantUml C4 format? (see crafting doc)
+
+---
+
 ### END digrams
 
 - [ ] consume

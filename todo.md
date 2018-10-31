@@ -103,9 +103,9 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 ---
 
-- [ ] output to plantUml format? (see crafting doc)
+- [ ] output to plantUml format? (see webscratchgit, crafting doc)
 
-- [ ] output to plantUml C4 format? (see crafting doc)
+- [ ] output to plantUml C4 format? (see webscratchgit, crafting doc)
 
 ---
 

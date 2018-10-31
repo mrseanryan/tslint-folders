@@ -10,6 +10,8 @@ So, you can automatically generate architecture diagrams from the same configura
 
 ![example diagram](https://bitbucket.org/str/tslint-folders/raw/f9c220af572d72f8dc4024d02582cf2b03b15552/static/images/example_diagram_from_Dot_output-2.svg)
 
+*note: the example scripts output SVG files which are scalable and work with markdown and so work with gitlab, npmjs etc.*
+
 ---
 
 ## install graphviz
@@ -67,7 +69,7 @@ https://devhints.io/bash
 
 https://www.graphviz.org/
 
-### graphviz color schemes
+#### graphviz color schemes
 
 https://graphviz.gitlab.io/_pages/doc/info/colors.html
 

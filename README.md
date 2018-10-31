@@ -87,6 +87,14 @@ _____
 
 Allowed imports are shown for each package, after the `-->` arrow.
 
+### using graphviz to generate image diagrams of the architecture
+
+A diagram can be automatically generated from the same config used to validated the code:
+
+![example diagram](https://bitbucket.org/str/tslint-folders/raw/f9c220af572d72f8dc4024d02582cf2b03b15552/static/images/example_diagram_from_Dot_output-2.svg)
+
+see [generating diagrams](./readme.generating-diagram-images.md) for details.
+
 ---
 
 ## Summary of the Custom Rules
@@ -192,16 +200,6 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 | utils           | A 'utils' folder. It should not import any other recognised folders.                    |
 
 **Example validation**: 'components' should be able to import from 'models', but not the other way around (components is at a higher level of abstraction, and also want to avoid 2-way dependencies).
-
----
-
-## using graphviz to generate image diagrams of the architecture
-
-A diagram can be automatically generated from the same config used to validated the code:
-
-![example diagram](https://bitbucket.org/str/tslint-folders/raw/f9c220af572d72f8dc4024d02582cf2b03b15552/static/images/example_diagram_from_Dot_output-2.svg)
-
-see [generating diagrams](./readme.generating-diagram-images.md) for details.
 
 ---
 

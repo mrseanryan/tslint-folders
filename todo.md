@@ -69,7 +69,7 @@ digraph G {
 
 - [ ] other graphviz diagram type?
 
-- [ ] add `-package=<package name>` to out for that package only
+- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 - [ ] add `-importWhitelist=<package name,package name>` to filter the imports
 
 - [ ] add `-hideEdgesFromImportAny` - renders * as 1 edge to a "(any)" node

@@ -61,17 +61,8 @@ if OK to open-source:
 
 - ... group pkgs with same incomings. use points or invisible nodes
 
-```
-/* graph with invisible points  */
-digraph G {
-	d1 [shape=point,width=0.01,height=0.01];
-	{a, b, c} -> d1 [dir=none];
-	d1 -> d;
-	d -> e;
-}
-```
-
 - [ ] try `graph [ concentrate=true ...`
+- [ ] try w/o the optimizer
 
 - [x] try `compound=true`
 
@@ -81,7 +72,17 @@ digraph G {
 
 ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
-- [ ] try add multiple invisible points (see above) to give layouter flexibility `
+- [ ] try add multiple invisible points to give layouter flexibility:
+
+```
+/* graph with invisible points  */
+digraph G {
+	d1 [shape=point,width=0.01,height=0.01];
+	{a, b, c} -> d1 [dir=none];
+	d1 -> d;
+	d -> e;
+}
+```
 
 - [ ] other graphviz diagram type?
 

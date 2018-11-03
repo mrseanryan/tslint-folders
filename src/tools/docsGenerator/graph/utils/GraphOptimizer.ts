@@ -90,10 +90,11 @@ export class GraphOptimizer {
     nodeIds: string[],
     mapNodeIdToNode: Map<string, GraphNode>
   ) {
-    const topLevelNodeIds = nodeIds.filter(node =>
+    const matchingNodeIdsInParent = nodeIds.filter(node =>
       parent.nodes.find(n => n.id === node)
     );
-    const nodes = topLevelNodeIds.map(id => {
+
+    const nodes = matchingNodeIdsInParent.map(id => {
       const node = mapNodeIdToNode.get(id);
 
       if (!node) {
@@ -109,7 +110,11 @@ export class GraphOptimizer {
     // remove the old edges, and build list of origin nodes:
     const originNodes: GraphNode[] = [];
     nodes.forEach(node => {
-      node.incomingEdges.forEach(edge => {
+
+      // copy list of edges, since we are deleting from it:
+      const incomingEdges = [...node.incomingEdges];
+
+      incomingEdges.forEach(edge => {
         edge.origin.removeOutgoingEdge(edge);
         edge.destination.removeIncomingEdge(edge);
 

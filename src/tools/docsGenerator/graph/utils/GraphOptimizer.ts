@@ -13,7 +13,6 @@ import { GraphVisitor } from "./GraphVisitor";
  * [done] 1. all nodes with same set of incoming edges -> place in an 'optimization' cluster, and replace those edges with 1 edge to the cluster
  * 1b. edges with same origin, and destinations are all in same *optimization* cluster -> replace with 1 edge to that cluster
  * 1c. edges with same destination, and origins are all in same *optimization* cluster -> replace with 1 edge from that cluster
- * 2. all remaining nodes with multiple incoming edges -> inject a 'way point' node to help layout
  * (future) could detect nodes with *mostly* same incoming edges -> place in cluster, and replace *some* edges
  * (alt option) nodes in same cluster as 'records' (just a rendering option?)
  */
@@ -21,6 +20,7 @@ export class GraphOptimizer {
   optimize(root: GraphCluster): GraphCluster {
     this.optimizeNodesWithSameIncomings(root);
 
+    // TODO xxx bug? todo-area -> utils, grid-packge: should use cluster as destination
     // TODO xxx optimization 1b
     // TODO xxx optimization 1c
 

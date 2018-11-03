@@ -52,46 +52,49 @@ if OK to open-source:
 
 - [ ] add `-outpath=<path to output.dot>`
 
-- [ ] `-orientation=<landscape|portrait>`   -> landscape=true
+- [ ] `-orientation=<landscape|portrait>` -> landscape=true
 
 ---
+
 ### BEGIN diagrams
 
 - the diagram is too crowded!
 
 - ... group pkgs with same incomings. use points or invisible nodes
 
-- [ ] try `graph [ concentrate=true ...`
-- [ ] try w/o the optimizer
-
 - [x] try `compound=true`
+- [x] try `graph [ concentrate=true ...`
 
-// note: compound and concentrate do NOT work together? (would see error from dot)
+_not true! - ~~// note: compound and concentrate do NOT work together? (would see error from dot)~~_
+
+- [ ] improve optimizer
+
+- [ ] test with, w/o the optimizer
+
+- [ ] add `-hideEdgesToImportAny` - renders \* as 1 edge to an "(any)" node
+
+- [ ] (cosmetic) add -nodeType=blocks|ovals
 
 - try: `strict digraph x { ...`
 
 ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
-- [ ] try add multiple invisible points to give layouter flexibility:
+- n/a - concentrate does this! ~~try add multiple invisible points to give layouter flexibility:~~
 
-```
-/* graph with invisible points  */
+~~```
+/_ graph with invisible points _/
 digraph G {
-	d1 [shape=point,width=0.01,height=0.01];
-	{a, b, c} -> d1 [dir=none];
-	d1 -> d;
-	d -> e;
-}
-```
+d1 [shape=point,width=0.01,height=0.01];
+{a, b, c} -> d1 [dir=none];
+d1 -> d;
+d -> e;
+}~~
 
+```
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 - [ ] add `-importWhitelist=<package name,package name>` to filter the imports (the referenced packages)
-
-- [ ] add `-hideEdgesToImportAny` - renders * as 1 edge to an "(any)" node
-
-- [ ] (cosmetic) add -nodeType=blocks|ovals 
 
 - [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
 - [ ] try `group` (avoids edge crossings?)
@@ -174,24 +177,24 @@ dump to simple text format
 so don't need dot to ascii
 
 format:
-
 ```
+
 packageName1 --> packageName2, packageName3
-  folder1 --> folder2, folder3
-  folder2 --> folder3
-  folder3
-```
+folder1 --> folder2, folder3
+folder2 --> folder3
+folder3
 
+```
 - ~~md format?~~
 
 * [x] dot as alt format could also be useful
 
 * ~~jpg format (internally dot -> jpg) in separate project tslint-folders-diagrams to control npm size~~
-
 ```
+
 yarn docs tslint.json Dot
-```
 
+````
 ---
 
 ### TODO disallow import [relative, src] from recognised package
@@ -231,15 +234,15 @@ extend the main rule, using the config:
 https://github.com/Microsoft/TypeScript/commits/master/package.json
 
 - version to match ts ? else confusing. but need minor to make a breaking change!
+````
 
-```
 -- tsf 2.9m.p = ts 2.9
 -- tsf 3.0m.p = ts 3.0
 -- tsf 3.1m.p = ts 3.1
 -- tsf 3.2m.p = ts 3.2
 where m = minor, p = patch
-```
 
+```
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master
@@ -262,3 +265,4 @@ context, container, component, (code)
 ---
 
 ## end
+```

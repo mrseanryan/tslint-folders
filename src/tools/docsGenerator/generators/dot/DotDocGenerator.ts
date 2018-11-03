@@ -95,6 +95,8 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLines([
       // needed to allow edge to have *cluster* as a destination:
       `compound=true`,
+      // try to combine the edges:
+      `concentrate=true`,
       `label = "${this.config.dot.title}"`,
       `labelloc = t`,
       ``,

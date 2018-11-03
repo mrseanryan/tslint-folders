@@ -71,7 +71,9 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [ ] test with, w/o the optimizer
 
-- [ ] add `-hideEdgesToImportAny` - renders \* as 1 edge to an "(any)" node
+- [x] add `-importBlacklist=<package name,package name>` to filter the imports (the referenced packages)
+
+- [ ] add `-showImportAnyAsNodeNotEdges` - renders \* as 1 edge to an "(any)" node
 
 - [ ] (cosmetic) add -nodeType=blocks|ovals
 
@@ -84,7 +86,6 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
-- [ ] add `-importWhitelist=<package name,package name>` to filter the imports (the referenced packages)
 
 - [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
 - [ ] try `group` (avoids edge crossings?)
@@ -167,28 +168,30 @@ dump to simple text format
 so don't need dot to ascii
 
 format:
-```
 
+```
 packageName1 --> packageName2, packageName3
 folder1 --> folder2, folder3
 folder2 --> folder3
 folder3
-
 ```
+
 - ~~md format?~~
 
 * [x] dot as alt format could also be useful
 
 * ~~jpg format (internally dot -> jpg) in separate project tslint-folders-diagrams to control npm size~~
+
+```
+yarn docs tslint.json Dot
 ```
 
-yarn docs tslint.json Dot
-
-````
 ---
+
 #### diagram notes
 
 - add invisible.point - but concentrate does this!
+
 ```
 /_ graph with invisible points _/
 digraph G {
@@ -238,15 +241,15 @@ extend the main rule, using the config:
 https://github.com/Microsoft/TypeScript/commits/master/package.json
 
 - version to match ts ? else confusing. but need minor to make a breaking change!
-````
 
+```
 -- tsf 2.9m.p = ts 2.9
 -- tsf 3.0m.p = ts 3.0
 -- tsf 3.1m.p = ts 3.1
 -- tsf 3.2m.p = ts 3.2
 where m = minor, p = patch
-
 ```
+
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master
@@ -269,4 +272,3 @@ context, container, component, (code)
 ---
 
 ## end
-```

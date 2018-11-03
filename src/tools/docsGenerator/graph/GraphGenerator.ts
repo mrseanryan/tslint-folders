@@ -3,6 +3,7 @@ import {
 } from "../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../Config";
 import { MapNameToId } from "../generators/dot/utils/MapNameToId";
+import { BlacklistFilter } from "../utils/BlacklistFilter";
 import { Edge } from "./Edge";
 import { ClusterType, GraphCluster } from "./GraphCluster";
 import { GraphNode } from "./GraphNode";
@@ -22,7 +23,7 @@ export class GraphGenerator {
   private mapIdToNode = new MapIdToGraphNode();
   private root: GraphCluster;
 
-  constructor(private config: DocConfig) {
+  constructor(private config: DocConfig, private filter: BlacklistFilter) {
     this.root = GraphCluster.create(
       null,
       this.containerId++,
@@ -34,7 +35,9 @@ export class GraphGenerator {
   }
 
   generateGraph(packageConfig: ImportsBetweenPackagesRuleConfig): GraphCluster {
-    const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
+    const packageFolders = packageConfig.checkImportsBetweenPackages.packages.filter(
+      pkg => this.filter.isImportPathOk(pkg.importPath)
+    );
 
     const topLevelCluster = GraphCluster.create(
       this.root,
@@ -108,7 +111,7 @@ export class GraphGenerator {
     const nodes = this.generateSubFolders(
       cluster,
       pkg.importPath,
-      pkg.subFolders
+      pkg.subFolders.filter(sub => this.filter.isImportPathOk(sub.importPath))
     );
 
     cluster.nodes.push(...nodes);
@@ -192,16 +195,18 @@ export class GraphGenerator {
     allowedPackages: string[],
     packageIdPrefix?: string
   ) {
-    allowedPackages.forEach(allowedPkg => {
-      const allowedPkgId = this.mapNameToId.getIdOrThrow(
-        this.getPackageIdKey(allowedPkg, packageIdPrefix)
-      );
+    allowedPackages
+      .filter(pkg => this.filter.isImportPathOk(pkg))
+      .forEach(allowedPkg => {
+        const allowedPkgId = this.mapNameToId.getIdOrThrow(
+          this.getPackageIdKey(allowedPkg, packageIdPrefix)
+        );
 
-      const origin = this.mapIdToNode.getByIdOrThrow(thisPkgId);
-      const destination = this.mapIdToNode.getByIdOrThrow(allowedPkgId);
+        const origin = this.mapIdToNode.getByIdOrThrow(thisPkgId);
+        const destination = this.mapIdToNode.getByIdOrThrow(allowedPkgId);
 
-      Edge.create(origin, destination);
-    });
+        Edge.create(origin, destination);
+      });
   }
 
   private generateSubFolders(

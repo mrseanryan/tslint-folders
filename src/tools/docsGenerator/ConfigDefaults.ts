@@ -10,6 +10,7 @@ export namespace ConfigDefaults {
         title: "Project Packages"
       },
       format: DocFormat.Dot,
+      importBlacklist: "",
       pathToTslintJson: "",
       skipSubFolders: false
     };

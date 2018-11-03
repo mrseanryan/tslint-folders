@@ -5,6 +5,7 @@ export enum DocFormat {
 
 export type DocConfig = {
   format: DocFormat;
+  importBlacklist: string;
   pathToTslintJson: string;
   skipSubFolders: boolean;
   dot: DotDocConfig;
@@ -12,7 +13,7 @@ export type DocConfig = {
 
 export type DotDocConfig = {
   colorScheme: string;
-  title: string;
-  subTitle: string;
   maxColors: number;
+  subTitle: string;
+  title: string;
 };

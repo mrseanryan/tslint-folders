@@ -61,7 +61,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   private generateGraph(
     packageConfig: ImportsBetweenPackagesRuleConfig
   ): GraphCluster {
-    const generator = new GraphGenerator(this.config);
+    const generator = new GraphGenerator(this.config, this.filter);
     const graph = generator.generateGraph(packageConfig);
 
     const optimizer = new GraphOptimizer();

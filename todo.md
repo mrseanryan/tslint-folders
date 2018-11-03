@@ -67,6 +67,8 @@ if OK to open-source:
 
 _not true! - ~~// note: compound and concentrate do NOT work together? (would see error from dot)~~_
 
+- [ ] fix new bug in optimizer: only replace edge from cluster if valid for ALL nodes in cluster
+
 - [ ] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)

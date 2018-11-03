@@ -1,4 +1,5 @@
 import { DocConfig } from "../../../Config";
+import { ClusterType } from "../../../graph/GraphCluster";
 import { IDocOutputter } from "../../../interfaces/IDocOutputter";
 
 export class DotStyleGenerator {
@@ -16,19 +17,32 @@ export class DotStyleGenerator {
     this.outputter.outputLine("node [style=dashed]");
   }
 
-  outputSubFolderStyle() {
+  outputContainerStyle(clusterType: ClusterType) {
     this.outputPlaceLabelsAtTop();
 
-    this.outputter.outputLine(`node [shape="folder"]`);
+    switch (clusterType) {
+      case ClusterType.AreaWithSubFolders:
+        this.outputter.outputLine(`node [shape="folder"]`);
+        break;
+      case ClusterType.FromOptimization:
+        this.outputOptimizedStyle();
+        break;
+      case ClusterType.Root:
+      case ClusterType.TopLevel:
+        this.outputter.outputLine(`node [shape="oval"]`);
+        break;
+      default:
+        throw new Error(`unhandled ClusterType ${clusterType}`);
+    }
+  }
+
+  private outputOptimizedStyle() {
+    this.outputter.outputLines([`color = gray`, `style=dashed`]);
   }
 
   outputPlaceLabelsAtTop() {
     this.outputter.outputLine("labelloc = t");
     this.outputter.outputLine("");
-  }
-
-  outputTopLevelSubGraphStyle() {
-    this.outputter.outputLine(`node [shape="ellipse"]`);
   }
 
   private outputGraphStyle() {

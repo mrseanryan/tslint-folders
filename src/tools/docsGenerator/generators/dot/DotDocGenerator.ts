@@ -36,26 +36,20 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.styler.outputStyling();
     this.outputter.outputLine(``);
 
-    this.outputSectionSeparator("Nodes");
+    this.outputSectionSeparator("Nodes and Clusters");
 
-    const topLevelNodes = graph.nodes.filter(
-      // TODO xxx create toplevel cluster in graph than isFromOptimization only for making cluster border grey
-      // render the 'from optimization' clusters with the top-level nodes, so looks nice:
-      node => !(node instanceof GraphCluster) || node.isFromOptimization
-    );
+    graph.nodes.forEach(node => {
+      if (node instanceof GraphCluster) {
+        this.outputCluster(node);
+        return;
+      }
 
-    this.outputTopLevelNodes(topLevelNodes);
+      if (node instanceof GraphNode) {
+        this.outputGraphNode(node);
+      }
+    });
+
     this.outputter.outputLine(``);
-
-    {
-      this.outputSectionSeparator("Sub-graphs");
-
-      const subClusters = graph.nodes.filter(
-        node => node instanceof GraphCluster && !node.isFromOptimization
-      ) as GraphCluster[];
-
-      subClusters.forEach(cluster => this.outputCluster(cluster));
-    }
 
     this.outputSectionSeparator("Edges");
     this.outputEdges(graph);
@@ -71,9 +65,9 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     const graph = generator.generateGraph(packageConfig);
 
     const optimizer = new GraphOptimizer();
-    const optimizedGraph = optimizer.optimize(graph);
+    optimizer.optimize(graph);
 
-    return optimizedGraph;
+    return graph;
   }
 
   private outputHeader() {
@@ -126,44 +120,14 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     );
   }
 
-  private outputTopLevelNodes(nodes: GraphNode[]) {
-    this.outputTopLevelSubGraphBegin();
-
-    nodes.forEach(node => {
-      if (node instanceof GraphCluster) {
-        this.outputCluster(node);
-      } else {
-        this.outputGraphNode(node);
-      }
-    });
-
-    this.outputTopLevelSubGraphEnd();
-  }
-
-  private outputTopLevelSubGraphBegin() {
-    this.outputter.outputLine(`subgraph cluster_topLevel {`);
-    this.outputter.increaseIndent();
-
-    this.outputter.outputLine(`label = "${this.config.dot.subTitle}"`);
-
-    this.styler.outputPlaceLabelsAtTop();
-
-    this.styler.outputTopLevelSubGraphStyle();
-  }
-
-  private outputTopLevelSubGraphEnd() {
-    this.outputter.decreaseIndent();
-    this.outputter.outputLine("}");
-  }
-
-  private outputGraphNode(node: GraphNode) {
+  private outputGraphNode(node: GraphNode, prefix?: string) {
     this.outputScopeBegin();
 
     if (node.isExternal) {
       this.styler.outputStylingForExternalNode();
     }
 
-    this.outputNode(node);
+    this.outputNode(node, prefix);
 
     this.outputScopeEnd();
 
@@ -199,7 +163,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine(`subgraph cluster_${cluster.id} {`);
     this.outputter.increaseIndent();
 
-    this.styler.outputSubFolderStyle();
+    this.styler.outputContainerStyle(cluster.clusterType);
 
     const formattedDescription =
       cluster.description.length > 0 ? ` - ${cluster.description}` : "";
@@ -291,7 +255,12 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     }
 
     cluster.nodes.forEach(node => {
-      this.outputNode(node, cluster.name);
+      if (node instanceof GraphCluster) {
+        this.outputCluster(node);
+        return;
+      }
+
+      this.outputGraphNode(node, cluster.name);
 
       this.outputter.outputLine("");
     });

@@ -4,7 +4,7 @@ import {
 import { DocConfig } from "../Config";
 import { MapNameToId } from "../generators/dot/utils/MapNameToId";
 import { Edge } from "./Edge";
-import { GraphCluster } from "./GraphCluster";
+import { ClusterType, GraphCluster } from "./GraphCluster";
 import { GraphNode } from "./GraphNode";
 import { MapIdToGraphNode } from "./utils/MapIdToGraphNode";
 
@@ -22,14 +22,29 @@ export class GraphGenerator {
   private root: GraphCluster;
 
   constructor(private config: DocConfig) {
-    this.root = GraphCluster.create(this.containerId++, "root", "");
+    this.root = GraphCluster.create(
+      this.containerId++,
+      "root",
+      "",
+      ClusterType.Root
+    );
     this.mapIdToNode.add(this.root);
   }
 
   generateGraph(packageConfig: ImportsBetweenPackagesRuleConfig): GraphCluster {
     const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
 
-    this.processPackages(packageFolders);
+    const topLevelPackage = GraphCluster.create(
+      this.containerId++,
+      "Top Level Packages",
+      "",
+      ClusterType.TopLevel
+    );
+    this.root.nodes.push(topLevelPackage);
+
+    topLevelPackage.nodes.push(
+      ...this.generateNodesFromPackages(packageFolders)
+    );
 
     if (!this.config.skipSubFolders) {
       packageFolders.forEach(pkg => {
@@ -42,13 +57,13 @@ export class GraphGenerator {
     return this.root;
   }
 
-  private processPackages(packageFolders: PackageFolder[]) {
-    packageFolders.forEach(pkg => {
-      this.processPackage(pkg);
-    });
+  private generateNodesFromPackages(
+    packageFolders: PackageFolder[]
+  ): GraphNode[] {
+    return packageFolders.map(pkg => this.generateNodeFromPackage(pkg));
   }
 
-  private processPackage(pkg: PackageFolder) {
+  private generateNodeFromPackage(pkg: PackageFolder): GraphNode {
     const packageName = pkg.importPath;
 
     const node = this.generateNode(
@@ -57,7 +72,7 @@ export class GraphGenerator {
       pkg.isExternal
     );
 
-    this.root.nodes.push(node);
+    return node;
   }
 
   /**
@@ -74,7 +89,8 @@ export class GraphGenerator {
     const cluster = GraphCluster.create(
       this.containerId++,
       pkg.importPath,
-      pkg.description
+      pkg.description,
+      ClusterType.AreaWithSubFolders
     );
     this.mapIdToNode.add(cluster);
 

@@ -81,16 +81,6 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - n/a - concentrate does this! ~~try add multiple invisible points to give layouter flexibility:~~
 
-~~```
-/_ graph with invisible points _/
-digraph G {
-d1 [shape=point,width=0.01,height=0.01];
-{a, b, c} -> d1 [dir=none];
-d1 -> d;
-d -> e;
-}~~
-
-```
 - [ ] other graphviz diagram type?
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
@@ -195,6 +185,20 @@ folder3
 yarn docs tslint.json Dot
 
 ````
+---
+#### diagram notes
+
+- add invisible.point - but concentrate does this!
+```
+/_ graph with invisible points _/
+digraph G {
+d1 [shape=point,width=0.01,height=0.01];
+{a, b, c} -> d1 [dir=none];
+d1 -> d;
+d -> e;
+}
+```
+
 ---
 
 ### TODO disallow import [relative, src] from recognised package

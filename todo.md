@@ -52,7 +52,7 @@ if OK to open-source:
 
 - [ ] add `-outpath=<path to output.dot>`
 
-- [ ] `-orientation=<landscape|portrait>` -> landscape=true
+- [ ] `-orientation=<landscape|portrait>` -> landscape=true (default, due to sub-folder clusters)
 
 ---
 
@@ -66,6 +66,10 @@ if OK to open-source:
 - [x] try `graph [ concentrate=true ...`
 
 _not true! - ~~// note: compound and concentrate do NOT work together? (would see error from dot)~~_
+
+- [ ] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
+
+- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 
 - [ ] improve optimizer
 
@@ -83,12 +87,10 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - n/a - concentrate does this! ~~try add multiple invisible points to give layouter flexibility:~~
 
-- [ ] other graphviz diagram type?
+- n/a other graphviz diagram type?
 
-- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
-
-- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
-- [ ] try `group` (avoids edge crossings?)
+- n/a try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
+- n/a try `group` (avoids edge crossings?)
 
 - [ ] consume
 

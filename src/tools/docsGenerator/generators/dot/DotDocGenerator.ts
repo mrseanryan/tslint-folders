@@ -224,6 +224,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
 
   private outputEdge(edge: Edge) {
     let destination = edge.destination;
+    let origin = edge.origin;
 
     let extraAttribute = "";
 
@@ -232,19 +233,33 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
       const nodes = edge.destination.nodes;
       if (nodes.length === 0) {
         console.warn(
-          `The cluster ${
+          `// warning: The cluster ${
             edge.destination.id
-          } is empty, but is the destination for an edge. edge cannot render!`
+          } is empty, but is the destination for an edge.`
         );
         return;
       }
 
       destination = nodes[0];
-      extraAttribute = ` lhead=cluster_${edge.destination.id}`;
+      extraAttribute += ` lhead=cluster_${edge.destination.id}`;
+    }
+    if (edge.origin instanceof GraphCluster) {
+      const nodes = edge.origin.nodes;
+      if (nodes.length === 0) {
+        console.warn(
+          `// warning: The cluster ${
+            edge.origin.id
+          } is empty, but is the origin for an edge.`
+        );
+        return;
+      }
+
+      origin = nodes[0];
+      extraAttribute += ` ltail=cluster_${edge.origin.id}`;
     }
 
     this.outputter.outputLine(
-      `${edge.origin.id}-> ${destination.id} [${extraAttribute}]`
+      `${origin.id}-> ${destination.id} [${extraAttribute}]`
     );
   }
 

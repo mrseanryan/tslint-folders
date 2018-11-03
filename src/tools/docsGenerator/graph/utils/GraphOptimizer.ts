@@ -12,7 +12,7 @@ import { GraphVisitor } from "./GraphVisitor";
  *
  * [done] 1a. all nodes with same set of incoming edges -> place in an 'optimization' cluster, and replace those edges with 1 edge to the cluster
  * 1b. edges with same origin, and destinations are all in same *optimization* cluster -> replace with 1 edge to that cluster
- * 1c. edges with same destination, and origins are all in same *optimization* cluster -> replace with 1 edge from that cluster
+ * [done] 1c. edges with same destination, and origins are all in same *optimization* cluster -> replace with 1 edge from that cluster
  * (future) could detect nodes with *mostly* same incoming edges -> place in cluster, and replace *some* edges
  * (alt option) nodes in same cluster as 'records' (just a rendering option?)
  */
@@ -20,38 +20,17 @@ export class GraphOptimizer {
   private containerId = 1;
 
   optimize(root: GraphCluster) {
-    // 1a. all nodes with same set of incoming edges
     this.optimizeNodesWithSameIncomings(root);
 
-    // TODO xxx bug? todo-area -> utils, grid-packge: should use cluster as destination
     // TODO xxx optimization 1b
-    // TODO xxx optimization 1c
 
-    this.optimizeNodesWithMultipleIncomings(root);
+    this.optimizeEdgesWithOriginsInSameCluster(root);
   }
 
   private optimizeNodesWithSameIncomings(root: GraphCluster) {
-    // 1. all nodes with same set of incoming edges -> place in cluster, and replace those edges with 1 edge to the cluster
+    // 1a. all nodes with same set of incoming edges -> place in cluster, and replace those edges with 1 edge to the cluster
 
-    const visitor = new GraphVisitor(root);
-
-    const mapNodeIdToOrigins = new Map<string, string[]>();
-    const mapNodeIdToNode = new Map<string, GraphNode>();
-
-    const visit = (node: GraphNode) => {
-      mapNodeIdToNode.set(node.id, node);
-
-      node.incomingEdges.forEach(edge => {
-        if (!mapNodeIdToOrigins.get(node.id)) {
-          mapNodeIdToOrigins.set(node.id, []);
-        }
-
-        const list = mapNodeIdToOrigins.get(node.id)!;
-        list.push(edge.origin.id);
-      });
-    };
-
-    visitor.visitNodes(visit);
+    const { mapNodeIdToNode, mapNodeIdToOrigins } = this.populateMaps(root);
 
     // build map from 'same origin IDs' to nodes
     const mapOriginIdSetToNodeIds = new Map<string, string[]>();
@@ -70,7 +49,6 @@ export class GraphOptimizer {
 
       if (nodeIds.length > 1) {
         // We have a set of nodes that can be clustered
-
         root.nodes
           .filter(node => node instanceof GraphCluster)
           .forEach(node => {
@@ -83,6 +61,33 @@ export class GraphOptimizer {
           });
       }
     });
+  }
+
+  private populateMaps(root: GraphCluster) {
+    const visitor = new GraphVisitor(root);
+
+    const mapNodeIdToOrigins = new Map<string, string[]>();
+    const mapNodeIdToNode = new Map<string, GraphNode>();
+
+    const visit = (node: GraphNode) => {
+      mapNodeIdToNode.set(node.id, node);
+
+      node.incomingEdges.forEach(edge => {
+        if (!mapNodeIdToOrigins.get(node.id)) {
+          mapNodeIdToOrigins.set(node.id, []);
+        }
+
+        const list = mapNodeIdToOrigins.get(node.id)!;
+        list.push(edge.origin.id);
+      });
+    };
+
+    visitor.visitNodesAndClusters(visit);
+
+    return {
+      mapNodeIdToNode,
+      mapNodeIdToOrigins
+    };
   }
 
   private optimizeNodesWithSameIncomingsForCluster(
@@ -110,13 +115,11 @@ export class GraphOptimizer {
     // remove the old edges, and build list of origin nodes:
     const originNodes: GraphNode[] = [];
     nodes.forEach(node => {
-
       // copy list of edges, since we are deleting from it:
       const incomingEdges = [...node.incomingEdges];
 
       incomingEdges.forEach(edge => {
-        edge.origin.removeOutgoingEdge(edge);
-        edge.destination.removeIncomingEdge(edge);
+        edge.remove();
 
         originNodes.push(edge.origin as GraphNode);
       });
@@ -124,9 +127,10 @@ export class GraphOptimizer {
 
     // Add the new cluster:
     const clusterId = `CO1_${this.containerId++}`;
-    const newCluser = new GraphCluster(clusterId, "");
+    const newCluser = new GraphCluster(parent, clusterId, "");
     newCluser.clusterType = ClusterType.FromOptimization;
     newCluser.nodes.push(...nodes);
+    nodes.forEach(node => (node.parent = newCluser));
 
     parent.nodes.push(newCluser);
 
@@ -136,8 +140,58 @@ export class GraphOptimizer {
     });
   }
 
-  private optimizeNodesWithMultipleIncomings(root: GraphCluster) {
-    // 2. all remaining nodes with multiple incoming edges -> inject a 'way point' node to help layout
-    // TODO xxx implement optimization 2
+  private optimizeEdgesWithOriginsInSameCluster(root: GraphCluster) {
+    // 1c. edges with same destination, and origins are all in same *optimization* cluster -> replace with 1 edge from that cluster
+    // For a node, find all the edges where the origin is in the same cluster
+
+    const { mapNodeIdToNode } = this.populateMaps(root);
+
+    mapNodeIdToNode.forEach(node => {
+      if (node.incomingEdges.length < 2 || !node.parent) {
+        return;
+      }
+
+      const mapEdgesByIncomingClusterId = new Map<string, Edge[]>();
+      node.incomingEdges.forEach(edge => {
+        if (!edge.origin.parent) {
+          return;
+        }
+
+        if (node.parent!.id === edge.origin.parent.id) {
+          // node and edge origin are in same cluster
+          return;
+        }
+
+        const incomingClusterId = edge.origin.parent.id;
+        if (!mapEdgesByIncomingClusterId.has(incomingClusterId)) {
+          mapEdgesByIncomingClusterId.set(incomingClusterId, []);
+        }
+
+        mapEdgesByIncomingClusterId.get(incomingClusterId)!.push(edge);
+      });
+
+      // For cluster IDs that have multiple edges, replace those edges with 1:
+      mapEdgesByIncomingClusterId.forEach((edges, clusterId) => {
+        if (edges.length < 2) {
+          return;
+        }
+
+        // remove the edges
+        edges.forEach(edge => edge.remove());
+
+        // add 1 edge from the cluster, to the node
+        const incomingCluster = mapNodeIdToNode.get(clusterId);
+        if (!incomingCluster) {
+          throw new Error(`cannot find cluster id ${clusterId}`);
+        }
+        if (!(incomingCluster instanceof GraphCluster)) {
+          throw new Error(
+            `incoming cluster is not a cluster! - id ${clusterId}`
+          );
+        }
+
+        Edge.create(incomingCluster, node);
+      });
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { ArrayUtils } from "../utils/ArrayUtils";
 import { Edge } from "./Edge";
 import { IEdge } from "./IEdge";
+import { IGraphCluster } from "./IGraphCluster";
 import { IGraphNode } from "./IGraphNode";
 
 export class GraphNode implements IGraphNode {
@@ -8,6 +9,7 @@ export class GraphNode implements IGraphNode {
   readonly outgoingEdges: Edge[] = [];
 
   constructor(
+    public parent: IGraphCluster | null,
     readonly id: string,
     readonly name: string,
     readonly description: string = "",

@@ -14,4 +14,9 @@ export class Edge implements IEdge {
   get id(): string {
     return `${this.origin.id}->${this.destination.id}`;
   }
+
+  remove() {
+    this.origin.removeOutgoingEdge(this);
+    this.destination.removeIncomingEdge(this);
+  }
 }

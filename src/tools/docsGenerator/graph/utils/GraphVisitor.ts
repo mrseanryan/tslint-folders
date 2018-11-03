@@ -27,24 +27,18 @@ export class GraphVisitor {
       });
     };
 
-    this.visitNodes(addNodeEdges);
+    this.visitNodesAndClusters(addNodeEdges);
 
     allEdges.map(visit);
   }
 
-  visitNodes(visit: (node: GraphNode) => void) {
+  visitNodesAndClusters(visit: (node: GraphNode) => void) {
     const visitNode = (node: GraphNode) => {
-      node.incomingEdges.forEach(edge => {
-        if (!this.visited.isVisitedOrAdd(edge.origin.id)) {
-          visit(edge.origin as GraphNode);
-        }
-      });
+      if (this.visited.isVisitedOrAdd(node.id)) {
+        return;
+      }
 
-      node.outgoingEdges.forEach(edge => {
-        if (!this.visited.isVisitedOrAdd(edge.destination.id)) {
-          visit(edge.destination as GraphNode);
-        }
-      });
+      visit(node);
 
       if (node instanceof GraphCluster) {
         node.nodes.map(visitNode);

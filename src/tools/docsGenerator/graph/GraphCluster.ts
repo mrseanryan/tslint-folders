@@ -1,5 +1,6 @@
 import { ArrayUtils } from "../utils/ArrayUtils";
 import { GraphNode } from "./GraphNode";
+import { IGraphCluster } from "./IGraphCluster";
 
 export enum ClusterType {
   Root,
@@ -8,14 +9,20 @@ export enum ClusterType {
   FromOptimization
 }
 
-export class GraphCluster extends GraphNode {
+export class GraphCluster extends GraphNode implements IGraphCluster {
   static create(
+    parent: GraphCluster | null,
     numericId: number,
     name: string,
     description: string,
     clusterType: ClusterType
   ) {
-    const cluster = new GraphCluster("C" + numericId, name, description);
+    const cluster = new GraphCluster(
+      parent,
+      "C" + numericId,
+      name,
+      description
+    );
 
     cluster.clusterType = clusterType;
 

@@ -81,6 +81,9 @@ export namespace ArgsParser {
           );
           config.dot.maxColors = maxColors;
           break;
+        case "-showImportAnyAsNodeNotEdges":
+          config.dot.showImportAnyAsNodeNotEdges = true;
+          break;
         case "-skipSubFolders":
           config.skipSubFolders = true;
           break;

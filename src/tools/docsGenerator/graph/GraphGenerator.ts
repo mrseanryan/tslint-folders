@@ -39,6 +39,8 @@ export class GraphGenerator {
       pkg => this.filter.isImportPathOk(pkg.importPath)
     );
 
+    this.checkIfNeedsAnyPackage(packageFolders);
+
     const topLevelCluster = GraphCluster.create(
       this.root,
       this.containerId++,
@@ -61,6 +63,31 @@ export class GraphGenerator {
     this.processEdges(packageFolders);
 
     return this.root;
+  }
+
+  private checkIfNeedsAnyPackage(packageFolders: PackageFolder[]) {
+    if (!this.config.dot.showImportAnyAsNodeNotEdges) {
+      return;
+    }
+
+    if (
+      packageFolders.some(pkg =>
+        pkg.allowedToImport.some(allowed => allowed === "*")
+      )
+    ) {
+      packageFolders.push(this.createAnyPackage());
+    }
+
+    // also for sub-folders:
+    packageFolders.forEach(pkg => {
+      if (
+        pkg.subFolders.some(sub =>
+          sub.allowedToImport.some(allowed => allowed === "*")
+        )
+      ) {
+        pkg.subFolders.push(this.createAnySubPackage());
+      }
+    });
   }
 
   private generateNodesFromPackages(
@@ -154,10 +181,14 @@ export class GraphGenerator {
 
       let allowedPackages = pkg.allowedToImport;
       if (allowedPackages.some(allowed => allowed === "*")) {
-        allowedPackages = packageFolders
-          // disallow import from self
-          .filter(allowed => allowed.importPath !== pkg.importPath)
-          .map(allowed => allowed.importPath);
+        if (this.config.dot.showImportAnyAsNodeNotEdges) {
+          allowedPackages = [this.getAnyPackageId()];
+        } else {
+          allowedPackages = packageFolders
+            // disallow import from self
+            .filter(allowed => allowed.importPath !== pkg.importPath)
+            .map(allowed => allowed.importPath);
+        }
       }
 
       this.processEdgesForPackageNames(thisPkgId, allowedPackages);
@@ -171,13 +202,17 @@ export class GraphGenerator {
 
           let allowedSubFolders = subFolder.allowedToImport;
           if (allowedSubFolders.some(allowed => allowed === "*")) {
-            allowedSubFolders = pkg.subFolders
-              .filter(
-                // disallow import from self
-                otherSubFolder =>
-                  otherSubFolder.importPath !== subFolder.importPath
-              )
-              .map(sub => sub.importPath);
+            if (this.config.dot.showImportAnyAsNodeNotEdges) {
+              allowedSubFolders = [this.getAnyPackageId()];
+            } else {
+              allowedSubFolders = pkg.subFolders
+                .filter(
+                  // disallow import from self
+                  otherSubFolder =>
+                    otherSubFolder.importPath !== subFolder.importPath
+                )
+                .map(sub => sub.importPath);
+            }
           }
 
           this.processEdgesForPackageNames(
@@ -188,6 +223,28 @@ export class GraphGenerator {
         });
       }
     });
+  }
+
+  private getAnyPackageId(): string {
+    return "*";
+  }
+
+  private createAnyPackage(): PackageFolder {
+    return {
+      allowedToImport: [],
+      description: "(can import any packages)",
+      importPath: this.getAnyPackageId(),
+      isExternal: false,
+      subFolders: []
+    };
+  }
+
+  private createAnySubPackage(): PackageSubFolder {
+    return {
+      allowedToImport: [],
+      description: "(can import any folders)",
+      importPath: this.getAnyPackageId()
+    };
   }
 
   private processEdgesForPackageNames(

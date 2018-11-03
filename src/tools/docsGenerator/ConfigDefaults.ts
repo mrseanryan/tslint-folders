@@ -6,6 +6,7 @@ export namespace ConfigDefaults {
       dot: {
         colorScheme: "pastel19",
         maxColors: 9,
+        showImportAnyAsNodeNotEdges: false,
         subTitle: "Top-level Packages",
         title: "Project Packages"
       },

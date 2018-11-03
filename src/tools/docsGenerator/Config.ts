@@ -14,6 +14,7 @@ export type DocConfig = {
 export type DotDocConfig = {
   colorScheme: string;
   maxColors: number;
+  showImportAnyAsNodeNotEdges: boolean;
   subTitle: string;
   title: string;
 };

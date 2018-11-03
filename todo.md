@@ -73,7 +73,7 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [x] add `-importBlacklist=<package name,package name>` to filter the imports (the referenced packages)
 
-- [ ] add `-showImportAnyAsNodeNotEdges` - renders \* as 1 edge to an "(any)" node
+- [x] add `-showImportAnyAsNodeNotEdges` - renders \* as 1 edge to an "(any)" node
 
 - [ ] (cosmetic) add -nodeType=blocks|ovals
 
@@ -92,7 +92,7 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - [ ] consume
 
-- [ ] ? d3 format (will not work in .md) - mini site - as need interaction to filter edges
+- [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 

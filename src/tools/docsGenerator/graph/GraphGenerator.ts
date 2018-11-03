@@ -16,7 +16,8 @@ import { MapIdToGraphNode } from "./utils/MapIdToGraphNode";
  * note: the graph could contain circular references!
  */
 export class GraphGenerator {
-  private containerId = 1;
+  // the root cluster is 0 (root is not output)
+  private containerId = 0;
   private mapNameToId = new MapNameToId();
   private mapIdToNode = new MapIdToGraphNode();
   private root: GraphCluster;

@@ -52,7 +52,9 @@ if OK to open-source:
 
 - [x] add `-outpath=<path to output file>`
 
-- [ ] `-orientation=<landscape|portrait>` -> landscape=true (default, due to sub-folder clusters)
+- n/a `-orientation=<landscape|portrait>` -> landscape=true (default, due to sub-folder clusters)
+
+- n/a (future - filtering avoids this) some way to have 'portrait' layout? (rankdir does not really work)
 
 ---
 
@@ -67,23 +69,27 @@ if OK to open-source:
 
 _not true! - ~~// note: compound and concentrate do NOT work together? (would see error from dot)~~_
 
-- [ ] fix new bug in optimizer: only replace edge from cluster if valid for ALL nodes in cluster
+- [x] fix new bug in optimizer: only replace edge from cluster if valid for ALL nodes in cluster
 
 - [ ] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
 
-- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
-
-- [x] improve optimizer
+- [ ] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
 
 - [ ] add `-disableGraphOptimizer`
 
 - [ ] test with, w/o the optimizer
 
+- [ ] (cosmetic) add -nodeType=blocks|ovals
+
+- [ ] consume
+
+---
+
+- [x] improve optimizer
+
 - [x] add `-importBlacklist=<package name,package name>` to filter the imports (the referenced packages)
 
 - [x] add `-showImportAnyAsNodeNotEdges` - renders \* as 1 edge to an "(any)" node
-
-- [ ] (cosmetic) add -nodeType=blocks|ovals
 
 - try: `strict digraph x { ...`
 
@@ -95,8 +101,6 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - n/a try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
 - n/a try `group` (avoids edge crossings?)
-
-- [ ] consume
 
 ### END diagrams
 

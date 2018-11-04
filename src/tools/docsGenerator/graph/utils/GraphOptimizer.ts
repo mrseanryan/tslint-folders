@@ -176,10 +176,6 @@ export class GraphOptimizer {
           return;
         }
 
-        // remove the edges
-        edges.forEach(edge => edge.remove());
-
-        // add 1 edge from the cluster, to the node
         const incomingCluster = mapNodeIdToNode.get(clusterId);
         if (!incomingCluster) {
           throw new Error(`cannot find cluster id ${clusterId}`);
@@ -190,6 +186,18 @@ export class GraphOptimizer {
           );
         }
 
+        // only create an edge from that cluster, if ALL the nodes in the cluster have outgoing to this node:
+        const allClusterNodesHaveOutgoingsToThisNode = incomingCluster.nodes.every(
+          n => n.outgoingEdges.some(e => e.destination.id === node.id)
+        );
+        if (!allClusterNodesHaveOutgoingsToThisNode) {
+          return;
+        }
+
+        // remove the edges
+        edges.forEach(edge => edge.remove());
+
+        // add 1 edge from the cluster, to the node
         Edge.create(incomingCluster, node);
       });
     });

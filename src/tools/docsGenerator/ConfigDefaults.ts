@@ -6,6 +6,7 @@ export namespace ConfigDefaults {
       dot: {
         clusterFromTslintJson: false,
         colorScheme: "pastel19",
+        isGraphOptimizerEnabled: true,
         maxColors: 9,
         showImportAnyAsNodeNotEdges: false,
         subTitle: "Top-level Packages",

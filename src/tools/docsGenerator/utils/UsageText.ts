@@ -20,7 +20,9 @@ export namespace UsageText {
       `USAGE: index.ts <path to tslint.json> <format> [options]${NEW_LINE}` +
         `  where format is one of: ${getFormats()}${NEW_LINE}` +
         `  where options can be:${NEW_LINE}` +
+        `    -clusterFromTslintJson${NEW_LINE}` +
         `    -colorScheme=<graphviz color scheme name>${NEW_LINE}` +
+        `    -disableGraphOptimizer${NEW_LINE}` +
         `    -importBlacklist=<list of packages to exclude>${NEW_LINE}` +
         `    -maxColors=<number of colors used by colorScheme>${NEW_LINE}` +
         `    -outpath=<path to output file>${NEW_LINE}` +

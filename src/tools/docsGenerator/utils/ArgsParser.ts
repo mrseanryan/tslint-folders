@@ -72,6 +72,9 @@ export namespace ArgsParser {
           );
           config.dot.colorScheme = value;
           break;
+        case "-disableGraphOptimizer":
+          config.dot.isGraphOptimizerEnabled = false;
+          break;
         case "-importBlacklist":
           value = assertHasValue(
             "black list must have a value, like: importBlacklist=todo-area,contact-area"

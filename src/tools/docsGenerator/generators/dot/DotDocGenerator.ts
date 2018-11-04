@@ -64,8 +64,10 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     const generator = new GraphGenerator(this.config, this.filter);
     const graph = generator.generateGraph(packageConfig);
 
-    const optimizer = new GraphOptimizer();
-    optimizer.optimize(graph);
+    if (this.config.dot.isGraphOptimizerEnabled) {
+      const optimizer = new GraphOptimizer();
+      optimizer.optimize(graph);
+    }
 
     return graph;
   }

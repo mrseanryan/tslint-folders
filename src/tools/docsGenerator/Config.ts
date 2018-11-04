@@ -15,6 +15,7 @@ export type DocConfig = {
 export type DotDocConfig = {
   clusterFromTslintJson: boolean;
   colorScheme: string;
+  isGraphOptimizerEnabled: boolean;
   maxColors: number;
   showImportAnyAsNodeNotEdges: boolean;
   subTitle: string;

@@ -75,13 +75,13 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [x] style \* package a bit like external
 
-- [ ] add `-disableGraphOptimizer`
+- [x] test with, w/o the optimizer
+
+- [x] add `-disableGraphOptimizer`
 
 - [ ] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
 
-- [ ] test with, w/o the optimizer
-
-- [ ] (cosmetic) add -nodeShape=box|oval|octagon|component
+- [ ] (cosmetic) add -packageShape=box|oval|octagon|component|cyclinder|box3d|folder (default is oval) -subFolderShape=box|oval|octagon|component|cyclinder|box3d|folder (default is folder)
 
 - [ ] consume
 

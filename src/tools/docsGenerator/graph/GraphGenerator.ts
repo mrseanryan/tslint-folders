@@ -1,3 +1,5 @@
+import { groupBy } from "lodash";
+
 import {
     ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
 } from "../../../model/ImportsBetweenPackagesRuleConfig";
@@ -94,9 +96,49 @@ export class GraphGenerator {
     cluster: GraphCluster,
     packageFolders: PackageFolder[]
   ): GraphNode[] {
-    return packageFolders.map(pkg =>
-      this.generateNodeFromPackage(cluster, pkg)
+    if (!this.config.dot.clusterFromTslintJson) {
+      return packageFolders.map(pkg =>
+        this.generateNodeFromPackage(cluster, pkg)
+      );
+    }
+
+    const defaultCluster = "(defaultCluster)";
+    const packagesByCluster = groupBy(
+      packageFolders,
+      (pkg: PackageFolder) => pkg.diagramCluster || defaultCluster
     );
+
+    const nodes: GraphNode[] = [];
+
+    Object.keys(packagesByCluster).forEach(key => {
+      const pkgs = packagesByCluster[key];
+
+      const nodesThisCluster = pkgs.map(pkg =>
+        this.generateNodeFromPackage(cluster, pkg)
+      );
+
+      if (key === defaultCluster) {
+        nodes.push(...nodesThisCluster);
+      }
+      if (key !== defaultCluster) {
+        const subCluster = GraphCluster.create(
+          cluster,
+          this.containerId++,
+          "",
+          "",
+          ClusterType.DiagramCluster
+        );
+        this.mapIdToNode.add(cluster);
+
+        nodes.push(subCluster);
+
+        subCluster.nodes.push(...nodesThisCluster);
+
+        nodesThisCluster.forEach(n => (n.parent = subCluster));
+      }
+    });
+
+    return nodes;
   }
 
   private generateNodeFromPackage(

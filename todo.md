@@ -71,11 +71,13 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [x] fix new bug in optimizer: only replace edge from cluster if valid for ALL nodes in cluster
 
-- [ ] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
+- [x] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
 
-- [ ] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
+- [ ] style \* package a bit like external
 
 - [ ] add `-disableGraphOptimizer`
+
+- [ ] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
 
 - [ ] test with, w/o the optimizer
 

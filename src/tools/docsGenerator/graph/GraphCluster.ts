@@ -6,7 +6,8 @@ export enum ClusterType {
   Root,
   TopLevel,
   AreaWithSubFolders,
-  FromOptimization
+  FromOptimization,
+  DiagramCluster
 }
 
 export class GraphCluster extends GraphNode implements IGraphCluster {

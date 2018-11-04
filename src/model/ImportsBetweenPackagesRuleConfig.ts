@@ -24,6 +24,7 @@ export type PackageFolder = {
   importPath: string;
   isExternal: boolean;
   allowedToImport: string[];
+  diagramCluster?: string;
   subFolders: PackageSubFolder[];
 };
 

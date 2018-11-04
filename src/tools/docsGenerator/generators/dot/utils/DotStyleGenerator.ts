@@ -27,6 +27,9 @@ export class DotStyleGenerator {
       case ClusterType.FromOptimization:
         this.outputOptimizedStyle();
         break;
+      case ClusterType.DiagramCluster:
+        this.outputOptimizedStyle();
+        break;
       case ClusterType.Root:
       case ClusterType.TopLevel:
         this.outputter.outputLine(`node [shape="oval"]`);

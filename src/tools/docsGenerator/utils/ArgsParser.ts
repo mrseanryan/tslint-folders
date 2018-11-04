@@ -63,6 +63,9 @@ export namespace ArgsParser {
       };
 
       switch (option) {
+        case "-clusterFromTslintJson":
+          config.dot.clusterFromTslintJson = true;
+          break;
         case "-colorScheme":
           value = assertHasValue(
             "color scheme must have a value, like: colorScheme=piyg11"

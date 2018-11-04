@@ -13,6 +13,7 @@ export type DocConfig = {
 };
 
 export type DotDocConfig = {
+  clusterFromTslintJson: boolean;
   colorScheme: string;
   maxColors: number;
   showImportAnyAsNodeNotEdges: boolean;

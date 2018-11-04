@@ -52,6 +52,7 @@
                 "description": "TODO Area Package",
                 "importPath": "todo-area",
                 "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                "diagramCluster": "areas",
                 "subFolders": [
                   {
                     "description": "UI components",
@@ -79,6 +80,7 @@
                 "description": "Area that shows contact details",
                 "importPath": "contact-area",
                 "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                "diagramCluster": "areas",
                 "subFolders": []
               },
               {

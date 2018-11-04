@@ -4,6 +4,7 @@ export namespace ConfigDefaults {
   export function getDefault(): DocConfig {
     return {
       dot: {
+        clusterFromTslintJson: false,
         colorScheme: "pastel19",
         maxColors: 9,
         showImportAnyAsNodeNotEdges: false,

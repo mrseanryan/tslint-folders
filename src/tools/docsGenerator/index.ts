@@ -1,5 +1,6 @@
 import { DocGeneratorFactory } from "./generators/DocGeneratorFactory";
 import { ConsoleOutputter } from "./outputters/ConsoleOutputter";
+import { OutputterFactory } from "./outputters/OutputterFactory";
 import { ArgsParser } from "./utils/ArgsParser";
 import { TslintConfigLoader } from "./utils/TslintConfigLoader";
 import { UsageText } from "./utils/UsageText";
@@ -11,7 +12,7 @@ function main() {
     return;
   }
 
-  const outputter = new ConsoleOutputter();
+  const outputter = OutputterFactory.create(config);
 
   const generator = DocGeneratorFactory.create(config, outputter);
 

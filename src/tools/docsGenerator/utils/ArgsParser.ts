@@ -81,6 +81,12 @@ export namespace ArgsParser {
           );
           config.dot.maxColors = maxColors;
           break;
+        case "-outpath":
+          value = assertHasValue(
+            "outpath must have a value, like: outpath=/tmp/my-file.dot"
+          );
+          config.outpath = value;
+          break;
         case "-showImportAnyAsNodeNotEdges":
           config.dot.showImportAnyAsNodeNotEdges = true;
           break;

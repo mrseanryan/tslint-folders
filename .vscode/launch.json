@@ -9,7 +9,11 @@
       "request": "launch",
       "name": "Launch Dot DocGenerator",
       "program": "${workspaceFolder}\\src\\tools\\docsGenerator\\index.ts",
-      "args": ["${workspaceFolder}\\tslint.tslint-folders.json", "Dot"],
+      "args": [
+        "${workspaceFolder}\\tslint.tslint-folders.json",
+        "Dot",
+        "-outpath=./tsf-graph-debug.dot"
+      ],
       "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     }

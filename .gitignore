@@ -1,2 +1,5 @@
 node_modules
 dist
+
+# debug output:
+tsf-graph-debug.dot

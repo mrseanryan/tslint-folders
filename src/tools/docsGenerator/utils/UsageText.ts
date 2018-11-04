@@ -23,6 +23,7 @@ export namespace UsageText {
         `    -colorScheme=<graphviz color scheme name>${NEW_LINE}` +
         `    -importBlacklist=<list of packages to exclude>${NEW_LINE}` +
         `    -maxColors=<number of colors used by colorScheme>${NEW_LINE}` +
+        `    -outpath=<path to output file>${NEW_LINE}` +
         `    -showImportAnyAsNodeNotEdges${NEW_LINE}` +
         `    -skipSubFolders${NEW_LINE}` +
         `    -subTitle=<sub title>${NEW_LINE}` +

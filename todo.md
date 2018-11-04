@@ -50,7 +50,7 @@ if OK to open-source:
 
 - [x] refactor
 
-- [ ] add `-outpath=<path to output.dot>`
+- [x] add `-outpath=<path to output file>`
 
 - [ ] `-orientation=<landscape|portrait>` -> landscape=true (default, due to sub-folder clusters)
 
@@ -112,6 +112,7 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 - [ ] d3 mini site: bundle into 1 or 2 files. so use react, ts or vue?
 
 ---
+
 plantUml/c4
 
 - [ ] output to plantUml format? (see webscratchgit, crafting doc)
@@ -224,8 +225,6 @@ extend the main rule, using the config:
       ```
 
 - [ ] (see ban prop) import from recognised package should not be relative (like /myPackage/)
-
-
 
 ---
 

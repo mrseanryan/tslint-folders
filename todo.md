@@ -98,7 +98,7 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - [ ] consume
 
-### END digrams
+### END diagrams
 
 ---
 
@@ -109,6 +109,7 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 - [ ] release notes file?
 
 - [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
+- [ ] bundle into 1 or 2 files
 
 ---
 plantUml/c4

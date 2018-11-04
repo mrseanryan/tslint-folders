@@ -1,5 +1,6 @@
 import { DocConfig } from "../../../Config";
 import { ClusterType } from "../../../graph/GraphCluster";
+import { NodeType } from "../../../graph/GraphNode";
 import { IDocOutputter } from "../../../interfaces/IDocOutputter";
 
 export class DotStyleGenerator {
@@ -13,8 +14,27 @@ export class DotStyleGenerator {
     this.outputDefaultNodeStyling();
   }
 
-  outputStylingForExternalNode() {
+  outputGraphNodeStyle(nodeType: NodeType) {
+    switch (nodeType) {
+      case NodeType.Normal:
+        break;
+      case NodeType.External:
+        this.outputStylingForExternalNode();
+        break;
+      case NodeType.Any:
+        this.outputStylingForAnyNode();
+        break;
+      default:
+        throw new Error(`unhandled NodeType ${nodeType}`);
+    }
+  }
+
+  private outputStylingForExternalNode() {
     this.outputter.outputLine("node [style=dashed]");
+  }
+
+  outputStylingForAnyNode() {
+    this.outputStylingForExternalNode();
   }
 
   outputContainerStyle(clusterType: ClusterType) {

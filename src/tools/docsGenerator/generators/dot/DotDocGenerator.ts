@@ -5,7 +5,7 @@ import { DocConfig } from "../../Config";
 import { Edge } from "../../graph/Edge";
 import { GraphCluster } from "../../graph/GraphCluster";
 import { GraphGenerator } from "../../graph/GraphGenerator";
-import { GraphNode } from "../../graph/GraphNode";
+import { GraphNode, NodeType } from "../../graph/GraphNode";
 import { GraphOptimizer } from "../../graph/utils/GraphOptimizer";
 import { GraphVisitor } from "../../graph/utils/GraphVisitor";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
@@ -123,9 +123,7 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   private outputGraphNode(node: GraphNode, prefix?: string) {
     this.outputScopeBegin();
 
-    if (node.isExternal) {
-      this.styler.outputStylingForExternalNode();
-    }
+    this.styler.outputGraphNodeStyle(node.nodeType);
 
     this.outputNode(node, prefix);
 

@@ -4,6 +4,13 @@ import { IEdge } from "./IEdge";
 import { IGraphCluster } from "./IGraphCluster";
 import { IGraphNode } from "./IGraphNode";
 
+export enum NodeType {
+  Normal,
+  External,
+  // The 'any' (*) package or folder:
+  Any
+}
+
 export class GraphNode implements IGraphNode {
   readonly incomingEdges: Edge[] = [];
   readonly outgoingEdges: Edge[] = [];
@@ -13,7 +20,7 @@ export class GraphNode implements IGraphNode {
     readonly id: string,
     readonly name: string,
     readonly description: string = "",
-    readonly isExternal: boolean = false
+    readonly nodeType: NodeType = NodeType.Normal
   ) {}
 
   removeIncomingEdge(edge: IEdge) {

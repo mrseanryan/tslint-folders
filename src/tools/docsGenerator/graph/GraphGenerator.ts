@@ -8,7 +8,7 @@ import { MapNameToId } from "../generators/dot/utils/MapNameToId";
 import { BlacklistFilter } from "../utils/BlacklistFilter";
 import { Edge } from "./Edge";
 import { ClusterType, GraphCluster } from "./GraphCluster";
-import { GraphNode } from "./GraphNode";
+import { GraphNode, NodeType } from "./GraphNode";
 import { MapIdToGraphNode } from "./utils/MapIdToGraphNode";
 
 /**
@@ -151,10 +151,30 @@ export class GraphGenerator {
       cluster,
       packageName,
       pkg.description,
-      pkg.isExternal
+      this.getNodeType(pkg)
     );
 
     return node;
+  }
+
+  private getNodeType(pkg: PackageFolder): NodeType {
+    if (pkg.isExternal) {
+      return NodeType.External;
+    }
+
+    if (pkg.importPath === this.getAnyPackageId()) {
+      return NodeType.Any;
+    }
+
+    return NodeType.Normal;
+  }
+
+  private getNodeTypeForSubFolder(pkg: PackageSubFolder): NodeType {
+    if (pkg.importPath === this.getAnyPackageId()) {
+      return NodeType.Any;
+    }
+
+    return NodeType.Normal;
   }
 
   /**
@@ -192,7 +212,7 @@ export class GraphGenerator {
     cluster: GraphCluster,
     packageName: string,
     description: string,
-    isExternal?: boolean,
+    nodeType: NodeType = NodeType.Normal,
     prefix?: string
   ): GraphNode {
     const packageIdKey = this.getPackageIdKey(packageName, prefix);
@@ -204,7 +224,7 @@ export class GraphGenerator {
       packageId,
       packageName,
       description,
-      isExternal
+      nodeType
     );
     this.mapIdToNode.add(node);
 
@@ -322,7 +342,7 @@ export class GraphGenerator {
         cluster,
         folder.importPath,
         folder.description,
-        false,
+        this.getNodeTypeForSubFolder(folder),
         packageName
       )
     );

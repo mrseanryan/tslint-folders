@@ -73,7 +73,7 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [x] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
 
-- [ ] style \* package a bit like external
+- [x] style \* package a bit like external
 
 - [ ] add `-disableGraphOptimizer`
 
@@ -81,7 +81,7 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [ ] test with, w/o the optimizer
 
-- [ ] (cosmetic) add -nodeType=blocks|ovals
+- [ ] (cosmetic) add -nodeShape=box|oval|octagon|component
 
 - [ ] consume
 
@@ -114,12 +114,16 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - [ ] release notes file?
 
+---
+
+### d3
+
 - [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
 - [ ] d3 mini site: bundle into 1 or 2 files. so use react, ts or vue?
 
 ---
 
-plantUml/c4
+### plantUml/c4
 
 - [ ] output to plantUml format? (see webscratchgit, crafting doc)
 

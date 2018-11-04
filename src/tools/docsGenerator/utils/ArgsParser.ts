@@ -81,6 +81,12 @@ export namespace ArgsParser {
           );
           config.importBlacklist = value;
           break;
+        case "-importWhitelist":
+          value = assertHasValue(
+            "white list must have a value, like: importWhitelist=todo-area,contact-area"
+          );
+          config.importWhitelist = value;
+          break;
         case "-maxColors":
           const maxColors = assertHasNumericValue(
             "max colors must have a value, like: maxColors=8"

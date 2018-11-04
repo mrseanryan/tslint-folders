@@ -5,7 +5,7 @@ import {
 } from "../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../Config";
 import { MapNameToId } from "../generators/dot/utils/MapNameToId";
-import { BlacklistFilter } from "../utils/BlacklistFilter";
+import { PackageFilter } from "../utils/PackageFilter";
 import { Edge } from "./Edge";
 import { ClusterType, GraphCluster } from "./GraphCluster";
 import { GraphNode, NodeType } from "./GraphNode";
@@ -25,7 +25,7 @@ export class GraphGenerator {
   private mapIdToNode = new MapIdToGraphNode();
   private root: GraphCluster;
 
-  constructor(private config: DocConfig, private filter: BlacklistFilter) {
+  constructor(private config: DocConfig, private filter: PackageFilter) {
     this.root = GraphCluster.create(
       null,
       this.containerId++,
@@ -38,10 +38,12 @@ export class GraphGenerator {
 
   generateGraph(packageConfig: ImportsBetweenPackagesRuleConfig): GraphCluster {
     const packageFolders = packageConfig.checkImportsBetweenPackages.packages.filter(
-      pkg => this.filter.isImportPathOk(pkg.importPath)
+      pkg => this.filter.isImportPathOkForFolder(pkg)
     );
 
     this.checkIfNeedsAnyPackage(packageFolders);
+
+    let parent = this.root;
 
     const topLevelCluster = GraphCluster.create(
       this.root,
@@ -50,10 +52,15 @@ export class GraphGenerator {
       "",
       ClusterType.TopLevel
     );
-    this.root.nodes.push(topLevelCluster);
 
-    topLevelCluster.nodes.push(
-      ...this.generateNodesFromPackages(topLevelCluster, packageFolders)
+    if (!this.filter.hasWhitelist) {
+      this.root.nodes.push(topLevelCluster);
+    }
+
+    parent = topLevelCluster;
+
+    parent.nodes.push(
+      ...this.generateNodesFromPackages(parent, packageFolders)
     );
 
     if (!this.config.skipSubFolders) {
@@ -200,7 +207,7 @@ export class GraphGenerator {
     const nodes = this.generateSubFolders(
       cluster,
       pkg.importPath,
-      pkg.subFolders.filter(sub => this.filter.isImportPathOk(sub.importPath))
+      pkg.subFolders.filter(sub => this.filter.isImportPathOkForSubFolder(sub))
     );
 
     cluster.nodes.push(...nodes);
@@ -315,7 +322,7 @@ export class GraphGenerator {
     packageIdPrefix?: string
   ) {
     allowedPackages
-      .filter(pkg => this.filter.isImportPathOk(pkg))
+      .filter(pkg => this.filter.isImportPathOkForEdges(pkg))
       .forEach(allowedPkg => {
         const allowedPkgId = this.mapNameToId.getIdOrThrow(
           this.getPackageIdKey(allowedPkg, packageIdPrefix)

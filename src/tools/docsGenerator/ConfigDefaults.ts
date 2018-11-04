@@ -14,6 +14,7 @@ export namespace ConfigDefaults {
       },
       format: DocFormat.Dot,
       importBlacklist: "",
+      importWhitelist: "",
       outpath: "",
       pathToTslintJson: "",
       skipSubFolders: false

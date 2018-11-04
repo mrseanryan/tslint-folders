@@ -79,7 +79,7 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [x] add `-disableGraphOptimizer`
 
-- [ ] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
+- [x] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
 
 - [ ] (cosmetic) add -packageShape=box|oval|octagon|component|cyclinder|box3d|folder (default is oval) -subFolderShape=box|oval|octagon|component|cyclinder|box3d|folder (default is folder)
 

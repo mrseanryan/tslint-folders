@@ -1,11 +1,11 @@
 import { DocConfig } from "../../Config";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
-import { BlacklistFilter } from "../../utils/BlacklistFilter";
+import { PackageFilter } from "../../utils/PackageFilter";
 
 export abstract class DocGeneratorBase {
-  protected filter: BlacklistFilter;
+  protected filter: PackageFilter;
 
   constructor(protected config: DocConfig, protected outputter: IDocOutputter) {
-    this.filter = new BlacklistFilter(this.config);
+    this.filter = new PackageFilter(this.config);
   }
 }

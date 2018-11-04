@@ -24,6 +24,7 @@ export namespace UsageText {
         `    -colorScheme=<graphviz color scheme name>${NEW_LINE}` +
         `    -disableGraphOptimizer${NEW_LINE}` +
         `    -importBlacklist=<list of packages to exclude>${NEW_LINE}` +
+        `    -importWhitelist=<list of top-level packages to include>${NEW_LINE}` +
         `    -maxColors=<number of colors used by colorScheme>${NEW_LINE}` +
         `    -outpath=<path to output file>${NEW_LINE}` +
         `    -showImportAnyAsNodeNotEdges${NEW_LINE}` +

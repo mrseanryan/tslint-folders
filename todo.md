@@ -4,7 +4,7 @@
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
-- [ ] support typescript 3 -
+* [ ] loosen up the peer deps to match tslint -
 
 - [ ] release notes file?
 
@@ -193,6 +193,16 @@ extend the main rule, using the config:
 ### TODO ts versions
 
 - support typescript 3
+
+- tslint 5.11.0 is not at 3 yet!
+
+```
+  "peerDependencies": {
+    "typescript": ">=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev"
+  },
+```
+
+* [ ] loosen up the peer reps to match tslint
 
 - ts version history:
 

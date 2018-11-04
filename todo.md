@@ -8,11 +8,13 @@
 
 - [ ] release notes file?
 
+- [ ] ?custom rule `summarize-code` - lists files, counts files and LOC
+
 ---
 
 ### d3
 
-- [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
+- [ ] d3 format - from Graph - (will not work in .md) - mini site - can have interaction to filter edges for selected node!
 - [ ] d3 mini site: bundle into 1 or 2 files. so use react, ts or vue?
 
 ---

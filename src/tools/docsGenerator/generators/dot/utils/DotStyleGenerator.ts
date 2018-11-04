@@ -42,7 +42,9 @@ export class DotStyleGenerator {
 
     switch (clusterType) {
       case ClusterType.AreaWithSubFolders:
-        this.outputter.outputLine(`node [shape="folder"]`);
+        this.outputter.outputLine(
+          `node [shape="${this.config.dot.subFolderShape}"]`
+        );
         break;
       case ClusterType.FromOptimization:
         this.outputOptimizedStyle();
@@ -52,7 +54,9 @@ export class DotStyleGenerator {
         break;
       case ClusterType.Root:
       case ClusterType.TopLevel:
-        this.outputter.outputLine(`node [shape="oval"]`);
+        this.outputter.outputLine(
+          `node [shape="${this.config.dot.packageShape}"]`
+        );
         break;
       default:
         throw new Error(`unhandled ClusterType ${clusterType}`);

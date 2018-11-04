@@ -18,7 +18,9 @@ export type DotDocConfig = {
   colorScheme: string;
   isGraphOptimizerEnabled: boolean;
   maxColors: number;
+  packageShape: string;
   showImportAnyAsNodeNotEdges: boolean;
+  subFolderShape: string;
   subTitle: string;
   title: string;
 };

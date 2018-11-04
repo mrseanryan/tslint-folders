@@ -7,6 +7,7 @@ export enum ClusterType {
   TopLevel,
   AreaWithSubFolders,
   FromOptimization,
+  // from the tslint.json file 'diagramCluster':
   DiagramCluster
 }
 

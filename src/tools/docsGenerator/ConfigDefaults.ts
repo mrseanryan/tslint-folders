@@ -8,7 +8,9 @@ export namespace ConfigDefaults {
         colorScheme: "pastel19",
         isGraphOptimizerEnabled: true,
         maxColors: 9,
+        packageShape: "oval",
         showImportAnyAsNodeNotEdges: false,
+        subFolderShape: "folder",
         subTitle: "Top-level Packages",
         title: "Project Packages"
       },

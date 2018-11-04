@@ -27,8 +27,11 @@ export namespace UsageText {
         `    -importWhitelist=<list of top-level packages to include>${NEW_LINE}` +
         `    -maxColors=<number of colors used by colorScheme>${NEW_LINE}` +
         `    -outpath=<path to output file>${NEW_LINE}` +
+        `    -packageShape=<graphviz shape> (default is oval)${NEW_LINE}` +
+        `      example shapes: box|oval|octagon|component|cyclinder|box3d|folder${NEW_LINE}` +
         `    -showImportAnyAsNodeNotEdges${NEW_LINE}` +
         `    -skipSubFolders${NEW_LINE}` +
+        `    -subFolderShape=<graphviz shape> (default is folder)${NEW_LINE}` +
         `    -subTitle=<sub title>${NEW_LINE}` +
         `    -title=<title>${NEW_LINE}`
     );

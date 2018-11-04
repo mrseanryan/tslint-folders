@@ -99,12 +99,26 @@ export namespace ArgsParser {
           );
           config.outpath = value;
           break;
+        case "-packageShape": {
+          value = assertHasValue(
+            "package shape must have a 'graphviz shape' value, like: packageShape=component"
+          );
+          config.dot.packageShape = value;
+          break;
+        }
         case "-showImportAnyAsNodeNotEdges":
           config.dot.showImportAnyAsNodeNotEdges = true;
           break;
         case "-skipSubFolders":
           config.skipSubFolders = true;
           break;
+        case "-subFolderShape": {
+          value = assertHasValue(
+            "sub-folder shape must have a 'graphviz shape' value, like: subFolderShape=octagon"
+          );
+          config.dot.subFolderShape = value;
+          break;
+        }
         case "-subTitle": {
           value = assertHasValue(
             "sub title must have a value, like: subTitle=MyTitle"

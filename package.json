@@ -6,6 +6,7 @@
   "main": "dist/",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.117",
     "@types/node": "8.10.37",
     "lodash": "^4.17.11",
     "ts-node": "^7.0.1",
@@ -37,7 +38,6 @@
     "url": "https://str@bitbucket.org/str/tslint-folders.git"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.117"
   },
   "keywords": [
     "tslint",

@@ -2,6 +2,15 @@
 
 ---
 
+* [ ] fix: bug in diagram
+
+mfe: services AND vm should have flow to model, utils
+but flows are only originating from vm - should be from the cluster
+
+(similar):
+main: only DME has flows to utils, sdkH.
+  but should originate from the cluster
+
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 * [ ] loosen up the peer deps to match tslint -

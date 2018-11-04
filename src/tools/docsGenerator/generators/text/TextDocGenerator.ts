@@ -4,6 +4,7 @@ import {
 import { DocConfig } from "../../Config";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
+import { PackageFilter } from "../../utils/PackageFilter";
 import { DocGeneratorBase } from "../shared/DocGeneratorBase";
 
 const SECTION_SEPARATOR = "_____";
@@ -14,7 +15,9 @@ export class TextDocGenerator extends DocGeneratorBase
     this.outputter.outputLine(SECTION_SEPARATOR);
 
     packageConfig.checkImportsBetweenPackages.packages
-      .filter(pkg => !pkg.isExternal)
+      .filter(
+        pkg => !pkg.isExternal && this.filter.isImportPathOkForFolder(pkg)
+      )
       .forEach(pkg => {
         const packageName = pkg.importPath;
 
@@ -24,11 +27,11 @@ export class TextDocGenerator extends DocGeneratorBase
 
         this.outputAllowedImports(pkg);
 
-        if (!this.config.skipSubFolders) {
-          this.outputSubFolders(pkg.subFolders);
-        } else {
-          this.outputter.outputLine("");
-        }
+        this.outputSubFolders(
+          pkg.subFolders.filter(sub =>
+            this.filter.isImportPathOkForSubFolder(sub)
+          )
+        );
 
         this.outputter.decreaseIndent();
       });

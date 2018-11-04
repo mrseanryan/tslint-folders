@@ -50,59 +50,90 @@ if OK to open-source:
 
 - [x] refactor
 
-- [ ] add `-outpath=<path to output.dot>`
- 
+- [x] add `-outpath=<path to output file>`
+
+- n/a `-orientation=<landscape|portrait>` -> landscape=true (default, due to sub-folder clusters)
+
+- n/a (future - filtering avoids this) some way to have 'portrait' layout? (rankdir does not really work)
+
+---
+
+### BEGIN diagrams
+
 - the diagram is too crowded!
 
-- [ ] group pkgs with same incomings. use points or invisible nodes
+- ... group pkgs with same incomings. use points or invisible nodes
 
-```
-digraph G {
-	d1 [shape=point,width=0.01,height=0.01];
-	{a, b, c} -> d1 [dir=none];
-	d1 -> d;
-	d -> e;
-}
-```
+- [x] try `compound=true`
+- [x] try `graph [ concentrate=true ...`
 
-- [ ] try `graph [ concentrate=true ...`
+_not true! - ~~// note: compound and concentrate do NOT work together? (would see error from dot)~~_
 
-- [ ] try `compound=true`
+- [x] fix new bug in optimizer: only replace edge from cluster if valid for ALL nodes in cluster
 
-// note: compound and concentrate do NOT work together
+- [x] add `-clusterFromTslintJson`, `diagramCluster=<cluster name>` to `tslint.json` - then GraphOptimizer can cluster by that name
+
+- [x] style \* package a bit like external
+
+- [x] test with, w/o the optimizer
+
+- [x] add `-disableGraphOptimizer`
+
+- [x] add `-package=<package importPath>` to out for that package only (hides topLevel cluster)
+
+- [x] (cosmetic) add -packageShape=box|oval|octagon|component|cyclinder|box3d|folder (default is oval) -subFolderShape=box|oval|octagon|component|cyclinder|box3d|folder (default is folder)
+
+- [ ] consume
+
+---
+
+- [x] improve optimizer
+
+- [x] add `-importBlacklist=<package name,package name>` to filter the imports (the referenced packages)
+
+- [x] add `-showImportAnyAsNodeNotEdges` - renders \* as 1 edge to an "(any)" node
 
 - try: `strict digraph x { ...`
 
-- [ ] try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
-
 ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
-- [ ] try add multiple such points to give layouter flexibility `
+- n/a - concentrate does this! ~~try add multiple invisible points to give layouter flexibility:~~
 
-- [ ] other graphviz diagram type?
+- n/a other graphviz diagram type?
 
-- [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
-- [ ] add `-importWhitelist=<package name,package name>` to filter the imports
+- n/a try 'rank' to group nodes (need hint from tslint.json?) { rank=same; b, c, d }
+- n/a try `group` (avoids edge crossings?)
 
-- [ ] add `-hideEdgesFromImportAny` - renders * as 1 edge to a "(any)" node
+### END diagrams
 
-- [ ] (cosmetic?) add -nodeType=blocks|ovals 
-
-- [ ] consume
-
-- [ ] d3 format - mini site - as need interaction to filter edges
+---
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
-
-- [ ] consume
 
 - [ ] support typescript 3 -
 
 - [ ] release notes file?
 
-- [ ] try add jest snapshot tests for the doc gen
+---
 
-- [ ] switch format to C4 like -
+### d3
+
+- [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
+- [ ] d3 mini site: bundle into 1 or 2 files. so use react, ts or vue?
+
+---
+
+### plantUml/c4
+
+- [ ] output to plantUml format? (see webscratchgit, crafting doc)
+
+- [ ] output to plantUml C4 format? (see webscratchgit, crafting doc)
+
+- [ ] add format like C4 -
+
+---
+
+- [ ] try add jest snapshot tests for the doc gen
 
 ## 'nice to have' TODOs
 
@@ -159,9 +190,9 @@ format:
 
 ```
 packageName1 --> packageName2, packageName3
-  folder1 --> folder2, folder3
-  folder2 --> folder3
-  folder3
+folder1 --> folder2, folder3
+folder2 --> folder3
+folder3
 ```
 
 - ~~md format?~~
@@ -176,17 +207,34 @@ yarn docs tslint.json Dot
 
 ---
 
+#### diagram notes
+
+- add invisible.point - but concentrate does this!
+
+```
+/_ graph with invisible points _/
+digraph G {
+d1 [shape=point,width=0.01,height=0.01];
+{a, b, c} -> d1 [dir=none];
+d1 -> d;
+d -> e;
+}
+```
+
+---
+
 ### TODO disallow import [relative, src] from recognised package
 
 extend the main rule, using the config:
 
-- [ ] import from recognised package should not be relative (like /myPackage/)
 - [ ] import from recognised package should not include /src/
       by adding a ban prop into PackageFolder:
 
       ```
       "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"]
       ```
+
+- [ ] (see ban prop) import from recognised package should not be relative (like /myPackage/)
 
 ---
 
@@ -204,34 +252,39 @@ extend the main rule, using the config:
 
 ### TODO ts versions
 
-- support typescript 3 
-
-- from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
+- support typescript 3
 
 - ts version history:
 
 https://github.com/Microsoft/TypeScript/commits/master/package.json
 
 - version to match ts ? else confusing. but need minor to make a breaking change!
+
 ```
--- tsf 2.9m.p = ts 2.9 
+-- tsf 2.9m.p = ts 2.9
 -- tsf 3.0m.p = ts 3.0
 -- tsf 3.1m.p = ts 3.1
 -- tsf 3.2m.p = ts 3.2
 where m = minor, p = patch
 ```
+
+- add above summary to readme
+
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master
-- also merge into a version branch, as needed
+- can rebase version branches onto master, as needed (bash script)
 - do NOT dev on version branch
 - doc in readme
+
 - how does tslint manage it?
-- is tslint format more important? But less so for user
+- is tslint version more important? But less so for user
+
 ---
 
 ### todo c4
-- [ ] add support for alt format C4
+
+- [ ] add support for alt format C4 - plantUml C4?
 
 https://c4model.com/#notation
 

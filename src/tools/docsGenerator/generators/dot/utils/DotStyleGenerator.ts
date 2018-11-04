@@ -1,4 +1,6 @@
 import { DocConfig } from "../../../Config";
+import { ClusterType } from "../../../graph/GraphCluster";
+import { NodeType } from "../../../graph/GraphNode";
 import { IDocOutputter } from "../../../interfaces/IDocOutputter";
 
 export class DotStyleGenerator {
@@ -12,23 +14,62 @@ export class DotStyleGenerator {
     this.outputDefaultNodeStyling();
   }
 
-  outputStylingForExternalNode() {
+  outputGraphNodeStyle(nodeType: NodeType) {
+    switch (nodeType) {
+      case NodeType.Normal:
+        break;
+      case NodeType.External:
+        this.outputStylingForExternalNode();
+        break;
+      case NodeType.Any:
+        this.outputStylingForAnyNode();
+        break;
+      default:
+        throw new Error(`unhandled NodeType ${nodeType}`);
+    }
+  }
+
+  private outputStylingForExternalNode() {
     this.outputter.outputLine("node [style=dashed]");
   }
 
-  outputSubFolderStyle() {
+  outputStylingForAnyNode() {
+    this.outputStylingForExternalNode();
+  }
+
+  outputContainerStyle(clusterType: ClusterType) {
     this.outputPlaceLabelsAtTop();
 
-    this.outputter.outputLine(`node [shape="folder"]`);
+    switch (clusterType) {
+      case ClusterType.AreaWithSubFolders:
+        this.outputter.outputLine(
+          `node [shape="${this.config.dot.subFolderShape}"]`
+        );
+        break;
+      case ClusterType.FromOptimization:
+        this.outputOptimizedStyle();
+        break;
+      case ClusterType.DiagramCluster:
+        this.outputOptimizedStyle();
+        break;
+      case ClusterType.Root:
+      case ClusterType.TopLevel:
+        this.outputter.outputLine(
+          `node [shape="${this.config.dot.packageShape}"]`
+        );
+        break;
+      default:
+        throw new Error(`unhandled ClusterType ${clusterType}`);
+    }
+  }
+
+  private outputOptimizedStyle() {
+    this.outputter.outputLines([`color = gray`, `style=dashed`]);
   }
 
   outputPlaceLabelsAtTop() {
-    this.outputter.outputLine("labelloc = b");
+    this.outputter.outputLine("labelloc = t");
     this.outputter.outputLine("");
-  }
-
-  outputTopLevelSubGraphStyle() {
-    this.outputter.outputLine(`node [shape="ellipse"]`);
   }
 
   private outputGraphStyle() {

@@ -2,6 +2,12 @@ import {
     ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
 } from "../../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../../Config";
+import { Edge } from "../../graph/Edge";
+import { GraphCluster } from "../../graph/GraphCluster";
+import { GraphGenerator } from "../../graph/GraphGenerator";
+import { GraphNode, NodeType } from "../../graph/GraphNode";
+import { GraphOptimizer } from "../../graph/utils/GraphOptimizer";
+import { GraphVisitor } from "../../graph/utils/GraphVisitor";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
 import { IDocOutputter } from "../../interfaces/IDocOutputter";
 import { DateHelper } from "../../utils/DateHelper";
@@ -10,7 +16,6 @@ import { DotStyleGenerator } from "./utils/DotStyleGenerator";
 import { MapNameToId } from "./utils/MapNameToId";
 
 export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
-  private containerId = 1;
   private mapNameToId = new MapNameToId();
   private styler: DotStyleGenerator;
 
@@ -21,6 +26,8 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   }
 
   generateDoc(packageConfig: ImportsBetweenPackagesRuleConfig): void {
+    const graph = this.generateGraph(packageConfig);
+
     this.outputSectionSeparator("Header");
     this.outputHeader();
     this.outputter.outputLine(``);
@@ -29,26 +36,40 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.styler.outputStyling();
     this.outputter.outputLine(``);
 
-    const packageFolders = packageConfig.checkImportsBetweenPackages.packages;
+    this.outputSectionSeparator("Nodes and Clusters");
 
-    this.outputSectionSeparator("Nodes");
-    this.outputPackages(packageFolders);
+    graph.nodes.forEach(node => {
+      if (node instanceof GraphCluster) {
+        this.outputCluster(node);
+        return;
+      }
+
+      if (node instanceof GraphNode) {
+        this.outputGraphNode(node);
+      }
+    });
+
     this.outputter.outputLine(``);
 
-    if (!this.config.skipSubFolders) {
-      this.outputSectionSeparator("Sub-graphs for sub-folders");
-      packageFolders.forEach(pkg => {
-        this.outputPackageSubFolders(pkg);
-      });
-    } else {
-      this.outputter.outputLine(``);
-    }
-
     this.outputSectionSeparator("Edges");
-    this.outputEdges(packageFolders);
+    this.outputEdges(graph);
     this.outputter.outputLine(``);
 
     this.outputFooter();
+  }
+
+  private generateGraph(
+    packageConfig: ImportsBetweenPackagesRuleConfig
+  ): GraphCluster {
+    const generator = new GraphGenerator(this.config, this.filter);
+    const graph = generator.generateGraph(packageConfig);
+
+    if (this.config.dot.isGraphOptimizerEnabled) {
+      const optimizer = new GraphOptimizer();
+      optimizer.optimize(graph);
+    }
+
+    return graph;
   }
 
   private outputHeader() {
@@ -68,13 +89,18 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.increaseIndent();
 
     this.outputter.outputLines([
+      // needed to allow edge to have *cluster* as a destination:
+      `compound=true`,
+      // try to combine the edges:
+      `concentrate=true`,
       `label = "${this.config.dot.title}"`,
       `labelloc = t`,
       ``,
       `//dpi = 200`,
       `ranksep=0.65`,
       `nodesep=0.40`,
-      `rankdir=BT`,
+      // top to bottom:
+      `rankdir=TB`,
       ``,
       `style="filled"`,
       ``,
@@ -96,42 +122,12 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     );
   }
 
-  private outputPackages(packageFolders: PackageFolder[]) {
-    this.outputTopLevelSubGraphBegin();
-
-    packageFolders.forEach(pkg => {
-      this.outputPackage(pkg);
-    });
-
-    this.outputTopLevelSubGraphEnd();
-  }
-
-  private outputTopLevelSubGraphBegin() {
-    this.outputter.outputLine(`subgraph cluster_topLevel {`);
-    this.outputter.increaseIndent();
-
-    this.outputter.outputLine(`label = "${this.config.dot.subTitle}"`);
-
-    this.styler.outputPlaceLabelsAtTop();
-
-    this.styler.outputTopLevelSubGraphStyle();
-  }
-
-  private outputTopLevelSubGraphEnd() {
-    this.outputter.decreaseIndent();
-    this.outputter.outputLine("}");
-  }
-
-  private outputPackage(pkg: PackageFolder) {
-    const packageName = pkg.importPath;
-
+  private outputGraphNode(node: GraphNode, prefix?: string) {
     this.outputScopeBegin();
 
-    if (pkg.isExternal) {
-      this.styler.outputStylingForExternalNode();
-    }
+    this.styler.outputGraphNodeStyle(node.nodeType);
 
-    this.outputNode(packageName, pkg.description);
+    this.outputNode(node, prefix);
 
     this.outputScopeEnd();
 
@@ -147,36 +143,34 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
   }
 
   /**
-   * Output the sub-folders of a package as a separate graph cluster.
-   *
-   * Else, the graph is too hard to read.
+   * Output the separate graph cluster.
    */
-  private outputPackageSubFolders(pkg: PackageFolder) {
-    const isContainer = pkg.subFolders.length > 0;
+  private outputCluster(cluster: GraphCluster) {
+    const isContainer = cluster.nodes.length > 0;
     if (!isContainer) {
       return;
     }
 
-    this.outputContainerNodeStart(pkg.importPath, pkg.description);
+    this.outputContainerNodeStart(cluster);
 
-    this.outputSubFolders(pkg.importPath, pkg.subFolders);
+    this.outputSubNodes(cluster);
 
     this.outputContainerNodeEnd();
     this.outputter.outputLine(``);
   }
 
-  private outputContainerNodeStart(name: string, description: string) {
-    this.outputter.outputLine(`subgraph cluster_${this.containerId} {`);
+  private outputContainerNodeStart(cluster: GraphCluster) {
+    this.outputter.outputLine(`subgraph cluster_${cluster.id} {`);
     this.outputter.increaseIndent();
 
-    this.styler.outputSubFolderStyle();
+    this.styler.outputContainerStyle(cluster.clusterType);
 
     const formattedDescription =
-      description.length > 0 ? ` - ${description}` : "";
+      cluster.description.length > 0 ? ` - ${cluster.description}` : "";
 
-    this.outputter.outputLine(`label = "${name}${formattedDescription}"`);
-
-    this.containerId++;
+    this.outputter.outputLine(
+      `label = "${cluster.name}${formattedDescription}"`
+    );
   }
 
   private outputContainerNodeEnd() {
@@ -187,23 +181,24 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.outputLine("}");
   }
 
-  private outputNode(
-    packageName: string,
-    description: string,
-    prefix?: string
-  ) {
-    const packageIdKey = this.getPackageIdKey(packageName, prefix);
-
-    const packageId = this.mapNameToId.getId(packageIdKey);
+  private outputNode(node: GraphNode, prefix?: string) {
+    const packageIdKey = this.getPrefixedPackageId(node.id, prefix);
 
     const fillColor = this.getColorNumber(packageIdKey);
 
     this.outputter.outputLine(
-      `${packageId} [label="${packageName}\n${description}" fillcolor=${fillColor}]`
+      `${node.id} [label="${node.name}\n${
+        node.description
+      }" fillcolor=${fillColor}]`
     );
   }
 
   private getColorNumber(packageIdKey: string): number {
+    // TODO xxx review
+    if (!this.mapNameToId.hasId(packageIdKey)) {
+      this.mapNameToId.getId(packageIdKey);
+    }
+
     let packageNumber = this.mapNameToId.getNumberOrThrow(packageIdKey);
 
     if (packageNumber > this.config.dot.maxColors) {
@@ -218,81 +213,69 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     return packageNumber;
   }
 
-  private getPackageIdKey(packageName: string, prefix?: string): string {
+  private getPrefixedPackageId(packageName: string, prefix?: string): string {
     return `${prefix}_${packageName}`;
   }
 
-  private outputEdges(packageFolders: PackageFolder[]) {
-    packageFolders.forEach(pkg => {
-      const thisPkgId = this.mapNameToId.getIdOrThrow(
-        this.getPackageIdKey(pkg.importPath)
-      );
-
-      let allowedPackages = pkg.allowedToImport;
-      if (allowedPackages.some(allowed => allowed === "*")) {
-        allowedPackages = packageFolders
-          // disallow import from self
-          .filter(allowed => allowed.importPath !== pkg.importPath)
-          .map(allowed => allowed.importPath);
-      }
-
-      this.outputEdgesForPackageNames(thisPkgId, allowedPackages);
-
-      // TODO review - kind of duplicate code - could have interface across PackageFolder, PackageSubFolder ?
-      if (!this.config.skipSubFolders) {
-        pkg.subFolders.forEach(subFolder => {
-          const thisSubFolderId = this.mapNameToId.getId(
-            this.getPackageIdKey(subFolder.importPath, pkg.importPath)
-          );
-
-          let allowedSubFolders = subFolder.allowedToImport;
-          if (allowedSubFolders.some(allowed => allowed === "*")) {
-            allowedSubFolders = pkg.subFolders
-              .filter(
-                // disallow import from self
-                otherSubFolder =>
-                  otherSubFolder.importPath !== subFolder.importPath
-              )
-              .map(sub => sub.importPath);
-          }
-
-          this.outputEdgesForPackageNames(
-            thisSubFolderId,
-            allowedSubFolders,
-            pkg.importPath
-          );
-        });
-      }
-    });
+  private outputEdges(root: GraphCluster) {
+    const visitor = new GraphVisitor(root);
+    visitor.visitEdges(edge => this.outputEdge(edge));
   }
 
-  private outputEdgesForPackageNames(
-    thisPkgId: string,
-    allowedPackages: string[],
-    packageIdPrefix?: string
-  ) {
-    allowedPackages.forEach(allowedPkg => {
-      const allowedPkgId = this.mapNameToId.getIdOrThrow(
-        this.getPackageIdKey(allowedPkg, packageIdPrefix)
-      );
-      // output reversed, to make top level packages appear at top:
-      this.outputter.outputLine(
-        `${allowedPkgId}-> ${thisPkgId} [dir="back"]`
-      );
-    });
+  private outputEdge(edge: Edge) {
+    let destination = edge.destination;
+    let origin = edge.origin;
+
+    let extraAttribute = "";
+
+    if (edge.destination instanceof GraphCluster) {
+      // the destination needs to switch to some node in the cluster:
+      const nodes = edge.destination.nodes;
+      if (nodes.length === 0) {
+        console.warn(
+          `// warning: The cluster ${
+            edge.destination.id
+          } is empty, but is the destination for an edge.`
+        );
+        return;
+      }
+
+      destination = nodes[0];
+      extraAttribute += ` lhead=cluster_${edge.destination.id}`;
+    }
+    if (edge.origin instanceof GraphCluster) {
+      const nodes = edge.origin.nodes;
+      if (nodes.length === 0) {
+        console.warn(
+          `// warning: The cluster ${
+            edge.origin.id
+          } is empty, but is the origin for an edge.`
+        );
+        return;
+      }
+
+      origin = nodes[0];
+      extraAttribute += ` ltail=cluster_${edge.origin.id}`;
+    }
+
+    this.outputter.outputLine(
+      `${origin.id}-> ${destination.id} [${extraAttribute}]`
+    );
   }
 
-  private outputSubFolders(
-    packageName: string,
-    subFolders: PackageSubFolder[]
-  ) {
-    if (subFolders.length === 0) {
+  private outputSubNodes(cluster: GraphCluster) {
+    if (cluster.nodes.length === 0) {
       this.outputter.outputLine("");
       return;
     }
 
-    subFolders.forEach(folder => {
-      this.outputNode(folder.importPath, folder.description, packageName);
+    cluster.nodes.forEach(node => {
+      if (node instanceof GraphCluster) {
+        this.outputCluster(node);
+        return;
+      }
+
+      this.outputGraphNode(node, cluster.name);
 
       this.outputter.outputLine("");
     });

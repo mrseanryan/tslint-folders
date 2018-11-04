@@ -109,7 +109,7 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 - [ ] release notes file?
 
 - [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
-- [ ] bundle into 1 or 2 files
+- [ ] d3 mini site: bundle into 1 or 2 files. so use react, ts or vue?
 
 ---
 plantUml/c4
@@ -216,13 +216,16 @@ d -> e;
 
 extend the main rule, using the config:
 
-- [ ] import from recognised package should not be relative (like /myPackage/)
 - [ ] import from recognised package should not include /src/
       by adding a ban prop into PackageFolder:
 
       ```
       "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"]
       ```
+
+- [ ] (see ban prop) import from recognised package should not be relative (like /myPackage/)
+
+
 
 ---
 
@@ -242,8 +245,6 @@ extend the main rule, using the config:
 
 - support typescript 3
 
-- from diff branch? and npm pub to 1.x. note in readme about older version for ts 2.9
-
 - ts version history:
 
 https://github.com/Microsoft/TypeScript/commits/master/package.json
@@ -258,20 +259,23 @@ https://github.com/Microsoft/TypeScript/commits/master/package.json
 where m = minor, p = patch
 ```
 
+- add above summary to readme
+
 - branch like versions/tsf2.9
 - pub to npm as normal, with correct peer deps
 - dev on feature/x -> master
-- also merge into a version branch, as needed
+- can rebase version branches onto master, as needed (bash script)
 - do NOT dev on version branch
 - doc in readme
+
 - how does tslint manage it?
-- is tslint format more important? But less so for user
+- is tslint version more important? But less so for user
 
 ---
 
 ### todo c4
 
-- [ ] add support for alt format C4
+- [ ] add support for alt format C4 - plantUml C4?
 
 https://c4model.com/#notation
 

@@ -27,15 +27,11 @@ export class TextDocGenerator extends DocGeneratorBase
 
         this.outputAllowedImports(pkg);
 
-        if (!this.config.skipSubFolders) {
-          this.outputSubFolders(
-            pkg.subFolders.filter(sub =>
-              this.filter.isImportPathOkForSubFolder(sub)
-            )
-          );
-        } else {
-          this.outputter.outputLine("");
-        }
+        this.outputSubFolders(
+          pkg.subFolders.filter(sub =>
+            this.filter.isImportPathOkForSubFolder(sub)
+          )
+        );
 
         this.outputter.decreaseIndent();
       });

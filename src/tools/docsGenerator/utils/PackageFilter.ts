@@ -1,15 +1,15 @@
 import { PackageFolder, PackageSubFolder } from "../../../model/ImportsBetweenPackagesRuleConfig";
 import { DocConfig } from "../Config";
 
-// TODO xxx Could move all filtering here - skipSubFolders
-
 export class PackageFilter {
-  private invalidPaths: string[] = [];
-  private whiteListPaths: string[] = [];
+  private readonly invalidPaths: string[];
+  private readonly whiteListPaths: string[];
+  private readonly skipSubFolders: boolean;
 
   constructor(config: DocConfig) {
     this.invalidPaths = this.parseBlacklist(config.importBlacklist);
     this.whiteListPaths = this.parseWhitelist(config.importWhitelist);
+    this.skipSubFolders = config.skipSubFolders;
   }
 
   private parseBlacklist(list: string): string[] {
@@ -31,6 +31,10 @@ export class PackageFilter {
     );
   }
 
+  canOutputSubfoldersOf(folder: PackageFolder): boolean {
+    return this.passesWhitelist(folder.importPath);
+  }
+
   get hasWhitelist(): boolean {
     return this.whiteListPaths.length > 0;
   }
@@ -40,7 +44,7 @@ export class PackageFilter {
   }
 
   isImportPathOkForSubFolder(folder: PackageSubFolder): boolean {
-    return this.passesBlacklist(folder.importPath);
+    return !this.skipSubFolders && this.passesBlacklist(folder.importPath);
   }
 
   isImportPathOkForEdges(importPath: string): boolean {

@@ -63,13 +63,13 @@ export class GraphGenerator {
       ...this.generateNodesFromPackages(parent, packageFolders)
     );
 
-    if (!this.config.skipSubFolders) {
-      packageFolders.forEach(pkg => {
-        this.processPackageSubFolders(this.root, pkg);
-      });
-    }
+    packageFolders.forEach(pkg => {
+      this.processPackageSubFolders(this.root, pkg);
+    });
 
-    this.processEdges(packageFolders);
+    this.processEdges(
+      packageFolders.filter(pkg => this.filter.canOutputSubfoldersOf(pkg))
+    );
 
     return this.root;
   }
@@ -195,6 +195,10 @@ export class GraphGenerator {
       return;
     }
 
+    if (!this.filter.canOutputSubfoldersOf(pkg)) {
+      return;
+    }
+
     const cluster = GraphCluster.create(
       parent,
       this.containerId++,
@@ -263,8 +267,9 @@ export class GraphGenerator {
       this.processEdgesForPackageNames(thisPkgId, allowedPackages);
 
       // TODO review - kind of duplicate code - could have interface across PackageFolder, PackageSubFolder ?
-      if (!this.config.skipSubFolders) {
-        pkg.subFolders.forEach(subFolder => {
+      pkg.subFolders
+        .filter(sub => this.filter.isImportPathOkForSubFolder(sub))
+        .forEach(subFolder => {
           const thisSubFolderId = this.mapNameToId.getId(
             this.getPackageIdKey(subFolder.importPath, pkg.importPath)
           );
@@ -290,7 +295,6 @@ export class GraphGenerator {
             pkg.importPath
           );
         });
-      }
     });
   }
 

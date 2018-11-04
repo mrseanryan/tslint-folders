@@ -73,7 +73,9 @@ _not true! - ~~// note: compound and concentrate do NOT work together? (would se
 
 - [ ] add `-package=<package name>` to out for that package only (hides topLevel cluster)
 
-- [ ] improve optimizer
+- [x] improve optimizer
+
+- [ ] add `-disableGraphOptimizer`
 
 - [ ] test with, w/o the optimizer
 
@@ -96,29 +98,30 @@ ref: https://graphviz.gitlab.io/faq/#FaqMerge
 
 - [ ] consume
 
-- [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
-
-- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
-
----
-
-- [ ] output to plantUml format? (see webscratchgit, crafting doc)
-
-- [ ] output to plantUml C4 format? (see webscratchgit, crafting doc)
-
----
-
 ### END digrams
 
-- [ ] consume
+---
+
+- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 - [ ] support typescript 3 -
 
 - [ ] release notes file?
 
-- [ ] try add jest snapshot tests for the doc gen
+- [ ] d3 format (will not work in .md) - mini site - can have interaction to filter edges for selected node!
 
-- [ ] switch format to C4 like -
+---
+plantUml/c4
+
+- [ ] output to plantUml format? (see webscratchgit, crafting doc)
+
+- [ ] output to plantUml C4 format? (see webscratchgit, crafting doc)
+
+- [ ] add format like C4 -
+
+---
+
+- [ ] try add jest snapshot tests for the doc gen
 
 ## 'nice to have' TODOs
 

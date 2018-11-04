@@ -201,10 +201,10 @@ https://github.com/Microsoft/TypeScript/commits/master/package.json
 - version to match ts ? else confusing. but need minor to make a breaking change!
 
 ```
--- tsf 2.9m.p = ts 2.9
--- tsf 3.0m.p = ts 3.0
--- tsf 3.1m.p = ts 3.1
--- tsf 3.2m.p = ts 3.2
+-- tsf 2.900m.p = ts 2.9
+-- tsf 3.000m.p = ts 3.0
+-- tsf 3.100m.p = ts 3.1
+-- tsf 3.200m.p = ts 3.2
 where m = minor, p = patch
 ```
 

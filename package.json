@@ -1,7 +1,7 @@
 {
   "name": "tslint-folders",
-  "version": "0.3.10",
-  "description": "Custom TSLint rules for checking imports between packages and their folders",
+  "version": "0.4.10",
+  "description": "Custom TSLint rules for checking imports between packages and their folders, and generating relevant diagrams.",
   "author": "Sean Ryan",
   "main": "dist/",
   "license": "MIT",
@@ -14,8 +14,8 @@
     "typescript": "^2.9.2"
   },
   "peerDependencies": {
-    "tslint": "^5.9.1",
-    "typescript": "^2.9.2"
+    "tslint": ">=5.9.1 || >=^5.11.0",
+    "typescript": ">=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev"
   },
   "scripts": {
     "clean": "rm -rf dist/",
@@ -48,6 +48,7 @@
     "disabled tests",
     "static code analysis",
     "code analysis",
-    "dependencies"
+    "dependencies",
+    "diagram"
   ]
 }

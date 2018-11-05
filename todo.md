@@ -16,7 +16,7 @@ but should originate from the cluster
 
 - [x] review readme.md VS Habib's repo - https://github.com/ismailhabib/actrix
 
-* [ ] loosen up the peer deps to match tslint - UP MINOR -
+* [x] loosen up the peer deps to match tslint - UP MINOR -
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
@@ -218,7 +218,7 @@ extend the main rule, using the config:
   },
 ```
 
-- [ ] loosen up the peer reps to match tslint
+- [x] loosen up the peer reps to match tslint
 
 * ts version history:
 

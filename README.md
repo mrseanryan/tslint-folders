@@ -6,6 +6,18 @@ Automatic validation and documentation of package architecture.
 
 ---
 
+## status
+
+tslint-folders is reasonably stable and in use every day in CI builds and on dev boxes (Linux, Mac, Windows) for at least one major product.
+
+### versioning
+
+We use [SemVer](https://semver.org) for versioning. For the versions available, see the tags on this repository.
+
+As this is a pretty new project, the current major version is 0. We generally avoid making breaking changes. However a change in _minor_ version indicates that there may be a breaking change.
+
+---
+
 ## usage
 
 _note: the links in this readme do not work on npmjs.com - they do work locally or on the source code site._
@@ -207,6 +219,10 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 
 That's pretty much it. Let me know if this is useful or how it can be improved!
 
+## authors
+
+Original work by Sean Ryan - mr.sean.ryan(at gmail.com)
+
 ## licence = MIT
 
-License is MIT, so feel free to use or modify.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details

@@ -14,7 +14,7 @@ but should originate from the cluster
 - [x] tool: add -h -help to show usage
 - [x] usage should split out dot specific options
 
-- [ ] review readme.md VS Habib's repo - https://github.com/ismailhabib/actrix
+- [x] review readme.md VS Habib's repo - https://github.com/ismailhabib/actrix
 
 * [ ] loosen up the peer deps to match tslint - UP MINOR -
 

@@ -11,6 +11,9 @@ but flows are only originating from vm - should be from the cluster
 main: only DME has flows to utils, sdkH.
   but should originate from the cluster
 
+- [ ] tool: add -h -help to show usage
+- [ ] usage should split out dot specific options
+
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 * [ ] loosen up the peer deps to match tslint -

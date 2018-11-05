@@ -183,14 +183,14 @@ d -> e;
 
 extend the main rule, using the config:
 
-- [ ] import from recognised package should not include /src/
+- [x] import from recognised package should not include /src/
       by adding a ban prop into PackageFolder:
 
       ```
       "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"]
       ```
 
-- [ ] (see ban prop) import from recognised package should not be relative (like /myPackage/)
+- [x] (see ban prop) import from recognised package should not be relative (like /myPackage/)
 
 ---
 

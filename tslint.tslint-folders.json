@@ -39,6 +39,7 @@
           },
           "checkImportsBetweenPackages": {
             "enabled": true,
+            "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"],
             "checkSubFoldersEnabled": true,
             "ignorePaths": [],
             "packages": [

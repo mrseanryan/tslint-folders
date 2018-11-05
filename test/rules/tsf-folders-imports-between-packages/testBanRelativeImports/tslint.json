@@ -1,0 +1,59 @@
+{
+  "rulesDirectory": "../../../../dist/",
+  "rules": {
+    "tsf-folders-imports-between-packages": [
+      true,
+      {
+        "config": {
+          "disallowImportFromSelf": {
+            "enabled": true,
+            "ignorePaths": [
+              "utils",
+              "utils/",
+              ".spec.ts",
+              ".spec.tsx",
+              ".ispec.ts",
+              ".ispec.tsx"
+            ]
+          },
+          "checkImportsBetweenPackages": {
+            "enabled": true,
+            "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"],
+            "checkSubFoldersEnabled": true,
+            "ignorePaths": [],
+            "packages": [
+              {
+                "description": "Application Shell",
+                "importPath": "shell",
+                "allowedToImport": ["*"],
+                "subFolders": []
+              },
+              {
+                "description": "TODO Area Package",
+                "importPath": "todo-area",
+                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                "subFolders": [
+                  {
+                    "description": "components",
+                    "importPath": "components",
+                    "allowedToImport": ["*"]
+                  },
+                  {
+                    "description": "view models",
+                    "importPath": "viewmodels",
+                    "allowedToImport": ["models"]
+                  },
+                  {
+                    "description": "models",
+                    "importPath": "models",
+                    "allowedToImport": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

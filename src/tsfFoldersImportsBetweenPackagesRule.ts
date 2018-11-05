@@ -11,6 +11,9 @@ export const IMPORTS_BETWEEN_PACKAGES_RULE_ID =
 const DISALLOW_IMPORT_FROM_SELF_MESSAGE =
   "do not import a package from itself - use a relative path";
 
+const DISALLOW_IMPORT_FROM_BANNED_MESSAGE =
+  "do not use a banned import path from package";
+
 export class Rule extends Lint.Rules.AbstractRule {
   apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     const walker = new ImportsWalker(sourceFile, this.getOptions());
@@ -111,6 +114,27 @@ class ImportsWalker extends Lint.RuleWalker {
         !importPackageLocation.packageFolder
       ) {
         return;
+      }
+
+      const banned = config.checkImportsBetweenPackages.ban;
+      if (banned) {
+        const bannedImports: string[] = [];
+        config.checkImportsBetweenPackages.packages.forEach(pkg => {
+          banned.forEach(ban => {
+            bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
+          });
+        });
+
+        if (bannedImports.some(ban => text.indexOf(ban) >= 0)) {
+          this.addFailureAtNode(
+            node,
+            GeneralRuleUtils.buildFailureString(
+              DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
+              IMPORTS_BETWEEN_PACKAGES_RULE_ID
+            )
+          );
+          return;
+        }
       }
 
       if (

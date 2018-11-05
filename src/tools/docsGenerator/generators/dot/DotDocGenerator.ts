@@ -89,10 +89,10 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     this.outputter.increaseIndent();
 
     this.outputter.outputLines([
-      // needed to allow edge to have *cluster* as a destination:
+      `// needed to allow edge to have *cluster* as a destination:`,
       `compound=true`,
-      // try to combine the edges:
-      `concentrate=true`,
+      // NOT using concentrate, as tends to combine edges from within a cluster, with edges from the cluster,
+      // so user cannot see which edges are only from the cluster.
       `label = "${this.config.dot.title}"`,
       `labelloc = t`,
       ``,
@@ -226,7 +226,9 @@ export class DotDocGenerator extends DocGeneratorBase implements IDocGenerator {
     let destination = edge.destination;
     let origin = edge.origin;
 
-    let extraAttribute = "";
+    // set a dummy label, to make edges further apart.
+    // this is to avoid edges from within a cluster, seeming to have same origin
+    let extraAttribute = `label=" " `;
 
     if (edge.destination instanceof GraphCluster) {
       // the destination needs to switch to some node in the cluster:

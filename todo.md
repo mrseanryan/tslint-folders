@@ -2,16 +2,16 @@
 
 ---
 
-* [ ] fix: bug in diagram
+- [x] fix: bug in diagram
 
 mfe: services AND vm should have flow to model, utils
 but flows are only originating from vm - should be from the cluster
 
 (similar):
 main: only DME has flows to utils, sdkH.
-  but should originate from the cluster
+but should originate from the cluster
 
-- [ ] tool: add -h -help to show usage
+- [x] tool: add -h -help to show usage
 - [ ] usage should split out dot specific options
 
 - [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
@@ -218,9 +218,9 @@ extend the main rule, using the config:
   },
 ```
 
-* [ ] loosen up the peer reps to match tslint
+- [ ] loosen up the peer reps to match tslint
 
-- ts version history:
+* ts version history:
 
 https://github.com/Microsoft/TypeScript/commits/master/package.json
 

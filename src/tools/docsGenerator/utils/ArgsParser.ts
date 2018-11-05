@@ -4,6 +4,8 @@ import { ConfigDefaults } from "../ConfigDefaults";
 
 const NUM_MANDATORY_ARGS = 4;
 
+class HelpNeededError extends Error {}
+
 export namespace ArgsParser {
   export function getConfigFromArgs(): DocConfig | null {
     if (process.argv.length < NUM_MANDATORY_ARGS) {
@@ -19,6 +21,10 @@ export namespace ArgsParser {
 
       return config;
     } catch (error) {
+      if (error instanceof HelpNeededError) {
+        return null;
+      }
+
       console.error(error);
       return null;
     }
@@ -75,6 +81,9 @@ export namespace ArgsParser {
         case "-disableGraphOptimizer":
           config.dot.isGraphOptimizerEnabled = false;
           break;
+        case "-h":
+        case "-help":
+          throw new HelpNeededError();
         case "-importBlacklist":
           value = assertHasValue(
             "black list must have a value, like: importBlacklist=todo-area,contact-area"

@@ -2,6 +2,7 @@ import * as Lint from "tslint";
 import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
+import { CheckImportsBetweenPackages } from "./model/ImportsBetweenPackagesRuleConfig";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
 
@@ -116,25 +117,14 @@ class ImportsWalker extends Lint.RuleWalker {
         return;
       }
 
-      const banned = config.checkImportsBetweenPackages.ban;
-      if (banned) {
-        const bannedImports: string[] = [];
-        config.checkImportsBetweenPackages.packages.forEach(pkg => {
-          banned.forEach(ban => {
-            bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
-          });
-        });
-
-        if (bannedImports.some(ban => text.indexOf(ban) >= 0)) {
-          this.addFailureAtNode(
-            node,
-            GeneralRuleUtils.buildFailureString(
-              DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
-              IMPORTS_BETWEEN_PACKAGES_RULE_ID
-            )
-          );
-          return;
-        }
+      if (
+        this.hasBannedImportPattern(
+          config.checkImportsBetweenPackages,
+          text,
+          node
+        )
+      ) {
+        return;
       }
 
       if (
@@ -205,6 +195,35 @@ class ImportsWalker extends Lint.RuleWalker {
         }
       }
     }
+  }
+
+  private hasBannedImportPattern(
+    checkImportsBetweenPackages: CheckImportsBetweenPackages,
+    text: string,
+    node: ts.Node
+  ): boolean {
+    const banned = checkImportsBetweenPackages.ban;
+    if (banned) {
+      const bannedImports: string[] = [];
+      checkImportsBetweenPackages.packages.forEach(pkg => {
+        banned.forEach(ban => {
+          bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
+        });
+      });
+
+      if (bannedImports.some(ban => text.indexOf(ban) >= 0)) {
+        this.addFailureAtNode(
+          node,
+          GeneralRuleUtils.buildFailureString(
+            DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
+            IMPORTS_BETWEEN_PACKAGES_RULE_ID
+          )
+        );
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private addFailureAtNodeWithMessage(node: ts.Node, failureMessage: string) {

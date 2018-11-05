@@ -1,3 +1,4 @@
+// tslint:disable-next-line:tsf-folders-imports-between-packages
 import { EnumUtils } from "../../../utils/EnumUtils";
 import { DocConfig } from "../Config";
 import { ConfigDefaults } from "../ConfigDefaults";

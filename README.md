@@ -20,8 +20,6 @@ As this is a pretty new project, the current major version is 0. We generally av
 
 ## usage
 
-_note: the links in this readme do not work on npmjs.com - they do work locally or on the source code site._
-
 ### 1 Install via yarn into your website
 
 ```

@@ -1,8 +1,12 @@
+import {
+    DisabledTestRuleConfig, getDefaultDisabledTestRuleConfig
+} from "../model/DisabledTestRuleConfig";
 import { FilenamesRuleConfig } from "../model/FilenamesRuleConfig";
 import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackagesRuleConfig";
 import {
     getDefaultBreakpointRuleConfig, TestBreakpointRuleConfig
 } from "../model/TestBreakpointRuleConfig";
+import { DISABLED_TEST_RULE_ID } from "../tsfFoldersDisabledTestRule";
 import { FILE_NAMES_RULE_ID } from "../tsfFoldersFileNamesRule";
 import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsfFoldersImportsBetweenPackagesRule";
 import { TEST_BREAKPOINT_RULE_ID } from "../tsfFoldersTestWithBreakpointRule";
@@ -31,6 +35,25 @@ export namespace ConfigFactory {
 
     validate(config, "casings", FILE_NAMES_RULE_ID);
     validate(config, "ignorePaths", FILE_NAMES_RULE_ID);
+
+    return config;
+  }
+
+  export function createForDisabledTestRule(
+    options: any
+  ): DisabledTestRuleConfig {
+    // older config had just 'true':
+    if (options.ruleArguments.length === 0) {
+      return getDefaultDisabledTestRuleConfig();
+    }
+
+    const config = createFromArguments<DisabledTestRuleConfig>(
+      options,
+      DISABLED_TEST_RULE_ID
+    );
+
+    validate(config, "ban", DISABLED_TEST_RULE_ID);
+    validate(config, "includePaths", DISABLED_TEST_RULE_ID);
 
     return config;
   }

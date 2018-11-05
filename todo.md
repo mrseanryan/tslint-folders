@@ -18,7 +18,7 @@ but should originate from the cluster
 
 * [x] loosen up the peer deps to match tslint - UP MINOR -
 
-- [ ] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
+- [x] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
 - [ ] release notes file?
 
@@ -201,7 +201,7 @@ extend the main rule, using the config:
 - [x] make rule customisable: tsf-folders-test-with-breakpoint
       by adding an includePaths: string[] prop and a debugTokens: ["browser.debug"]
 
-- [ ] make rule customisable: tsf-folders-disabled-tests
+- [x] make rule customisable: tsf-folders-disabled-tests
       by adding an includePaths: string[] prop and a ban: ["it.only", "it.skip","describe.only","describe.skip"]
 
 ---

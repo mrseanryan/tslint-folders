@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "tsf-folders-disabled-test": [
+      true,
+      {
+        "ban": ["it2.only2", "it2.skip2", "describe2.only2", "describe2.skip2"],
+        "includePaths": ["included", "excluded"]
+      }
+    ]
+  },
+  "rulesDirectory": "../../../../dist/"
+}

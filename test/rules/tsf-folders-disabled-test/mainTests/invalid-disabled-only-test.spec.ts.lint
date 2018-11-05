@@ -4,32 +4,32 @@ describe("someTestSuite - OK", () => {
     });
 
     it.only("someTest - only", () => {
-    ~~ [do not enable only some tests (tsf-folders-disabled-test)]
+    ~~ [do not disable or enable only some tests (tsf-folders-disabled-test)]
         // test code here
     });
 });
 
 describe.only("someTestSuite - only", () => {
-~~~~~~~~ [do not enable only some tests (tsf-folders-disabled-test)]
+~~~~~~~~ [do not disable or enable only some tests (tsf-folders-disabled-test)]
     it("someTest - OK", () => {
         // test code here
     });
 
     it.only("someTest - only", () => {
-    ~~ [do not enable only some tests (tsf-folders-disabled-test)]
+    ~~ [do not disable or enable only some tests (tsf-folders-disabled-test)]
         // test code here
     });
 
     // test inside a loop
     [1,2].forEach(value => {
         describe.only("someTestSuite - only", () => {
-        ~~~~~~~~ [do not enable only some tests (tsf-folders-disabled-test)]
+        ~~~~~~~~ [do not disable or enable only some tests (tsf-folders-disabled-test)]
             it("someTest - OK", () => {
                 // test code here
             });
 
             it.only("someTest - only", () => {
-            ~~ [do not enable only some tests (tsf-folders-disabled-test)]
+            ~~ [do not disable or enable only some tests (tsf-folders-disabled-test)]
                 // test code here
             });
         });

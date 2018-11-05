@@ -1,7 +1,13 @@
 {
   "rulesDirectory": "./dist/",
   "rules": {
-    "tsf-folders-disabled-test": true,
+    "tsf-folders-disabled-test": [
+      true,
+      {
+        "ban": ["it.only", "it.skip", "describe.only", "describe.skip"],
+        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx"]
+      }
+    ],
     "tsf-folders-import-from-disallowed-folders": [
       true,
       {

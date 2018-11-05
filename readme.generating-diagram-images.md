@@ -1,6 +1,6 @@
 # generating diagrams of the architecture described in tslint.json
 
-The configuration of `tslint-folders` is a description of the architecture of your TypeScript project (see [tslint.tslint-folders.json](tslint.tslint-folders.json) for an example).
+The configuration of `tslint-folders` is a description of the architecture of your TypeScript project (see [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json) for an example).
 
 `tslint-folders` can generate dot files from its configuration. A dot file is a simple format to describe a graph of nodes.
 
@@ -10,7 +10,7 @@ So, you can automatically generate architecture diagrams from the same configura
 
 ![example diagram](https://bitbucket.org/str/tslint-folders/raw/f9c220af572d72f8dc4024d02582cf2b03b15552/static/images/example_diagram_from_Dot_output-2.svg)
 
-*note: the example scripts output SVG files which are scalable and work with markdown and so work with gitlab, npmjs etc.*
+_note: the example scripts output SVG files which are scalable and work with markdown and so work with gitlab, npmjs etc._
 
 ---
 

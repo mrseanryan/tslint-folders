@@ -20,6 +20,8 @@ main: only DME has flows to utils, sdkH.
 
 - [ ] release notes file?
 
+- [ ] review readme.md VS Habib's repo - https://github.com/ismailhabib/actrix
+
 - [ ] ?custom rule `summarize-code` - lists files, counts files and LOC
 
 ---

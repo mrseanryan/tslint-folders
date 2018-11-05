@@ -10,4 +10,8 @@ export namespace GeneralRuleUtils {
 
     return testExtensions.some(extension => filePath.endsWith(extension));
   }
+
+  export function isFileInPaths(filePath: string, paths: string[]): boolean {
+    return paths.some(path => filePath.indexOf(path) >= 0);
+  }
 }

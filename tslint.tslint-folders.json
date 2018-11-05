@@ -14,7 +14,13 @@
         ]
       }
     ],
-    "tsf-folders-test-with-breakpoint": true,
+    "tsf-folders-test-with-breakpoint": [
+      true,
+      {
+        "debugTokens": ["browser.debug"],
+        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx"]
+      }
+    ],
     "tsf-folders-file-names": [
       true,
       {

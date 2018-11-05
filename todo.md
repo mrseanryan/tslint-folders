@@ -198,7 +198,7 @@ extend the main rule, using the config:
 
 - make configurable, without breaking config (cover via test sub-folders named by version)
 
-- [ ] make rule customisable: tsf-folders-test-with-breakpoint
+- [x] make rule customisable: tsf-folders-test-with-breakpoint
       by adding an includePaths: string[] prop and a debugTokens: ["browser.debug"]
 
 - [ ] make rule customisable: tsf-folders-disabled-tests

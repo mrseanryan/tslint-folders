@@ -1,7 +1,11 @@
 import { FilenamesRuleConfig } from "../model/FilenamesRuleConfig";
 import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackagesRuleConfig";
+import {
+    getDefaultBreakpointRuleConfig, TestBreakpointRuleConfig
+} from "../model/TestBreakpointRuleConfig";
 import { FILE_NAMES_RULE_ID } from "../tsfFoldersFileNamesRule";
 import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsfFoldersImportsBetweenPackagesRule";
+import { TEST_BREAKPOINT_RULE_ID } from "../tsfFoldersTestWithBreakpointRule";
 
 export namespace ConfigFactory {
   export function createForBetweenPackages(
@@ -27,6 +31,25 @@ export namespace ConfigFactory {
 
     validate(config, "casings", FILE_NAMES_RULE_ID);
     validate(config, "ignorePaths", FILE_NAMES_RULE_ID);
+
+    return config;
+  }
+
+  export function createForTestBreakpointRule(
+    options: any
+  ): TestBreakpointRuleConfig {
+    // older config had just 'true':
+    if (options.ruleArguments.length === 0) {
+      return getDefaultBreakpointRuleConfig();
+    }
+
+    const config = createFromArguments<TestBreakpointRuleConfig>(
+      options,
+      TEST_BREAKPOINT_RULE_ID
+    );
+
+    validate(config, "debugTokens", TEST_BREAKPOINT_RULE_ID);
+    validate(config, "includePaths", TEST_BREAKPOINT_RULE_ID);
 
     return config;
   }

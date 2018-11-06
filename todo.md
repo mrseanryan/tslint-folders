@@ -24,6 +24,8 @@ but should originate from the cluster
 ~~also add ban to PackageFolder so can override ?~~
 - add banBlacklist=["utils"]
 
+- [ ] dogfood via top tslint json, and add diagram
+
 - [ ] release notes file?
 
 - [ ] ?custom rule `summarize-code` - lists files, counts files and LOC - use static members, 'end of linting' event?

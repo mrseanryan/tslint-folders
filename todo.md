@@ -20,6 +20,8 @@ but should originate from the cluster
 
 - [x] make other rules configurable, without breaking config (cover via test sub-folders named by version) -
 
+- [ ] false positives from ban with utils: also add ban to PackageFolder so can override ?
+
 - [ ] release notes file?
 
 - [ ] ?custom rule `summarize-code` - lists files, counts files and LOC - use static members, 'end of linting' event?

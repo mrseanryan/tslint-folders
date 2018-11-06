@@ -2,7 +2,9 @@ import * as Lint from "tslint";
 import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
-import { CheckImportsBetweenPackages } from "./model/ImportsBetweenPackagesRuleConfig";
+import {
+    CheckImportsBetweenPackages, PackageFolder
+} from "./model/ImportsBetweenPackagesRuleConfig";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
 
@@ -202,34 +204,46 @@ class ImportsWalker extends Lint.RuleWalker {
     text: string,
     node: ts.Node
   ): boolean {
-    const banned = checkImportsBetweenPackages.ban;
-    const banBlacklist = checkImportsBetweenPackages.banBlacklist;
-    if (banned) {
-      const bannedImports: string[] = [];
+    const bannedImports = this.buildListOfBannedImports(
+      checkImportsBetweenPackages
+    );
 
-      checkImportsBetweenPackages.packages
-        .filter(
-          pkg => !banBlacklist || !banBlacklist.some(b => pkg.importPath === b)
+    if (bannedImports && bannedImports.some(ban => text.indexOf(ban) >= 0)) {
+      this.addFailureAtNode(
+        node,
+        GeneralRuleUtils.buildFailureString(
+          DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
+          IMPORTS_BETWEEN_PACKAGES_RULE_ID
         )
-        .forEach(pkg => {
-          banned.forEach(ban => {
-            bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
-          });
-        });
-
-      if (bannedImports.some(ban => text.indexOf(ban) >= 0)) {
-        this.addFailureAtNode(
-          node,
-          GeneralRuleUtils.buildFailureString(
-            DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
-            IMPORTS_BETWEEN_PACKAGES_RULE_ID
-          )
-        );
-        return true;
-      }
+      );
+      return true;
     }
 
     return false;
+  }
+
+  private buildListOfBannedImports(
+    checkImportsBetweenPackages: CheckImportsBetweenPackages
+  ): string[] {
+    const { ban, banBlacklist, packages } = checkImportsBetweenPackages;
+
+    if (!ban) {
+      return [];
+    }
+
+    const bannedImports: string[] = [];
+
+    packages
+      .filter(
+        pkg => !banBlacklist || !banBlacklist.some(b => pkg.importPath === b)
+      )
+      .forEach(pkg => {
+        ban.forEach(b => {
+          bannedImports.push(b.replace("{PACKAGE}", pkg.importPath));
+        });
+      });
+
+    return bannedImports;
   }
 
   private addFailureAtNodeWithMessage(node: ts.Node, failureMessage: string) {

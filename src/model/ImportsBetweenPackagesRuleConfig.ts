@@ -10,6 +10,7 @@ export type ImportsBetweenPackagesRuleConfig = {
 export type CheckImportsBetweenPackages = {
   enabled: boolean;
   ban?: string[];
+  banBlacklist?: string[];
   checkSubFoldersEnabled: boolean;
   ignorePaths: string[];
   packages: PackageFolder[];

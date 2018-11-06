@@ -52,6 +52,7 @@
           "checkImportsBetweenPackages": {
             "enabled": true,
             "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"],
+            "banBlacklist": ["utils"],
             "checkSubFoldersEnabled": true,
             "ignorePaths": [],
             "packages": [

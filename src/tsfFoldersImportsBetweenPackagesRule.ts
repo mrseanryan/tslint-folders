@@ -203,13 +203,19 @@ class ImportsWalker extends Lint.RuleWalker {
     node: ts.Node
   ): boolean {
     const banned = checkImportsBetweenPackages.ban;
+    const banBlacklist = checkImportsBetweenPackages.banBlacklist;
     if (banned) {
       const bannedImports: string[] = [];
-      checkImportsBetweenPackages.packages.forEach(pkg => {
-        banned.forEach(ban => {
-          bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
+
+      checkImportsBetweenPackages.packages
+        .filter(
+          pkg => !banBlacklist || !banBlacklist.some(b => pkg.importPath === b)
+        )
+        .forEach(pkg => {
+          banned.forEach(ban => {
+            bannedImports.push(ban.replace("{PACKAGE}", pkg.importPath));
+          });
         });
-      });
 
       if (bannedImports.some(ban => text.indexOf(ban) >= 0)) {
         this.addFailureAtNode(

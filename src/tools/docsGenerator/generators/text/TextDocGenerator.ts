@@ -1,10 +1,7 @@
 import {
     ImportsBetweenPackagesRuleConfig, PackageFolder, PackageSubFolder
 } from "../../../../model/ImportsBetweenPackagesRuleConfig";
-import { DocConfig } from "../../Config";
 import { IDocGenerator } from "../../interfaces/IDocGenerator";
-import { IDocOutputter } from "../../interfaces/IDocOutputter";
-import { PackageFilter } from "../../utils/PackageFilter";
 import { DocGeneratorBase } from "../shared/DocGeneratorBase";
 
 const SECTION_SEPARATOR = "_____";
@@ -16,7 +13,7 @@ export class TextDocGenerator extends DocGeneratorBase
 
     packageConfig.checkImportsBetweenPackages.packages
       .filter(
-        pkg => !pkg.isExternal && this.filter.isImportPathOkForFolder(pkg)
+        pkg => !pkg.isExternal && this.filter.isImportPathOkForFolderWithWhitelist(pkg)
       )
       .forEach(pkg => {
         const packageName = pkg.importPath;

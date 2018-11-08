@@ -43,6 +43,10 @@ export class PackageFilter {
     return this.passesBlacklist(folder.importPath);
   }
 
+  isImportPathOkForFolderWithWhitelist(folder: PackageFolder): boolean {
+    return this.isImportPathOkForFolder(folder) && this.passesWhitelist(folder.importPath);
+  }
+
   isImportPathOkForSubFolder(folder: PackageSubFolder): boolean {
     return !this.skipSubFolders && this.passesBlacklist(folder.importPath);
   }

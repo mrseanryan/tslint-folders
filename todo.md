@@ -26,6 +26,8 @@ but should originate from the cluster
 
 - [x] make the importWhitelist also apply to Text format
 
+- [ ]  add `"noUnusedLocals": true` and clear dead code/imports
+
 - [ ] dogfood via top tslint json, and add diagram
 
 - [ ] release notes file?

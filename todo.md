@@ -24,6 +24,8 @@ but should originate from the cluster
       ~~also add ban to PackageFolder so can override ?~~
 - add banBlacklist=["utils"]
 
+- [ ] make the importWhitelist also apply to Text format
+
 - [ ] dogfood via top tslint json, and add diagram
 
 - [ ] release notes file?

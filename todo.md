@@ -26,6 +26,8 @@ but should originate from the cluster
 
 - [x] make the importWhitelist also apply to Text format
 
+- [ ] travis build (move to github ?) -
+
 - [ ]  add `"noUnusedLocals": true` and clear dead code/imports
 
 - [ ] dogfood via top tslint json, and add diagram
@@ -33,6 +35,24 @@ but should originate from the cluster
 - [ ] release notes file?
 
 - [ ] ?custom rule `summarize-code` - lists files, counts files and LOC - use static members, 'end of linting' event?
+
+---
+
+### move to github
+
+- move to github
+
+- setup travis build
+
+- add build status badge to readme:
+
+[![Build Status](https://travis-ci.org/Microsoft/vscode-json-languageservice.svg?branch=master)](https://travis-ci.org/Microsoft/vscode-json-languageservice)
+
+- review vs:
+
+https://github.com/Microsoft/vscode-json-languageservice
+
+https://github.com/ismailhabib/actrix
 
 ---
 

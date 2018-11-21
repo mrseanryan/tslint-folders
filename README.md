@@ -4,6 +4,10 @@ Use tslint to check for invalid imports between packages and folders in your Typ
 
 Automatic validation and documentation of package architecture.
 
+[![npm Package](https://img.shields.io/npm/v/tslint-folders.svg?style=flat-square)](https://www.npmjs.org/package/tslint-folders)
+[![NPM Downloads](https://img.shields.io/npm/dm/tslint-folders.svg)](https://npmjs.org/package/tslint-folders)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ---
 
 ## status

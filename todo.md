@@ -42,7 +42,8 @@ but should originate from the cluster
 
 - move to github
 
-- setup travis build
+- setup travis build - by rebuilding this whole repo?
+https://github.com/alexjoverm/typescript-library-starter  [from Habib]
 
 - add build status badge to readme:
 

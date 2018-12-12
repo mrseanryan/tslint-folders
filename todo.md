@@ -26,13 +26,9 @@ but should originate from the cluster
 
 - [x] make the importWhitelist also apply to Text format
 
-- [ ] travis build (move to github ?) -
-
-- [ ]  add `"noUnusedLocals": true` and clear dead code/imports
+- [ ] add `"noUnusedLocals": true` and clear dead code/imports
 
 - [ ] dogfood via top tslint json, and add diagram
-
-- [ ] release notes file?
 
 - [ ] ?custom rule `summarize-code` - lists files, counts files and LOC - use static members, 'end of linting' event?
 
@@ -42,14 +38,19 @@ but should originate from the cluster
 
 - move to github
 
-- setup travis build - by rebuilding this whole repo?
-https://github.com/alexjoverm/typescript-library-starter  [from Habib]
+- [ ] rebuild repo, like tslint-ban-snippets
+- [ ] run tslint tests via jest
+- [ ] move this TODO to github wiki
+- [ ] travis build, release notes etc.
 
-- add build status badge to readme:
+- [ ] unit tests for docs/diagrams code
 
-[![Build Status](https://travis-ci.org/Microsoft/vscode-json-languageservice.svg?branch=master)](https://travis-ci.org/Microsoft/vscode-json-languageservice)
+- [ ] ? peer dependency scanner (good for tslint-folders)
+https://david-dm.org/inversify/InversifyJS/#info=peerDependenciess
 
 - review vs:
+
+https://github.com/mrseanryan/tslint-ban-snippets
 
 https://github.com/Microsoft/vscode-json-languageservice
 

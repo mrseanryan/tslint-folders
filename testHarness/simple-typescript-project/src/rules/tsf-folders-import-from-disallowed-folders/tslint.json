@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "tsf-folders-import-from-disallowed-folders": [
+      true,
+      {
+        "disallowed": [
+          "/node_modules/tslint-folders/dist/",
+          "/dist",
+          "/node_modules/",
+          "/node_modules",
+          "mobx/lib/mobx"
+        ]
+      }
+    ]
+  },
+  "rulesDirectory": "../../../node_modules/tslint-folders/dist/"
+}

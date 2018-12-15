@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "tsf-folders-test-with-breakpoint": [
+      true,
+      {
+        "debugTokens": ["browser2.debug2"],
+        "includePaths": ["included"]
+      }
+    ]
+  },
+  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/"
+}

@@ -1,0 +1,88 @@
+{
+  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/",
+  "rules": {
+    "tsf-folders-imports-between-packages": [
+      true,
+      {
+        "config": {
+          "disallowImportFromSelf": {
+            "enabled": true,
+            "ignorePaths": [
+              "utils",
+              "utils/",
+              ".spec.ts",
+              ".spec.tsx",
+              ".ispec.ts",
+              ".ispec.tsx"
+            ]
+          },
+          "checkImportsBetweenPackages": {
+            "enabled": true,
+            "checkSubFoldersEnabled": true,
+            "ignorePaths": [],
+            "packages": [
+              {
+                "description": "Application Shell",
+                "importPath": "shell",
+                "allowedToImport": ["*"],
+                "subFolders": []
+              },
+              {
+                "description": "TODO Area Package",
+                "importPath": "todo-area",
+                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                "subFolders": [
+                  {
+                    "description": "components",
+                    "importPath": "components",
+                    "allowedToImport": ["*"]
+                  },
+                  {
+                    "description": "view models",
+                    "importPath": "viewmodels",
+                    "allowedToImport": ["models", "utils"]
+                  },
+                  {
+                    "description": "models",
+                    "importPath": "models",
+                    "allowedToImport": ["utils"]
+                  },
+                  {
+                    "description": "utils",
+                    "importPath": "utils",
+                    "allowedToImport": []
+                  }
+                ]
+              },
+              {
+                "description": "Area that shows contact details",
+                "importPath": "contact-area",
+                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                "subFolders": []
+              },
+              {
+                "description": "Grid Package with no dependencies",
+                "importPath": "grid-package",
+                "allowedToImport": ["thirdPartySdk"],
+                "subFolders": []
+              },
+              {
+                "description": "Utils package",
+                "importPath": "utils",
+                "allowedToImport": [],
+                "subFolders": []
+              },
+              {
+                "description": "Third party SDK",
+                "importPath": "thirdPartySdk",
+                "isThirdParty": true,
+                "allowedToImport": [],
+                "subFolders": []
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

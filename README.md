@@ -6,7 +6,12 @@ Automatic validation and documentation of package architecture.
 
 [![npm Package](https://img.shields.io/npm/v/tslint-folders.svg?style=flat-square)](https://www.npmjs.org/package/tslint-folders)
 [![NPM Downloads](https://img.shields.io/npm/dm/tslint-folders.svg)](https://npmjs.org/package/tslint-folders)
+
+[![Dependencies](https://david-dm.org/mrseanryan/image-classifier-ts.svg)](https://david-dm.org/mrseanryan/image-classifier-ts)
+[![Dev Dependencies](https://david-dm.org/mrseanryan/image-classifier-ts/dev-status.svg)](https://david-dm.org/mrseanryan/image-classifier-ts?type=dev)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://paypal.me/mrseanryan)
 
 ---
 

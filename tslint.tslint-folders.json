@@ -4,8 +4,8 @@
     "tsf-folders-disabled-test": [
       true,
       {
-        "ban": ["it.only", "it.skip", "describe.only", "describe.skip"],
-        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx"]
+        "ban": ["it.only", "it.skip", "describe.only", "describe.skip", "fdescribe", "fit", "xit", "xdescribe"],
+        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx", ".spec.karma.tsx"]
       }
     ],
     "tsf-folders-import-from-disallowed-folders": [

@@ -1,29 +1,48 @@
-# tslint-folders
+# :file_folder: tslint-folders
 
 Use tslint to check for invalid imports between packages and folders in your TypeScript project.
 
 Automatic validation and documentation of package architecture.
 
+## status - stable
+
+tslint-folders is stable and in use every day in CI builds and on dev boxes (Linux, Mac, Windows) for at least one major product.
+
+[![Travis](https://img.shields.io/travis/mrseanryan/tslint-folders.svg)](https://travis-ci.org/mrseanryan/tslint-folders)
+[![Coveralls](https://img.shields.io/coveralls/mrseanryan/tslint-folders.svg)](https://coveralls.io/github/mrseanryan/tslint-folders)
+[![Size](https://packagephobia.now.sh/badge?p=tslint-folders)](https://packagephobia.now.sh/result?p=tslint-folders)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mrseanryan/tslint-folders.svg)](https://greenkeeper.io/)
+[![Dependencies](https://david-dm.org/mrseanryan/tslint-folders.svg)](https://david-dm.org/mrseanryan/tslint-folders)
+[![Dev Dependencies](https://david-dm.org/mrseanryan/tslint-folders/dev-status.svg)](https://david-dm.org/mrseanryan/tslint-folders?type=dev)
+
 [![npm Package](https://img.shields.io/npm/v/tslint-folders.svg?style=flat-square)](https://www.npmjs.org/package/tslint-folders)
 [![NPM Downloads](https://img.shields.io/npm/dm/tslint-folders.svg)](https://npmjs.org/package/tslint-folders)
 
-[![Dependencies](https://david-dm.org/mrseanryan/image-classifier-ts.svg)](https://david-dm.org/mrseanryan/image-classifier-ts)
-[![Dev Dependencies](https://david-dm.org/mrseanryan/image-classifier-ts/dev-status.svg)](https://david-dm.org/mrseanryan/image-classifier-ts?type=dev)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://paypal.me/mrseanryan)
 
 ---
 
-## status
-
-tslint-folders is reasonably stable and in use every day in CI builds and on dev boxes (Linux, Mac, Windows) for at least one major product.
-
-### versioning
+## versioning
 
 We use [SemVer](https://semver.org) for versioning. For the versions available, see the tags on this repository.
 
-As this is a pretty new project, the current major version is 0. We generally avoid making breaking changes. However a change in _minor_ version indicates that there may be a breaking change.
+---
+
+## features
+
+-   Uses a simple JSON file to model the desired relations between folders and sub-folders
+-   Provides a custom tslint rule that walks your TypeScript project, checking for imports that violate the model
+-   Other custom rules:
+    -   configurably detect disabled tests
+    -   detect debug/breakpoint code
+    -   detect invalid imports from folders like 'node_modules' or 'dist'
+    -   detect filenames that do not match expected style (allows for more than 1 filename style)
+-   Provides a tool to generate architecture diagrams from the same model
 
 ---
 
@@ -132,10 +151,11 @@ here is a summary of the current custom rules.
 
 ## sites
 
-| site                    | URL                                          |
-| ----------------------- | -------------------------------------------- |
-| bitbucket (source code) | https://bitbucket.org/str/tslint-folders     |
-| npm                     | https://www.npmjs.com/package/tslint-folders |
+| site                 | URL                                          |
+| -------------------- | -------------------------------------------- |
+| source code (github) | https://github.com/mrseanryan/tslint-folders |
+| github page          | https://mrseanryan.github.io/tslint-folders/ |
+| npm                  | https://www.npmjs.com/package/tslint-folders |
 
 ---
 
@@ -166,20 +186,6 @@ To work on the source code for tslint-folders, there are a few scripts:
 | yarn start    | Builds, tests and lints the code.                                       |
 | yarn test     | Tests the rules against spec files (\*.lint)                            |
 | yarn test-one | Test a single rule against spec files (\*.lint)                         |
-
----
-
-### git notes
-
-merging a feature branch into master: (after unit testing!)
-
-```
-git checkout master
-git fetch
-git pull
-git merge feature/my-feature
-git push
-```
 
 ---
 
@@ -222,6 +228,22 @@ The test data 'todo-area' package is configured with fairly typical sub-folders 
 
 ---
 
+## developing code in _this_ repository
+
+see the [contributing readme](CONTRIBUTING.md).
+
+## origin
+
+This project is based on the excellent seeder project [typescript-library-starter](https://github.com/alexjoverm/typescript-library-starter).
+
+The project was started to avoid having to repeatedly fix similar coding issues in large TypeScript code bases.
+
+### ORIGINAL readme (from the seeder project)
+
+[see here](https://github.com/mrseanryan/tslint-folders/blob/master/readme.original.md)
+
+---
+
 ## that's it
 
 That's pretty much it. Let me know if this is useful or how it can be improved!
@@ -232,4 +254,4 @@ Original work by Sean Ryan - mr.sean.ryan(at gmail.com)
 
 ## licence = MIT
 
-This project is licensed under the MIT License - see the [LICENSE](https://bitbucket.org/str/tslint-folders/src/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/mrseanryan/tslint-folders/blob/master/LICENSE) file for details

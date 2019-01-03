@@ -27,9 +27,16 @@ tslint-folders is stable and in use every day in CI builds and on dev boxes (Lin
 
 ---
 
-## versioning
+## why?
 
-We use [SemVer](https://semver.org) for versioning. For the versions available, see the tags on this repository.
+Save time spent manually code reviewing for 'silly' mistakes such as:
+
+-   Architecture violations:
+    -   importing from a 'higher level' package or folder
+    -   importing from folders in both directions
+-   Importing from an 'invalid' folder like 'dist' or 'modules' (ugly, and in some cases this can cause issues like webpack bundling the same code twice)
+-   Pushing code with disabled tests or with breakpoint code
+-   Inconsistent naming of files (the default tslint rule `file-name-casing` only allows for 1 style)
 
 ---
 
@@ -43,6 +50,12 @@ We use [SemVer](https://semver.org) for versioning. For the versions available, 
     -   detect invalid imports from folders like 'node_modules' or 'dist'
     -   detect filenames that do not match expected style (allows for more than 1 filename style)
 -   Provides a tool to generate architecture diagrams from the same model
+
+---
+
+## versioning
+
+We use [SemVer](https://semver.org) for versioning. For the versions available, see the tags on this repository.
 
 ---
 

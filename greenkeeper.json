@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "testHarness/simple-typescript-project/package.json"
+      ]
+    }
+  }
+}

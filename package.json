@@ -34,7 +34,8 @@
         ],
         "coveragePathIgnorePatterns": [
             "/node_modules/",
-            "/test/"
+            "/test/",
+            "/testHarness/"
         ],
         "coverageThreshold": {
             "global": {
@@ -46,6 +47,10 @@
         },
         "collectCoverageFrom": [
             "src/*.{js,ts}"
+        ],
+        "testPathIgnorePatterns": [
+            "/testHarness/",
+            "/node_modules/"
         ]
     },
     "prettier": {

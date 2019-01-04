@@ -2,7 +2,7 @@
 
 Use tslint to check for invalid imports between packages and folders in your TypeScript project.
 
-Automatic validation and documentation of package architecture.
+Automatic validation and documentation of package architecture (via `tslint-folders-diagrams`).
 
 ## status - stable
 
@@ -49,7 +49,7 @@ Save time spent manually code reviewing for 'silly' mistakes such as:
     -   detect debug/breakpoint code
     -   detect invalid imports from folders like 'node_modules' or 'dist'
     -   detect filenames that do not match expected style (allows for more than 1 filename style)
--   Provides a tool to generate architecture diagrams from the same model
+-   Provides a tool to generate architecture diagrams from the same model, via [tslint-folders-diagrams](https://github.com/mrseanryan/tslint-folders-diagrams)
 
 ---
 
@@ -95,48 +95,7 @@ Assuming tslint is already in place, then you should now see any unexpected impo
 
 ### 4 Generate a summary of the package configuration
 
-Assuming that `tslint.tslint-folders.json` has been correctly configured to model the expected package structure, then you can run this command to generate a summary:
-
-```
-node node_modules/tslint-folders/dist/lib/tools/docsGenerator tslint.tslint-folders.json Text
-```
-
-example output:
-
-```
-package structure:
-_____
-shell - Application Shell
-  --> (any)
-
-todo-area - TODO Area Package
-  --> grid-package, utils
-    folders:
-      components - components
-        --> (any)
-
-      viewmodels - view models
-        --> models, utils
-
-      models - models
-        --> utils
-
-      utils - utils
-        --> (none)
-
-contact-area - Area that shows contact details
-  --> grid-package, utils
-
-grid-package - Grid Package with no dependencies
-  --> (none)
-
-utils - Utils package
-  --> (none)
-
-_____
-```
-
-Allowed imports are shown for each package, after the `-->` arrow.
+See [tslint-folders-diagrams](https://github.com/mrseanryan/tslint-folders-diagrams)
 
 ### using graphviz to generate image diagrams of the architecture
 
@@ -144,7 +103,7 @@ A diagram can be automatically generated from the same config used to validated 
 
 ![example diagram](https://github.com/mrseanryan/tslint-folders/blob/master/static/images/example_diagram_from_Dot_output.png?raw=true)
 
-see [generating diagrams](https://github.com/mrseanryan/tslint-folders/blob/master/readme.generating-diagram-images.md) for details.
+see [tslint-folders-diagrams](https://github.com/mrseanryan/tslint-folders-diagrams) for details.
 
 ---
 
@@ -194,7 +153,6 @@ To work on the source code for tslint-folders, there are a few scripts:
 | command       | description                                                             |
 | ------------- | ----------------------------------------------------------------------- |
 | yarn build    | Builds the rules to the 'dist' folder, from where they can be executed. |
-| yarn docs     | Generates summary of the package structure described in tslint.json.    |
 | yarn lint     | Lints the source code of the rules.                                     |
 | yarn start    | Builds, tests and lints the code.                                       |
 | yarn test     | Tests the rules against spec files (\*.lint)                            |

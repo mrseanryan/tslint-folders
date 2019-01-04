@@ -119,7 +119,7 @@
         "test:prod": "npm run build && npm run lint && npm run test -- --no-cache",
         "tsl:build-and-test": "yarn build && yarn tsl:test",
         "tsl:test": "tslint --test test/rules/**/tslint.json",
-        "tsl:test-with-diagrams": "tslint --test test/rules/**/tslint.json && yarn docs:test && yarn docs:test-no-subfolders && yarn docs:test-dot && yarn docs:test-dot-no-subfolders",
+        "tsl:test-with-diagrams": "tslint --test test/rules/**/tslint.json",
         "tsl:test-one": "tslint --test test/rules/tsf-folders-disabled-test/**/tslint.json",
         "deploy-docs": "ts-node tools/gh-pages-publish",
         "report-coverage": "cat ./coverage/lcov.info | coveralls",
@@ -128,12 +128,7 @@
         "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
         "precommit": "lint-staged",
         "travis-deploy-once": "travis-deploy-once",
-        "prepush": "npm run test:prod",
-        "docs": "node dist/lib/tools/docsGenerator/",
-        "docs:test": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Text",
-        "docs:test-no-subfolders": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Text -skipSubFolders",
-        "docs:test-dot": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Dot",
-        "docs:test-dot-no-subfolders": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Dot -skipSubFolders"
+        "prepush": "npm run test:prod"
     },
     "repository": {
         "type": "git",

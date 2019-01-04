@@ -129,11 +129,11 @@
         "precommit": "lint-staged",
         "travis-deploy-once": "travis-deploy-once",
         "prepush": "npm run test:prod",
-        "docs": "node -r ts-node/register src/tools/docsGenerator/index.ts",
-        "docs:test": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text",
-        "docs:test-no-subfolders": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Text -skipSubFolders",
-        "docs:test-dot": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Dot",
-        "docs:test-dot-no-subfolders": "node -r ts-node/register src/tools/docsGenerator/index.ts ./tslint.tslint-folders.json Dot -skipSubFolders"
+        "docs": "node dist/lib/tools/docsGenerator/",
+        "docs:test": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Text",
+        "docs:test-no-subfolders": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Text -skipSubFolders",
+        "docs:test-dot": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Dot",
+        "docs:test-dot-no-subfolders": " node dist/lib/tools/docsGenerator/ ./tslint.tslint-folders.json Dot -skipSubFolders"
     },
     "repository": {
         "type": "git",

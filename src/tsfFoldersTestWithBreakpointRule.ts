@@ -3,11 +3,10 @@ import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
 import { TestBreakpointRuleConfig } from "./model/TestBreakpointRuleConfig";
+import { RuleId } from "./RuleId";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 
-export const TEST_BREAKPOINT_RULE_ID = "tsf-folders-test-with-breakpoint";
-
-export class TsfTestWithBreakPointRule extends Lint.Rules.AbstractRule {
+export class Rule extends Lint.Rules.AbstractRule {
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const config = ConfigFactory.createForTestBreakpointRule(this.getOptions());
 
@@ -39,7 +38,7 @@ class StatementsWalker extends Lint.RuleWalker {
                 node.getFirstToken(),
                 GeneralRuleUtils.buildFailureString(
                     "do not hard code breakpoints in the test",
-                    TEST_BREAKPOINT_RULE_ID
+                    RuleId.TsfFoldersTestWithBreakpoint
                 )
             );
         }

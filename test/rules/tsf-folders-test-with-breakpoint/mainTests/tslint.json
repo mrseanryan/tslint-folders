@@ -2,5 +2,5 @@
   "rules": {
     "tsf-folders-test-with-breakpoint": true
   },
-  "rulesDirectory": "../../../../dist/"
+  "rulesDirectory": "../../../../dist/lib/"
 }

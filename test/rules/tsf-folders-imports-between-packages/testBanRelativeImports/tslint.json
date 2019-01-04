@@ -1,5 +1,5 @@
 {
-  "rulesDirectory": "../../../../dist/",
+  "rulesDirectory": "../../../../dist/lib/",
   "rules": {
     "tsf-folders-imports-between-packages": [
       true,

@@ -4,23 +4,22 @@ import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
 import { Casing } from "./model/FilenamesRuleConfig";
+import { RuleId } from "./RuleId";
 import { EnumUtils } from "./utils/EnumUtils";
 import { FilenameCasingUtils } from "./utils/FilenameCasingUtils";
 import { ImportRuleUtils } from "./utils/ImportRuleUtils";
 
-export const FILE_NAMES_RULE_ID = "tsf-folders-file-names";
-
 /** Custom version of the standard file-name-casing rule, that allows for *multiple* casings.
  * ref: https://github.com/palantir/tslint/blob/master/src/rules/fileNameCasingRule.ts
  */
-export class TsfFileNamesRule extends Lint.Rules.AbstractRule {
+export class Rule extends Lint.Rules.AbstractRule {
     private static FAILURE_STRING(expectedCasings: Casing[]): string {
         const stylizedCasings = expectedCasings
             .map(casing => this.stylizedNameForCasing(casing))
             .join(" or ");
 
         // include the rule ID, to make it easier to disable
-        return `File name must be ${stylizedCasings} (${FILE_NAMES_RULE_ID})`;
+        return `File name must be ${stylizedCasings} (${RuleId.TsfFoldersFileNames})`;
     }
 
     private static stylizedNameForCasing(casing: Casing): string {
@@ -62,8 +61,8 @@ export class TsfFileNamesRule extends Lint.Rules.AbstractRule {
                     sourceFile,
                     0,
                     0,
-                    TsfFileNamesRule.FAILURE_STRING(config.casings),
-                    FILE_NAMES_RULE_ID
+                    Rule.FAILURE_STRING(config.casings),
+                    RuleId.TsfFoldersFileNames
                 )
             ];
         }

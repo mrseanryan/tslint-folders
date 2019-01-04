@@ -3,11 +3,11 @@ import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
 import { DisabledTestRuleConfig } from "./model/DisabledTestRuleConfig";
+import { RuleId } from "./RuleId";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 
-export const DISABLED_TEST_RULE_ID = "tsf-folders-disabled-test";
-
-export class TsfDisabledTestRule extends Lint.Rules.AbstractRule {
+// note: MUST be named exactly 'Rule' to be picked up by tslint
+export class Rule extends Lint.Rules.AbstractRule {
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const config = ConfigFactory.createForDisabledTestRule(this.getOptions());
 
@@ -39,7 +39,7 @@ class StatementsWalker extends Lint.RuleWalker {
                 node.getFirstToken(),
                 GeneralRuleUtils.buildFailureString(
                     "do not disable or enable only some tests",
-                    DISABLED_TEST_RULE_ID
+                    RuleId.TsfFoldersDisabledTest
                 )
             );
         }

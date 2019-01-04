@@ -1,5 +1,5 @@
 {
-  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/",
+  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/lib/",
   "rules": {
     "tsf-folders-imports-between-packages": [
       true,

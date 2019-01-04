@@ -3,20 +3,18 @@ import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
 import {
-    CheckImportsBetweenPackages,
-    PackageFolder
+    CheckImportsBetweenPackages, PackageFolder
 } from "./model/ImportsBetweenPackagesRuleConfig";
+import { RuleId } from "./RuleId";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
-
-export const IMPORTS_BETWEEN_PACKAGES_RULE_ID = "tsf-folders-imports-between-packages";
 
 const DISALLOW_IMPORT_FROM_SELF_MESSAGE =
     "do not import a package from itself - use a relative path";
 
 const DISALLOW_IMPORT_FROM_BANNED_MESSAGE = "do not use a banned import path from package";
 
-export class TsfImportsBetweenPackagesRule extends Lint.Rules.AbstractRule {
+export class Rule extends Lint.Rules.AbstractRule {
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const walker = new ImportsWalker(sourceFile, this.getOptions());
         this.applyWithWalker(walker);
@@ -51,7 +49,7 @@ class ImportsWalker extends Lint.RuleWalker {
 
         const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
             node.getSourceFile().fileName,
-            IMPORTS_BETWEEN_PACKAGES_RULE_ID,
+            RuleId.TsfFoldersImportsBetweenPackages,
             config,
             PathSource.SourceFilePath
         );
@@ -68,7 +66,7 @@ class ImportsWalker extends Lint.RuleWalker {
 
         const importPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
             text,
-            IMPORTS_BETWEEN_PACKAGES_RULE_ID,
+            RuleId.TsfFoldersImportsBetweenPackages,
             config,
             PathSource.ImportText,
             thisPackageLocation
@@ -88,7 +86,7 @@ class ImportsWalker extends Lint.RuleWalker {
                 node,
                 GeneralRuleUtils.buildFailureString(
                     DISALLOW_IMPORT_FROM_SELF_MESSAGE,
-                    IMPORTS_BETWEEN_PACKAGES_RULE_ID
+                    RuleId.TsfFoldersImportsBetweenPackages
                 )
             );
             return;
@@ -176,7 +174,7 @@ class ImportsWalker extends Lint.RuleWalker {
                 node,
                 GeneralRuleUtils.buildFailureString(
                     DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
-                    IMPORTS_BETWEEN_PACKAGES_RULE_ID
+                    RuleId.TsfFoldersImportsBetweenPackages
                 )
             );
             return true;
@@ -210,7 +208,10 @@ class ImportsWalker extends Lint.RuleWalker {
     private addFailureAtNodeWithMessage(node: ts.Node, failureMessage: string) {
         this.addFailureAtNode(
             node,
-            GeneralRuleUtils.buildFailureString(failureMessage, IMPORTS_BETWEEN_PACKAGES_RULE_ID)
+            GeneralRuleUtils.buildFailureString(
+                failureMessage,
+                RuleId.TsfFoldersImportsBetweenPackages
+            )
         );
     }
 }

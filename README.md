@@ -74,7 +74,7 @@ Edit your `tslint.json` to have an entry `"rulesDirectory"` that points to tslin
 Normally this would be like:
 
 ```
-  "rulesDirectory": "./node_modules/tslint-folders/dist/"
+  "rulesDirectory": "./node_modules/tslint-folders/dist/lib/"
 ```
 
 See [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json) for an example.

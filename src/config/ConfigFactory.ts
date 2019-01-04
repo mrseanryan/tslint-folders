@@ -6,109 +6,100 @@ import { ImportsBetweenPackagesRuleConfig } from "../model/ImportsBetweenPackage
 import {
     getDefaultBreakpointRuleConfig, TestBreakpointRuleConfig
 } from "../model/TestBreakpointRuleConfig";
-import { DISABLED_TEST_RULE_ID } from "../tsfFoldersDisabledTestRule";
-import { FILE_NAMES_RULE_ID } from "../tsfFoldersFileNamesRule";
-import { IMPORTS_BETWEEN_PACKAGES_RULE_ID } from "../tsfFoldersImportsBetweenPackagesRule";
-import { TEST_BREAKPOINT_RULE_ID } from "../tsfFoldersTestWithBreakpointRule";
+import { RuleId } from "../RuleId";
 
 export namespace ConfigFactory {
-  export function createForBetweenPackages(
-    options: any
-  ): ImportsBetweenPackagesRuleConfig {
-    const config = create<ImportsBetweenPackagesRuleConfig>(
-      options,
-      IMPORTS_BETWEEN_PACKAGES_RULE_ID
-    );
+    export function createForBetweenPackages(options: any): ImportsBetweenPackagesRuleConfig {
+        const config = create<ImportsBetweenPackagesRuleConfig>(
+            options,
+            RuleId.TsfFoldersImportsBetweenPackages
+        );
 
-    // TODO xxx validate a bit (at least importPath should be set, allowedToImport should refer to recognised importPath)
+        // TODO xxx validate a bit (at least importPath should be set, allowedToImport should refer to recognised importPath)
 
-    return config;
-  }
-
-  export function createForFilenames(options: any): FilenamesRuleConfig {
-    const config = createFromArguments<FilenamesRuleConfig>(
-      options,
-      FILE_NAMES_RULE_ID
-    );
-
-    config.casings = (<any>config)["file-name-casing"];
-
-    validate(config, "casings", FILE_NAMES_RULE_ID);
-    validate(config, "ignorePaths", FILE_NAMES_RULE_ID);
-
-    return config;
-  }
-
-  export function createForDisabledTestRule(
-    options: any
-  ): DisabledTestRuleConfig {
-    // older config had just 'true':
-    if (options.ruleArguments.length === 0) {
-      return getDefaultDisabledTestRuleConfig();
+        return config;
     }
 
-    const config = createFromArguments<DisabledTestRuleConfig>(
-      options,
-      DISABLED_TEST_RULE_ID
-    );
+    export function createForFilenames(options: any): FilenamesRuleConfig {
+        const config = createFromArguments<FilenamesRuleConfig>(
+            options,
+            RuleId.TsfFoldersFileNames
+        );
 
-    validate(config, "ban", DISABLED_TEST_RULE_ID);
-    validate(config, "includePaths", DISABLED_TEST_RULE_ID);
+        config.casings = (<any>config)["file-name-casing"];
 
-    return config;
-  }
+        validate(config, "casings", RuleId.TsfFoldersFileNames);
+        validate(config, "ignorePaths", RuleId.TsfFoldersFileNames);
 
-  export function createForTestBreakpointRule(
-    options: any
-  ): TestBreakpointRuleConfig {
-    // older config had just 'true':
-    if (options.ruleArguments.length === 0) {
-      return getDefaultBreakpointRuleConfig();
+        return config;
     }
 
-    const config = createFromArguments<TestBreakpointRuleConfig>(
-      options,
-      TEST_BREAKPOINT_RULE_ID
-    );
+    export function createForDisabledTestRule(options: any): DisabledTestRuleConfig {
+        console.log("options.ruleArguments", options.ruleArguments);
 
-    validate(config, "debugTokens", TEST_BREAKPOINT_RULE_ID);
-    validate(config, "includePaths", TEST_BREAKPOINT_RULE_ID);
+        // older config had just 'true':
+        if (options.ruleArguments.length === 0) {
+            return getDefaultDisabledTestRuleConfig();
+        }
 
-    return config;
-  }
+        const config = createFromArguments<DisabledTestRuleConfig>(
+            options,
+            RuleId.TsfFoldersDisabledTest
+        );
 
-  function validate(config: any, prop: string, ruleId: string) {
-    if (config[prop] === undefined) {
-      throw new Error(`invalid config for rule ${ruleId} - ${prop} is missing`);
-    }
-  }
+        validate(config, "ban", RuleId.TsfFoldersDisabledTest);
+        validate(config, "includePaths", RuleId.TsfFoldersDisabledTest);
 
-  function create<T>(options: any, ruleId: string): T {
-    if (options.length !== 1) {
-      throw new Error(
-        `tslint rule is misconfigured (${ruleId}) - options length is ${
-          options.length
-        }`
-      );
+        return config;
     }
 
-    const config: T = options[0].config;
-    return config;
-  }
+    export function createForTestBreakpointRule(options: any): TestBreakpointRuleConfig {
+        // older config had just 'true':
+        if (options.ruleArguments.length === 0) {
+            return getDefaultBreakpointRuleConfig();
+        }
 
-  function createFromArguments<T>(options: any, ruleId: string): T {
-    const args = options.ruleArguments;
+        const config = createFromArguments<TestBreakpointRuleConfig>(
+            options,
+            RuleId.TsfFoldersTestWithBreakpoint
+        );
 
-    if (args.length !== 1) {
-      throw new Error(
-        `tslint rule is misconfigured (${ruleId}) - options.ruleArguments length is ${
-          args.length
-        }`
-      );
+        validate(config, "debugTokens", RuleId.TsfFoldersTestWithBreakpoint);
+        validate(config, "includePaths", RuleId.TsfFoldersTestWithBreakpoint);
+
+        return config;
     }
 
-    const config: T = args[0];
+    function validate(config: any, prop: string, ruleId: string) {
+        if (config[prop] === undefined) {
+            throw new Error(`invalid config for rule ${ruleId} - ${prop} is missing`);
+        }
+    }
 
-    return config;
-  }
+    function create<T>(options: any, ruleId: string): T {
+        if (options.length !== 1) {
+            throw new Error(
+                `tslint rule is misconfigured (${ruleId}) - options length is ${options.length}`
+            );
+        }
+
+        const config: T = options[0].config;
+        return config;
+    }
+
+    function createFromArguments<T>(options: any, ruleId: string): T {
+        const args = options.ruleArguments;
+
+        if (args.length !== 1) {
+            throw new Error(
+                `tslint rule is misconfigured (${ruleId}) - options.ruleArguments length is ${
+                    args.length
+                }`
+            );
+        }
+
+        const config: T = args[0];
+
+        return config;
+    }
 }

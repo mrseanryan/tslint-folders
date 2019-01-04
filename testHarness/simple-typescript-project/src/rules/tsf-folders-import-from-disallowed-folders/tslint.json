@@ -4,7 +4,7 @@
       true,
       {
         "disallowed": [
-          "/node_modules/tslint-folders/dist/",
+          "/node_modules/tslint-folders/dist/lib/",
           "/dist",
           "/node_modules/",
           "/node_modules",
@@ -13,5 +13,5 @@
       }
     ]
   },
-  "rulesDirectory": "../../../node_modules/tslint-folders/dist/"
+  "rulesDirectory": "../../../node_modules/tslint-folders/dist/lib/"
 }

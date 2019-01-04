@@ -26,7 +26,7 @@ export namespace ConfigFactory {
             RuleId.TsfFoldersFileNames
         );
 
-        config.casings = (<any>config)["file-name-casing"];
+        config.casings = (config as any)["file-name-casing"];
 
         validate(config, "casings", RuleId.TsfFoldersFileNames);
         validate(config, "ignorePaths", RuleId.TsfFoldersFileNames);

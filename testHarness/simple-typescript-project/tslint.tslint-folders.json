@@ -1,141 +1,156 @@
 {
-  "rulesDirectory": "node_modules/tslint-folders/dist",
-  "rules": {
-    "tsf-folders-disabled-test": [
-      true,
-      {
-        "ban": ["it.only", "it.skip", "describe.only", "describe.skip", "fdescribe", "fit", "xit", "xdescribe"],
-        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx", ".spec.karma.tsx"]
-      }
-    ],
-    "tsf-folders-import-from-disallowed-folders": [
-      true,
-      {
-        "disallowed": [
-          "/dist/",
-          "/dist",
-          "/node_modules/",
-          "/node_modules",
-          "mobx/lib/mobx"
+    "rulesDirectory": "node_modules/tslint-folders/dist/lib",
+    "rules": {
+        "tsf-folders-disabled-test": [
+            true,
+            {
+                "ban": [
+                    "it.only",
+                    "it.skip",
+                    "describe.only",
+                    "describe.skip",
+                    "fdescribe",
+                    "fit",
+                    "xit",
+                    "xdescribe"
+                ],
+                "includePaths": [
+                    ".spec.ts",
+                    ".spec.tsx",
+                    ".ispec.ts",
+                    ".ispec.tsx",
+                    ".spec.karma.tsx"
+                ]
+            }
+        ],
+        "tsf-folders-import-from-disallowed-folders": [
+            true,
+            {
+                "disallowed": [
+                    "/dist/lib/",
+                    "/dist",
+                    "/node_modules/",
+                    "/node_modules",
+                    "mobx/lib/mobx"
+                ]
+            }
+        ],
+        "tsf-folders-test-with-breakpoint": [
+            true,
+            {
+                "debugTokens": ["browser.debug"],
+                "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx"]
+            }
+        ],
+        "tsf-folders-file-names": [
+            true,
+            {
+                "file-name-casing": ["camel-case", "pascal-case"],
+                "ignorePaths": []
+            }
+        ],
+        "tsf-folders-imports-between-packages": [
+            true,
+            {
+                "config": {
+                    "disallowImportFromSelf": {
+                        "enabled": true,
+                        "ignorePaths": [
+                            "utils",
+                            "utils/",
+                            ".spec.ts",
+                            ".spec.tsx",
+                            ".ispec.ts",
+                            ".ispec.tsx"
+                        ]
+                    },
+                    "checkImportsBetweenPackages": {
+                        "enabled": true,
+                        "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"],
+                        "banBlacklist": ["utils"],
+                        "checkSubFoldersEnabled": true,
+                        "ignorePaths": [],
+                        "packages": [
+                            {
+                                "description": "Application Shell",
+                                "importPath": "shell",
+                                "allowedToImport": ["*"],
+                                "subFolders": []
+                            },
+                            {
+                                "description": "TODO Area Package",
+                                "importPath": "todo-area",
+                                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                                "diagramCluster": "areas",
+                                "subFolders": [
+                                    {
+                                        "description": "UI components",
+                                        "importPath": "components",
+                                        "allowedToImport": ["*"]
+                                    },
+                                    {
+                                        "description": "View models used by the UI",
+                                        "importPath": "viewmodels",
+                                        "allowedToImport": ["models", "utils"]
+                                    },
+                                    {
+                                        "description": "Models used by the view models",
+                                        "importPath": "models",
+                                        "allowedToImport": ["utils"]
+                                    },
+                                    {
+                                        "description": "general utils",
+                                        "importPath": "utils",
+                                        "allowedToImport": []
+                                    }
+                                ]
+                            },
+                            {
+                                "description": "Area that shows contact details",
+                                "importPath": "contact-area",
+                                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
+                                "diagramCluster": "areas",
+                                "subFolders": []
+                            },
+                            {
+                                "description": "Grid Package with no dependencies",
+                                "importPath": "grid-package",
+                                "allowedToImport": ["thirdPartySdk"],
+                                "subFolders": [
+                                    {
+                                        "description": "UI components that compose the grid",
+                                        "importPath": "components",
+                                        "allowedToImport": ["*"]
+                                    },
+                                    {
+                                        "description": "Models used by the UI components",
+                                        "importPath": "models",
+                                        "allowedToImport": ["utils"]
+                                    },
+                                    {
+                                        "description": "general utils",
+                                        "importPath": "utils",
+                                        "allowedToImport": []
+                                    }
+                                ]
+                            },
+                            {
+                                "description": "Utils package",
+                                "importPath": "utils",
+                                "allowedToImport": [],
+                                "subFolders": []
+                            },
+                            {
+                                "description": "Third party SDK",
+                                "importPath": "thirdPartySdk",
+                                "isExternal": true,
+                                "allowedToImport": [],
+                                "subFolders": []
+                            }
+                        ]
+                    }
+                }
+            }
         ]
-      }
-    ],
-    "tsf-folders-test-with-breakpoint": [
-      true,
-      {
-        "debugTokens": ["browser.debug"],
-        "includePaths": [".spec.ts", ".spec.tsx", ".ispec.ts", ".ispec.tsx"]
-      }
-    ],
-    "tsf-folders-file-names": [
-      true,
-      {
-        "file-name-casing": ["camel-case", "pascal-case"],
-        "ignorePaths": []
-      }
-    ],
-    "tsf-folders-imports-between-packages": [
-      true,
-      {
-        "config": {
-          "disallowImportFromSelf": {
-            "enabled": true,
-            "ignorePaths": [
-              "utils",
-              "utils/",
-              ".spec.ts",
-              ".spec.tsx",
-              ".ispec.ts",
-              ".ispec.tsx"
-            ]
-          },
-          "checkImportsBetweenPackages": {
-            "enabled": true,
-            "ban": ["{PACKAGE}/src/", "/{PACKAGE}/"],
-            "banBlacklist": ["utils"],
-            "checkSubFoldersEnabled": true,
-            "ignorePaths": [],
-            "packages": [
-              {
-                "description": "Application Shell",
-                "importPath": "shell",
-                "allowedToImport": ["*"],
-                "subFolders": []
-              },
-              {
-                "description": "TODO Area Package",
-                "importPath": "todo-area",
-                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
-                "diagramCluster": "areas",
-                "subFolders": [
-                  {
-                    "description": "UI components",
-                    "importPath": "components",
-                    "allowedToImport": ["*"]
-                  },
-                  {
-                    "description": "View models used by the UI",
-                    "importPath": "viewmodels",
-                    "allowedToImport": ["models", "utils"]
-                  },
-                  {
-                    "description": "Models used by the view models",
-                    "importPath": "models",
-                    "allowedToImport": ["utils"]
-                  },
-                  {
-                    "description": "general utils",
-                    "importPath": "utils",
-                    "allowedToImport": []
-                  }
-                ]
-              },
-              {
-                "description": "Area that shows contact details",
-                "importPath": "contact-area",
-                "allowedToImport": ["grid-package", "utils", "thirdPartySdk"],
-                "diagramCluster": "areas",
-                "subFolders": []
-              },
-              {
-                "description": "Grid Package with no dependencies",
-                "importPath": "grid-package",
-                "allowedToImport": ["thirdPartySdk"],
-                "subFolders": [
-                  {
-                    "description": "UI components that compose the grid",
-                    "importPath": "components",
-                    "allowedToImport": ["*"]
-                  },
-                  {
-                    "description": "Models used by the UI components",
-                    "importPath": "models",
-                    "allowedToImport": ["utils"]
-                  },
-                  {
-                    "description": "general utils",
-                    "importPath": "utils",
-                    "allowedToImport": []
-                  }
-                ]
-              },
-              {
-                "description": "Utils package",
-                "importPath": "utils",
-                "allowedToImport": [],
-                "subFolders": []
-              },
-              {
-                "description": "Third party SDK",
-                "importPath": "thirdPartySdk",
-                "isExternal": true,
-                "allowedToImport": [],
-                "subFolders": []
-              }
-            ]
-          }
-        }
-      }
-    ]
-  }
+    }
 }

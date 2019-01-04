@@ -2,5 +2,5 @@
   "rules": {
     "tsf-folders-test-with-breakpoint": true
   },
-  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/"
+  "rulesDirectory": "../../../../node_modules/tslint-folders/dist/lib/"
 }

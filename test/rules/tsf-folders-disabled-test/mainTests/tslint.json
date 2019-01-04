@@ -2,5 +2,5 @@
   "rules": {
     "tsf-folders-disabled-test": true
   },
-  "rulesDirectory": "../../../../dist/"
+  "rulesDirectory": "../../../../dist/lib/"
 }

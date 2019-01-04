@@ -1,5 +1,5 @@
 {
-    "extends": ["./tslint.tslint-ban-snippets.json"],
+    "extends": ["./tslint.tslint-folders.json"],
     "rules": {
         "adjacent-overload-signatures": true,
         "ban-types": false,

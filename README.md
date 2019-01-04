@@ -77,13 +77,13 @@ Normally this would be like:
   "rulesDirectory": "./node_modules/tslint-folders/dist/lib/"
 ```
 
-See [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json) for an example.
+See [tslint.tslint-folders.json](https://github.com/mrseanryan/tslint-folders/blob/master/tslint.tslint-folders.json) for an example.
 
 ### 3 Configure the rules
 
 The tslint rules are enabled and configured in `tslint.json`.
 
-See the section under `tsf-folders-imports-between-packages` in [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json) or the [unit tests](https://bitbucket.org/str/tslint-folders/src/master/test/rules/) for examples.
+See the section under `tsf-folders-imports-between-packages` in [tslint.tslint-folders.json](https://github.com/mrseanryan/tslint-folders/blob/master/tslint.tslint-folders.json) or the [unit tests](https://github.com/mrseanryan/tslint-folders/blob/master/test/rules/) for examples.
 
 Optionally, you can split out the tslint-folders configuration into a separate file, like `tslint.tslint-folders.json`. To reference the file, add this code to `tslint.json`:
 
@@ -142,9 +142,9 @@ Allowed imports are shown for each package, after the `-->` arrow.
 
 A diagram can be automatically generated from the same config used to validated the code:
 
-![example diagram](https://bitbucket.org/str/tslint-folders/raw/f9c220af572d72f8dc4024d02582cf2b03b15552/static/images/example_diagram_from_Dot_output-2.svg)
+![example diagram](https://github.com/mrseanryan/tslint-folders/blob/master/static/images/example_diagram_from_Dot_output.png?raw=true)
 
-see [generating diagrams](https://bitbucket.org/str/tslint-folders/src/master/readme.generating-diagram-images.md) for details.
+see [generating diagrams](https://github.com/mrseanryan/tslint-folders/blob/master/readme.generating-diagram-images.md) for details.
 
 ---
 
@@ -183,7 +183,7 @@ However, having custom rules gives clearer messages to help the developer to kno
 
 Some of the rules are not strictly about 'folders', but are included here as they also seem useful.
 
-For more details and examples please see the [unit tests](https://bitbucket.org/str/tslint-folders/src/master/test/rules/)
+For more details and examples please see the [unit tests](https://github.com/mrseanryan/tslint-folders/blob/master/test/rules/)
 
 ---
 
@@ -204,11 +204,11 @@ To work on the source code for tslint-folders, there are a few scripts:
 
 ## unit tests
 
-The unit tests for the rule `tsf-folders-imports-between-packages` are [here](https://bitbucket.org/str/tslint-folders/src/master/test/rules/tsf-folders-imports-between-packages).
+The unit tests for the rule `tsf-folders-imports-between-packages` are [here](https://github.com/mrseanryan/tslint-folders/blob/master/test/rules/tsf-folders-imports-between-packages).
 
 The unit tests use test data to check the package boundaries of a fairly typical website.
 
-The matching configuration can be seen in [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json)
+The matching configuration can be seen in [tslint.tslint-folders.json](https://github.com/mrseanryan/tslint-folders/blob/master/tslint.tslint-folders.json)
 
 ### test data - packages
 
@@ -228,7 +228,7 @@ The test data is based around a website that uses multiple packages:
 
 tslint-folders can also validate imports between sub-folders of a package.
 
-The test data 'todo-area' package is configured with fairly typical sub-folders such as 'components' and 'models'. [tslint.tslint-folders.json](https://bitbucket.org/str/tslint-folders/src/master/tslint.tslint-folders.json) has been configured to check the imports between these folders.
+The test data 'todo-area' package is configured with fairly typical sub-folders such as 'components' and 'models'. [tslint.tslint-folders.json](https://github.com/mrseanryan/tslint-folders/blob/master/tslint.tslint-folders.json) has been configured to check the imports between these folders.
 
 | Sub-folder name | Description                                                                             |
 | --------------- | --------------------------------------------------------------------------------------- |

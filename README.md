@@ -23,7 +23,7 @@ tslint-folders is stable and in use every day in CI builds and on dev boxes (Lin
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://paypal.me/mrseanryan) [![Greenkeeper badge](https://badges.greenkeeper.io/mrseanryan/tslint-folders.svg)](https://greenkeeper.io/)
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://paypal.me/mrseanryan)
 
 ---
 

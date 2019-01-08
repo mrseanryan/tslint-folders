@@ -35,8 +35,6 @@ export namespace ConfigFactory {
     }
 
     export function createForDisabledTestRule(options: any): DisabledTestRuleConfig {
-        console.log("options.ruleArguments", options.ruleArguments);
-
         // older config had just 'true':
         if (options.ruleArguments.length === 0) {
             return getDefaultDisabledTestRuleConfig();

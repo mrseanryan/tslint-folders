@@ -3,7 +3,8 @@ import * as ts from "typescript";
 
 import { ConfigFactory } from "./config/ConfigFactory";
 import {
-    CheckImportsBetweenPackages, PackageFolder
+    CheckImportsBetweenPackages,
+    ImportsBetweenPackagesRuleConfig
 } from "./model/ImportsBetweenPackagesRuleConfig";
 import { RuleId } from "./RuleId";
 import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
@@ -16,27 +17,47 @@ const DISALLOW_IMPORT_FROM_BANNED_MESSAGE = "do not use a banned import path fro
 
 export class Rule extends Lint.Rules.AbstractRule {
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-        const walker = new ImportsWalker(sourceFile, this.getOptions());
-        this.applyWithWalker(walker);
+        const config = ConfigFactory.createForBetweenPackages(this.getOptions().ruleArguments);
 
-        return walker.getFailures();
+        return this.applyWithFunction<ImportsBetweenPackagesRuleConfig>(sourceFile, walk, config);
     }
 }
 
-class ImportsWalker extends Lint.RuleWalker {
-    visitImportDeclaration(node: ts.ImportDeclaration) {
-        this.validate(node, node.moduleSpecifier.getText());
+const walk = (ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>) => {
+    return ts.forEachChild(ctx.sourceFile, checkNode);
+
+    function checkNode(node: ts.Node): void {
+        if (node.kind === ts.SyntaxKind.ImportDeclaration) {
+            visitImportDeclaration(node as ts.ImportDeclaration, ctx);
+        } else if (node.kind === ts.SyntaxKind.ImportEqualsDeclaration) {
+            visitImportEqualsDeclaration(node as ts.ImportEqualsDeclaration, ctx);
+        }
+
+        return ts.forEachChild(node, checkNode);
     }
+};
 
-    visitImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
-        this.validate(node, node.moduleReference.getText());
+function visitImportDeclaration(
+    node: ts.ImportDeclaration,
+    ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>
+) {
+    validate(node, node.moduleSpecifier.getText(), ctx);
+}
 
-        super.visitImportEqualsDeclaration(node);
-    }
+function visitImportEqualsDeclaration(
+    node: ts.ImportEqualsDeclaration,
+    ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>
+) {
+    validate(node, node.moduleReference.getText(), ctx);
+}
 
-    private validate(node: ts.Node, text: string) {
-        // algorithm:
-        /*
+function validate(
+    node: ts.Node,
+    text: string,
+    ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>
+) {
+    // algorithm:
+    /*
         - determine this files PackageFolder, PackageSubFolder
         - if ThirdParty then skip
         - determine the PackageFolder, PackageSubFolder of the import
@@ -45,173 +66,166 @@ class ImportsWalker extends Lint.RuleWalker {
         - check if the import is allowed
         */
 
-        const config = ConfigFactory.createForBetweenPackages(this.getOptions());
+    const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
+        node.getSourceFile().fileName,
+        RuleId.TsfFoldersImportsBetweenPackages,
+        ctx.options,
+        PathSource.SourceFilePath
+    );
 
-        const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
-            node.getSourceFile().fileName,
-            RuleId.TsfFoldersImportsBetweenPackages,
-            config,
-            PathSource.SourceFilePath
+    if (ImportRuleUtils.isThisPackageThirdParty(thisPackageLocation, node)) {
+        return;
+    }
+
+    if (!thisPackageLocation.packageFolder) {
+        throw new Error(
+            "unexpected: this package is not ThirdParty, but has no packageFolder in its location"
         );
-
-        if (ImportRuleUtils.isThisPackageThirdParty(thisPackageLocation, node)) {
-            return;
-        }
-
-        if (!thisPackageLocation.packageFolder) {
-            throw new Error(
-                "unexpected: this package is not ThirdParty, but has no packageFolder in its location"
-            );
-        }
-
-        const importPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
-            text,
-            RuleId.TsfFoldersImportsBetweenPackages,
-            config,
-            PathSource.ImportText,
-            thisPackageLocation
-        );
-
-        ImportRuleUtils.logPackageAndImport(node, thisPackageLocation, importPackageLocation);
-
-        const isImportRecognised = !ImportRuleUtils.isPackageThirdParty(importPackageLocation);
-
-        if (
-            isImportRecognised &&
-            importPackageLocation.packageName === thisPackageLocation.packageName &&
-            config.disallowImportFromSelf.enabled &&
-            !ImportRuleUtils.shouldIgnoreFile(node, config.disallowImportFromSelf.ignorePaths)
-        ) {
-            this.addFailureAtNode(
-                node,
-                GeneralRuleUtils.buildFailureString(
-                    DISALLOW_IMPORT_FROM_SELF_MESSAGE,
-                    RuleId.TsfFoldersImportsBetweenPackages
-                )
-            );
-            return;
-        }
-
-        if (
-            isImportRecognised &&
-            config.checkImportsBetweenPackages.enabled &&
-            !ImportRuleUtils.shouldIgnoreFile(node, config.checkImportsBetweenPackages.ignorePaths)
-        ) {
-            if (!thisPackageLocation.packageFolder || !importPackageLocation.packageFolder) {
-                return;
-            }
-
-            if (this.hasBannedImportPattern(config.checkImportsBetweenPackages, text, node)) {
-                return;
-            }
-
-            if (importPackageLocation.packageFolder === thisPackageLocation.packageFolder) {
-                if (!config.checkImportsBetweenPackages.checkSubFoldersEnabled) {
-                    return;
-                }
-
-                // TODO xxx extract fun?
-                // check sub-folders
-
-                if (
-                    thisPackageLocation.packageSubFolder &&
-                    importPackageLocation.packageSubFolder &&
-                    thisPackageLocation.packageSubFolder.importPath !==
-                        importPackageLocation.packageSubFolder.importPath
-                ) {
-                    if (
-                        thisPackageLocation.packageSubFolder.allowedToImport.some(
-                            allowed => allowed === "*"
-                        )
-                    ) {
-                        return;
-                    }
-
-                    if (
-                        !thisPackageLocation.packageSubFolder.allowedToImport.some(allowed => {
-                            return importPackageLocation.packageSubFolder!.importPath === allowed;
-                        })
-                    ) {
-                        const failureMessage = `'${thisPackageLocation.packageName}' sub folder '${
-                            thisPackageLocation.packageSubFolder.importPath
-                        }' is not allowed to import from '${
-                            importPackageLocation.packageSubFolder.importPath
-                        }'`;
-
-                        this.addFailureAtNodeWithMessage(node, failureMessage);
-                    }
-                }
-            } else {
-                const thisPackageFolder = thisPackageLocation.packageFolder;
-                if (thisPackageFolder.allowedToImport.find(allowed => allowed === "*")) {
-                    return;
-                }
-
-                if (
-                    !thisPackageFolder.allowedToImport.find(
-                        allowed => allowed === importPackageLocation.packageName
-                    )
-                ) {
-                    const failureMessage = `'${
-                        thisPackageLocation.packageName
-                    }' is not allowed to import from '${importPackageLocation.packageName}'`;
-
-                    this.addFailureAtNodeWithMessage(node, failureMessage);
-                }
-            }
-        }
     }
 
-    private hasBannedImportPattern(
-        checkImportsBetweenPackages: CheckImportsBetweenPackages,
-        text: string,
-        node: ts.Node
-    ): boolean {
-        const bannedImports = this.buildListOfBannedImports(checkImportsBetweenPackages);
+    const importPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
+        text,
+        RuleId.TsfFoldersImportsBetweenPackages,
+        ctx.options,
+        PathSource.ImportText,
+        thisPackageLocation
+    );
 
-        if (bannedImports && bannedImports.some(ban => text.indexOf(ban) >= 0)) {
-            this.addFailureAtNode(
-                node,
-                GeneralRuleUtils.buildFailureString(
-                    DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
-                    RuleId.TsfFoldersImportsBetweenPackages
-                )
-            );
-            return true;
-        }
+    ImportRuleUtils.logPackageAndImport(node, thisPackageLocation, importPackageLocation);
 
-        return false;
-    }
+    const isImportRecognised = !ImportRuleUtils.isPackageThirdParty(importPackageLocation);
 
-    private buildListOfBannedImports(
-        checkImportsBetweenPackages: CheckImportsBetweenPackages
-    ): string[] {
-        const { ban, banBlacklist, packages } = checkImportsBetweenPackages;
-
-        if (!ban) {
-            return [];
-        }
-
-        const bannedImports: string[] = [];
-
-        packages
-            .filter(pkg => !banBlacklist || !banBlacklist.some(b => pkg.importPath === b))
-            .forEach(pkg => {
-                ban.forEach(b => {
-                    bannedImports.push(b.replace("{PACKAGE}", pkg.importPath));
-                });
-            });
-
-        return bannedImports;
-    }
-
-    private addFailureAtNodeWithMessage(node: ts.Node, failureMessage: string) {
-        this.addFailureAtNode(
+    if (
+        isImportRecognised &&
+        importPackageLocation.packageName === thisPackageLocation.packageName &&
+        ctx.options.disallowImportFromSelf.enabled &&
+        !ImportRuleUtils.shouldIgnoreFile(node, ctx.options.disallowImportFromSelf.ignorePaths)
+    ) {
+        ctx.addFailureAtNode(
             node,
             GeneralRuleUtils.buildFailureString(
-                failureMessage,
+                DISALLOW_IMPORT_FROM_SELF_MESSAGE,
                 RuleId.TsfFoldersImportsBetweenPackages
             )
         );
+        return;
     }
+
+    if (
+        isImportRecognised &&
+        ctx.options.checkImportsBetweenPackages.enabled &&
+        !ImportRuleUtils.shouldIgnoreFile(node, ctx.options.checkImportsBetweenPackages.ignorePaths)
+    ) {
+        if (!thisPackageLocation.packageFolder || !importPackageLocation.packageFolder) {
+            return;
+        }
+
+        if (hasBannedImportPattern(ctx.options.checkImportsBetweenPackages, text, node, ctx)) {
+            return;
+        }
+
+        if (importPackageLocation.packageFolder === thisPackageLocation.packageFolder) {
+            if (!ctx.options.checkImportsBetweenPackages.checkSubFoldersEnabled) {
+                return;
+            }
+
+            // TODO xxx extract fun?
+            // check sub-folders
+
+            if (
+                thisPackageLocation.packageSubFolder &&
+                importPackageLocation.packageSubFolder &&
+                thisPackageLocation.packageSubFolder.importPath !==
+                    importPackageLocation.packageSubFolder.importPath
+            ) {
+                if (
+                    thisPackageLocation.packageSubFolder.allowedToImport.some(
+                        allowed => allowed === "*"
+                    )
+                ) {
+                    return;
+                }
+
+                if (
+                    !thisPackageLocation.packageSubFolder.allowedToImport.some(allowed => {
+                        return importPackageLocation.packageSubFolder!.importPath === allowed;
+                    })
+                ) {
+                    const failureMessage = `'${thisPackageLocation.packageName}' sub folder '${thisPackageLocation.packageSubFolder.importPath}' is not allowed to import from '${importPackageLocation.packageSubFolder.importPath}'`;
+
+                    addFailureAtNodeWithMessage(node, failureMessage, ctx);
+                }
+            }
+        } else {
+            const thisPackageFolder = thisPackageLocation.packageFolder;
+            if (thisPackageFolder.allowedToImport.find(allowed => allowed === "*")) {
+                return;
+            }
+
+            if (
+                !thisPackageFolder.allowedToImport.find(
+                    allowed => allowed === importPackageLocation.packageName
+                )
+            ) {
+                const failureMessage = `'${thisPackageLocation.packageName}' is not allowed to import from '${importPackageLocation.packageName}'`;
+
+                addFailureAtNodeWithMessage(node, failureMessage, ctx);
+            }
+        }
+    }
+}
+
+function hasBannedImportPattern(
+    checkImportsBetweenPackages: CheckImportsBetweenPackages,
+    text: string,
+    node: ts.Node,
+    ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>
+): boolean {
+    const bannedImports = buildListOfBannedImports(checkImportsBetweenPackages);
+
+    if (bannedImports && bannedImports.some(ban => text.indexOf(ban) >= 0)) {
+        ctx.addFailureAtNode(
+            node,
+            GeneralRuleUtils.buildFailureString(
+                DISALLOW_IMPORT_FROM_BANNED_MESSAGE,
+                RuleId.TsfFoldersImportsBetweenPackages
+            )
+        );
+        return true;
+    }
+
+    return false;
+}
+
+function buildListOfBannedImports(
+    checkImportsBetweenPackages: CheckImportsBetweenPackages
+): string[] {
+    const { ban, banBlacklist, packages } = checkImportsBetweenPackages;
+
+    if (!ban) {
+        return [];
+    }
+
+    const bannedImports: string[] = [];
+
+    packages
+        .filter(pkg => !banBlacklist || !banBlacklist.some(b => pkg.importPath === b))
+        .forEach(pkg => {
+            ban.forEach(b => {
+                bannedImports.push(b.replace("{PACKAGE}", pkg.importPath));
+            });
+        });
+
+    return bannedImports;
+}
+
+function addFailureAtNodeWithMessage(
+    node: ts.Node,
+    failureMessage: string,
+    ctx: Lint.WalkContext<ImportsBetweenPackagesRuleConfig>
+) {
+    ctx.addFailureAtNode(
+        node,
+        GeneralRuleUtils.buildFailureString(failureMessage, RuleId.TsfFoldersImportsBetweenPackages)
+    );
 }

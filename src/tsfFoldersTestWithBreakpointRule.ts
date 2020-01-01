@@ -14,35 +14,35 @@ export class Rule extends Lint.Rules.AbstractRule {
             return [];
         }
 
-        const walker = new StatementsWalker(sourceFile, this.getOptions(), config);
-        this.applyWithWalker(walker);
-
-        return walker.getFailures();
+        return this.applyWithFunction<TestBreakpointRuleConfig>(sourceFile, walk, config);
     }
 }
 
-class StatementsWalker extends Lint.RuleWalker {
-    constructor(
-        sourceFile: ts.SourceFile,
-        options: Lint.IOptions,
-        private config: TestBreakpointRuleConfig
-    ) {
-        super(sourceFile, options);
-    }
+const walk = (ctx: Lint.WalkContext<TestBreakpointRuleConfig>) => {
+    return ts.forEachChild(ctx.sourceFile, checkNode);
 
-    visitCallExpression(node: ts.CallExpression) {
-        const text = node.getText();
-
-        if (this.config.debugTokens.some(token => text.startsWith(token))) {
-            this.addFailureAtNode(
-                node.getFirstToken() || node,
-                GeneralRuleUtils.buildFailureString(
-                    "do not hard code breakpoints in the test",
-                    RuleId.TsfFoldersTestWithBreakpoint
-                )
-            );
+    function checkNode(node: ts.Node): void {
+        if (node.kind === ts.SyntaxKind.CallExpression) {
+            visitCallExpression(node as ts.CallExpression, ctx);
         }
 
-        super.visitCallExpression(node);
+        return ts.forEachChild(node, checkNode);
+    }
+};
+
+function visitCallExpression(
+    node: ts.CallExpression,
+    ctx: Lint.WalkContext<TestBreakpointRuleConfig>
+) {
+    const text = node.getText();
+
+    if (ctx.options.debugTokens.some(token => text.startsWith(token))) {
+        ctx.addFailureAtNode(
+            node.getFirstToken() || node,
+            GeneralRuleUtils.buildFailureString(
+                "do not hard code breakpoints in the test",
+                RuleId.TsfFoldersTestWithBreakpoint
+            )
+        );
     }
 }

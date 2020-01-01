@@ -130,9 +130,7 @@
         "commit": "git-cz",
         "semantic-release": "semantic-release",
         "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-        "precommit": "lint-staged",
-        "travis-deploy-once": "travis-deploy-once",
-        "prepush": "npm run test:prod"
+        "travis-deploy-once": "travis-deploy-once"
     },
     "repository": {
         "type": "git",
@@ -153,5 +151,11 @@
         "code analysis",
         "dependencies",
         "diagram"
-    ]
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "pre-push": "npm run test:prod"
+        }
+    }
 }

@@ -15,35 +15,35 @@ export class Rule extends Lint.Rules.AbstractRule {
             return [];
         }
 
-        const walker = new StatementsWalker(sourceFile, this.getOptions(), config);
-        this.applyWithWalker(walker);
-
-        return walker.getFailures();
+        return this.applyWithFunction<DisabledTestRuleConfig>(sourceFile, walk, config);
     }
 }
 
-class StatementsWalker extends Lint.RuleWalker {
-    constructor(
-        sourceFile: ts.SourceFile,
-        options: Lint.IOptions,
-        private config: DisabledTestRuleConfig
-    ) {
-        super(sourceFile, options);
-    }
+const walk = (ctx: Lint.WalkContext<DisabledTestRuleConfig>) => {
+    return ts.forEachChild(ctx.sourceFile, checkNode);
 
-    visitCallExpression(node: ts.CallExpression) {
-        const text = node.getText();
-
-        if (this.config.ban.some(token => text.startsWith(token))) {
-            this.addFailureAtNode(
-                node.getFirstToken(),
-                GeneralRuleUtils.buildFailureString(
-                    "do not disable or enable only some tests",
-                    RuleId.TsfFoldersDisabledTest
-                )
-            );
+    function checkNode(node: ts.Node): void {
+        if (node.kind === ts.SyntaxKind.CallExpression) {
+            visitCallExpression(node as ts.CallExpression, ctx);
         }
 
-        super.visitCallExpression(node);
+        return ts.forEachChild(node, checkNode);
+    }
+};
+
+function visitCallExpression(
+    node: ts.CallExpression,
+    ctx: Lint.WalkContext<DisabledTestRuleConfig>
+) {
+    const text = node.getText();
+
+    if (ctx.options.ban.some(token => text.startsWith(token))) {
+        ctx.addFailureAtNode(
+            node.getFirstToken() || node,
+            GeneralRuleUtils.buildFailureString(
+                "do not disable or enable only some tests",
+                RuleId.TsfFoldersDisabledTest
+            )
+        );
     }
 }

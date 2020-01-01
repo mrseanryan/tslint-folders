@@ -5,9 +5,9 @@ cache:
 notifications:
     email: false
 node_js:
+    - "12"
     - "10"
-    - "11"
-    - "8"
+    # - "8" - disabled: too old for commitizen
     # - '6' - disabled: semantic-release@15.12.2 requires node >=8.3
 script:
     - npm run test:prod

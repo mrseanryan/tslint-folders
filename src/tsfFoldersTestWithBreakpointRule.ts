@@ -35,7 +35,7 @@ class StatementsWalker extends Lint.RuleWalker {
 
         if (this.config.debugTokens.some(token => text.startsWith(token))) {
             this.addFailureAtNode(
-                node.getFirstToken(),
+                node.getFirstToken() || node,
                 GeneralRuleUtils.buildFailureString(
                     "do not hard code breakpoints in the test",
                     RuleId.TsfFoldersTestWithBreakpoint

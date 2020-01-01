@@ -36,7 +36,7 @@ class StatementsWalker extends Lint.RuleWalker {
 
         if (this.config.ban.some(token => text.startsWith(token))) {
             this.addFailureAtNode(
-                node.getFirstToken(),
+                node.getFirstToken() || node,
                 GeneralRuleUtils.buildFailureString(
                     "do not disable or enable only some tests",
                     RuleId.TsfFoldersDisabledTest

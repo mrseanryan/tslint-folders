@@ -2,7 +2,7 @@
     "name": "tslint-folders",
     "version": "0.0.0-semantically-released",
     "description": "Custom TSLint rules for checking imports between packages and their folders, and generating relevant diagrams.",
-    "main": "dist/tslint-folders.umd.js",
+    "main": "dist/lib/tslint-folders.js",
     "typings": "dist/types/tslint-folders.d.ts",
     "files": [
         "dist"

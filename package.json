@@ -70,11 +70,11 @@
         "@commitlint/config-conventional": "^8.2.0",
         "@types/jest": "^24.0.25",
         "@types/lodash": "^4.14.149",
-        "@types/node": "13.1.2",
+        "@types/node": "^13.1.2",
         "colors": "^1.4.0",
         "commitizen": "^4.0.3",
         "coveralls": "^3.0.9",
-        "cross-env": "6.0.3",
+        "cross-env": "^6.0.3",
         "cz-conventional-changelog": "^3.0.2",
         "husky": "^3.1.0",
         "jest": "^24.9.0",
@@ -86,7 +86,6 @@
         "replace-in-file": "^5.0.2",
         "rimraf": "^3.0.0",
         "semantic-release": "^15.14.0",
-        "travis-deploy-once": "^5.0.11",
         "ts-jest": "^24.2.0",
         "ts-node": "^8.5.4",
         "tslint": "^5.20.1",
@@ -109,22 +108,19 @@
         "prebuild": "rimraf dist",
         "build": "tsc --module commonjs && typedoc --out docs --target es6 --theme minimal --mode file src",
         "build:minimal": "tsc --module commonjs",
-        "build-and-test": "yarn build:minimal && yarn test",
         "start": "yarn clean && yarn build && yarn test && yarn lint",
-        "test": "yarn tsl:test && yarn test:unit",
+        "test": "yarn build:minimal && yarn lint && yarn tsl:test && yarn test:unit",
         "test:unit": "jest --coverage",
         "test:watch": "jest --coverage --watch",
-        "test:prod": "npm run build && npm run lint && npm run test -- --no-cache",
+        "test:prod": "yarn build && yarn lint && yarn test -- --no-cache",
         "tsl:build-and-test": "yarn build && yarn tsl:test",
         "tsl:test": "tslint --test test/rules/**/tslint.json",
-        "tsl:test-with-diagrams": "tslint --test test/rules/**/tslint.json",
         "tsl:test-one": "tslint --test test/rules/tsf-folders-disabled-test/**/tslint.json",
         "deploy-docs": "ts-node tools/gh-pages-publish",
         "report-coverage": "cat ./coverage/lcov.info | coveralls",
         "commit": "git-cz",
         "semantic-release": "semantic-release",
-        "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-        "travis-deploy-once": "travis-deploy-once"
+        "semantic-release-prepare": "ts-node tools/semantic-release-prepare"
     },
     "repository": {
         "type": "git",
@@ -149,7 +145,7 @@
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
-            "pre-push": "npm run test:prod"
+            "pre-push": "yarn test:prod"
         }
     }
 }

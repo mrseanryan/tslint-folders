@@ -1,20 +1,47 @@
+# validate here: https://config.travis-ci.com/explore
 language: node_js
+os: linux
+
 cache:
-    directories:
-        - ~/.npm
+  yarn: true
+
 notifications:
-    email: false
+  email: false
+
 node_js:
-    - "12"
-    - "10"
-    # - "8" - disabled: too old for commitizen
-    # - '6' - disabled: semantic-release@15.12.2 requires node >=8.3
-script:
-    - npm run test:prod
-after_success:
-    - npm run travis-deploy-once "npm run report-coverage"
-    - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run travis-deploy-once "npm run deploy-docs"; fi
-    - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run travis-deploy-once "npm run semantic-release"; fi
+  - "12"
+  - "10"
+  # - "8" - disabled: too old for commitizen
+  # - '6' - disabled: semantic-release@15.12.2 requires node >=8.3
+
+install:
+  - yarn
+
+stages:
+  # stages run in sequence
+  - 'Test' # default stage, that runs 'yarn test'
+  - name: 'Code-coverage'
+  - name: 'Deploy'
+    if: branch = master AND type = push
+
+jobs:
+  include:
+    # 'Test' runs 'yarn test' default
+
+    - stage: 'Code-coverage'
+      name: 'Report code coverage to coveralls'
+      node_js: "12"
+      before_script: yarn test # each stage gets a fresh environment: so need to run tests again here, to have coverage file
+      script: yarn report-coverage
+
+    - stage: 'Deploy'
+      name: 'Deploy to docs and to npm'
+      node_js: "12"
+      # jobs in same stage will run in parallel:
+      before_script: yarn build # each stage runs in a fresh environment
+      script: yarn deploy-docs
+      script: yarn semantic-release
+
 branches:
     except:
         - /^v\d+\.\d+\.\d+$/

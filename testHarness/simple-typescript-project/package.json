@@ -1,18 +1,18 @@
 {
-  "name": "simple-typescript-project",
-  "version": "0.0.1",
-  "description": "A test harness for tslint-folders to test consuming the package.",
-  "main": "index.js",
-  "scripts": {
-    "lint": "yarn tslint --project tsconfig.json --format msbuild",
-    "test": "yarn lint"
-  },
-  "author": "Sean Ryan <mr.sean.ryan(at)gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "tslint": "^5.9.1",
-    "tslint-folders": "^0.4.17",
-    "typescript": "^3.2.2"
-  },
-  "private": true
+    "name": "simple-typescript-project",
+    "version": "0.0.1",
+    "description": "A test harness for tslint-folders to test consuming the package.",
+    "main": "index.js",
+    "scripts": {
+        "lint": "yarn tslint --project tsconfig.json --format msbuild",
+        "test": "yarn lint"
+    },
+    "author": "Sean Ryan <mr.sean.ryan(at)gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "tslint": "^5.20.1",
+        "tslint-folders": "^0.4.17",
+        "typescript": "^3.7.4"
+    },
+    "private": true
 }

@@ -12,7 +12,6 @@ tslint-folders is stable and in use every day in CI builds and on dev boxes (Lin
 [![Coveralls](https://img.shields.io/coveralls/mrseanryan/tslint-folders.svg)](https://coveralls.io/github/mrseanryan/tslint-folders)
 [![Size](https://packagephobia.now.sh/badge?p=tslint-folders)](https://packagephobia.now.sh/result?p=tslint-folders)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/mrseanryan/tslint-folders.svg)](https://greenkeeper.io/)
 [![Dependencies](https://david-dm.org/mrseanryan/tslint-folders.svg)](https://david-dm.org/mrseanryan/tslint-folders)
 [![Dev Dependencies](https://david-dm.org/mrseanryan/tslint-folders/dev-status.svg)](https://david-dm.org/mrseanryan/tslint-folders?type=dev)
 

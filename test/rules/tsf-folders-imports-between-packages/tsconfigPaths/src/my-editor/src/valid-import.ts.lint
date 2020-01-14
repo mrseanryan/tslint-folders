@@ -1,0 +1,6 @@
+import {SomeClass} from "lodash";
+
+import {SomeCode} from "my-editor-api";
+import {SomeCode} from "thirdPartySdk";
+
+import {SomeClass} from "../someCode";

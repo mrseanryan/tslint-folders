@@ -1,14 +1,16 @@
 import * as Lint from "tslint";
 import * as ts from "typescript";
 
-import { ConfigFactory } from "./config/ConfigFactory";
 import {
     CheckImportsBetweenPackages,
     ImportsBetweenPackagesRuleConfig
 } from "./model/ImportsBetweenPackagesRuleConfig";
-import { RuleId } from "./RuleId";
-import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
 import { ImportRuleUtils, PathSource } from "./utils/ImportRuleUtils";
+
+import { ConfigFactory } from "./config/ConfigFactory";
+import { GeneralRuleUtils } from "./utils/GeneralRuleUtils";
+import { RuleId } from "./RuleId";
+import { TsConfigParser } from "./utils/TsConfigParser";
 
 const DISALLOW_IMPORT_FROM_SELF_MESSAGE =
     "do not import a package from itself - use a relative path";
@@ -66,11 +68,15 @@ function validate(
         - check if the import is allowed
         */
 
+    const filePath = node.getSourceFile().fileName;
+    const tsConfig = TsConfigParser.parseConfigNear(filePath);
+
     const thisPackageLocation = ImportRuleUtils.determinePackageLocationFromPath(
-        node.getSourceFile().fileName,
+        filePath,
         RuleId.TsfFoldersImportsBetweenPackages,
         ctx.options,
-        PathSource.SourceFilePath
+        PathSource.SourceFilePath,
+        tsConfig
     );
 
     if (ImportRuleUtils.isThisPackageThirdParty(thisPackageLocation, node)) {
@@ -88,6 +94,7 @@ function validate(
         RuleId.TsfFoldersImportsBetweenPackages,
         ctx.options,
         PathSource.ImportText,
+        tsConfig,
         thisPackageLocation
     );
 

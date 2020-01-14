@@ -1,0 +1,55 @@
+{
+  "rulesDirectory": "../../../../dist/lib/",
+  "rules": {
+    "tsf-folders-imports-between-packages": [
+      true,
+      {
+        "config": {
+          "disallowImportFromSelf": {
+            "enabled": true,
+            "ignorePaths": [
+              "utils",
+              "utils/",
+              ".spec.ts",
+              ".spec.tsx",
+              ".ispec.ts",
+              ".ispec.tsx"
+            ]
+          },
+          "checkImportsBetweenPackages": {
+            "enabled": true,
+            "checkSubFoldersEnabled": true,
+            "ignorePaths": [],
+            "packages": [
+              {
+                "description": "My Editor",
+                "importPath": "my-editor",
+                "allowedToImport": ["*"],
+                "subFolders": []
+              },
+              {
+                "description": "My Editor API",
+                "importPath": "my-editor-api",
+                "allowedToImport": ["thirdPartySdk", "utils"],
+                "subFolders": []
+              },           
+              {
+                "description": "Utils package",
+                "importPath": "utils",
+                "allowedToImport": ["thirdPartySdk"],
+                "subFolders": []
+              },
+              {
+                "description": "Third party SDK",
+                "importPath": "thirdPartySdk",
+                "isThirdParty": true,
+                "allowedToImport": [],
+                "subFolders": []
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

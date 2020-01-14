@@ -1,6 +1,6 @@
 import {SomeClass} from "lodash";
-import {SomeClass} from "contact-area-api/someCode";
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [do not import a package from itself - use a relative path (tsf-folders-imports-between-packages)]
+import {SomeClass} from "my-editor/someCode";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [do not import a package from itself - use a relative path (tsf-folders-imports-between-packages)]
 import {SomeClass} from "../someCode";
 // some local directory that happens to use the package name:
 import {SomeClass} from "../../../contact-area-api/stores/AssistStore";

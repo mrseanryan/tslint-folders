@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "esnext",
+      "lib": ["dom", "es2016.array.include", "es2018.promise", "es2017"],
+      "noEmit": true,
+      "noEmitOnError": true,
+      "outDir": "dist",
+      "moduleResolution": "node",
+      "baseUrl": ".",
+      "strict": true,
+      "paths": {
+        "my-editor": ["my-editor/src"],
+        "my-editor-api": ["my-editor/api"]
+      }
+    },
+    "include": ["src"]
+}

@@ -115,7 +115,7 @@
         "test:prod": "yarn build && yarn lint && yarn test -- --no-cache",
         "tsl:build-and-test": "yarn build && yarn tsl:test",
         "tsl:test": "tslint --test test/rules/**/tslint.json",
-        "tsl:test-one": "tslint --test test/rules/tsf-folders-disabled-test/**/tslint.json",
+        "tsl:test-one": "tslint --test test/rules/tsf-folders-imports-between-packages/**/tslint.json",
         "deploy-docs": "ts-node tools/gh-pages-publish",
         "report-coverage": "cat ./coverage/lcov.info | coveralls",
         "commit": "git-cz",

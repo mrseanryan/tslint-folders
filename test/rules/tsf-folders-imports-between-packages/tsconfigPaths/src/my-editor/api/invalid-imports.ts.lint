@@ -1,0 +1,5 @@
+import {SomeClass} from "third-party/someCode";
+
+import {SomeCode} from "my-editor";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ['my-editor-api' is not allowed to import from 'my-editor' (tsf-folders-imports-between-packages)]
+// note: for this detection to work, we need to process the paths in tsconfig.json

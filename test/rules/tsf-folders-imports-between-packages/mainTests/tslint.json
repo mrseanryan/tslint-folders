@@ -61,6 +61,12 @@
                 "subFolders": []
               },
               {
+                "description": "Area that shows contact details",
+                "importPath": "contact-area-api",
+                "allowedToImport": ["contact-area"],
+                "subFolders": []
+              },
+              {
                 "description": "Grid Package with no dependencies",
                 "importPath": "grid-package",
                 "allowedToImport": ["thirdPartySdk"],

@@ -13,6 +13,12 @@ export interface TsConfig {
     include: string[];
 }
 
+type CachePathToTsConfig = {
+    [pathToConfig: string]: TsConfig;
+};
+
+const cache: CachePathToTsConfig = {};
+
 export namespace TsConfigParser {
     // Parse config in given folder, or some parent folder
     export function parseConfigNear(thisPath: string): TsConfig {
@@ -20,9 +26,14 @@ export namespace TsConfigParser {
 
         while (existsSync(basePath)) {
             const possibleTsConfigPath = path.join(basePath, "tsconfig.json");
+            if (cache[possibleTsConfigPath]) {
+                return cache[possibleTsConfigPath];
+            }
 
             if (existsSync(possibleTsConfigPath)) {
-                return loadTsConfig(possibleTsConfigPath, basePath);
+                const config = loadTsConfig(possibleTsConfigPath, basePath);
+                cache[possibleTsConfigPath] = config;
+                return config;
             }
 
             basePath = path.join(basePath, "..");
@@ -36,9 +47,11 @@ export namespace TsConfigParser {
     const loadTsConfig = (tsconfigPath: string, tsconfigDir: string): TsConfig => {
         const { baseUrl, paths, include } = parseTsConfig(tsconfigPath);
 
-        const resolvedBaseUrl = path.join(tsconfigDir, baseUrl);
+        const resolvedBaseUrl = path.resolve(path.join(tsconfigDir, baseUrl));
 
-        return { baseUrl: resolvedBaseUrl, paths, include };
+        const includeOrDefault = include || ["."];
+
+        return { baseUrl: resolvedBaseUrl, paths, include: includeOrDefault };
     };
 
     const parseTsConfig = (tsconfigPath: string): TsConfig => {

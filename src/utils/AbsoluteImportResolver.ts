@@ -26,9 +26,7 @@ export namespace AbsoluteImportResolver {
                     paths.some(partialPath => {
                         const absolutePaths = tsConfig.include
                             .map(include => {
-                                return path.join(
-                                    path.resolve(tsConfig.baseUrl, include, partialPath)
-                                );
+                                return path.join(tsConfig.baseUrl, include, partialPath);
                             })
                             .filter(p => existsSync(p));
 

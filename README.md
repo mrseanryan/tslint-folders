@@ -13,7 +13,6 @@ tslint-folders is stable and in use every day in CI builds and on dev boxes (Lin
 [![Size](https://packagephobia.now.sh/badge?p=tslint-folders)](https://packagephobia.now.sh/result?p=tslint-folders)
 
 [![Dependencies](https://david-dm.org/mrseanryan/tslint-folders.svg)](https://david-dm.org/mrseanryan/tslint-folders)
-[![Dev Dependencies](https://david-dm.org/mrseanryan/tslint-folders/dev-status.svg)](https://david-dm.org/mrseanryan/tslint-folders?type=dev)
 
 [![npm Package](https://img.shields.io/npm/v/tslint-folders.svg?style=flat-square)](https://www.npmjs.org/package/tslint-folders)
 [![NPM Downloads](https://img.shields.io/npm/dm/tslint-folders.svg)](https://npmjs.org/package/tslint-folders)

@@ -9,6 +9,7 @@ notifications:
   email: false
 
 node_js:
+  - "14"
   - "12"
   - "10"
   # - "8" - disabled: too old for commitizen

@@ -8,7 +8,7 @@ Automatic validation and documentation of package architecture (via `tslint-fold
 
 tslint-folders is stable and in use every day in CI builds and on dev boxes (Linux, Mac, Windows) for at least one major product.
 
-[![Travis](https://img.shields.io/travis/mrseanryan/tslint-folders.svg)](https://travis-ci.org/mrseanryan/tslint-folders)
+[![Build Status](https://travis-ci.com/mrseanryan/tslint-folders.svg?branch=master)](https://travis-ci.com/mrseanryan/tslint-folders)
 [![Coveralls](https://img.shields.io/coveralls/mrseanryan/tslint-folders.svg)](https://coveralls.io/github/mrseanryan/tslint-folders)
 [![Size](https://packagephobia.now.sh/badge?p=tslint-folders)](https://packagephobia.now.sh/result?p=tslint-folders)
 

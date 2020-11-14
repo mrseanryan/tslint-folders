@@ -3,3 +3,7 @@ import {SomeClass} from "my-editor/someCode";
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ['utils' is not allowed to import from 'my-editor' (tsf-folders-imports-between-packages)]
 import {SomeClass} from "my-editor-api/someCode";
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ['utils' is not allowed to import from 'my-editor-api' (tsf-folders-imports-between-packages)]
+import {SomeClass} from "@my/viewer/someCode";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ['utils' is not allowed to import from '@my/viewer' (tsf-folders-imports-between-packages)]
+import {SomeClass} from "@my/viewer-api/someCode";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ['utils' is not allowed to import from '@my/viewer-api' (tsf-folders-imports-between-packages)]

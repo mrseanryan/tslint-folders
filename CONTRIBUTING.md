@@ -8,13 +8,11 @@ These steps will guide you through contributing to this project:
 - Clone it and install dependencies
 
 		git clone https://github.com/YOUR-USERNAME/tslint-folders
-		npm install
+		yarn
 
-Keep in mind that after running `npm install` the git repo is reset. So a good way to cope with this is to have a copy of the folder to push the changes, and the other to try them.
+Make and commit your changes. Make sure the commands `yarn build` and `yarn test:prod` are working.
 
-Make and commit your changes. Make sure the commands npm run build and npm run test:prod are working.
-
-Finally send a [GitHub Pull Request](https://github.com/mrseanryan/tslint-folders/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)). Try to make your commits atomic (one change per commit).
+Finally open a [GitHub Pull Request](https://github.com/mrseanryan/tslint-folders/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)). Try to make your commits atomic (one change per commit).
 
 ### dependencies
 
@@ -29,7 +27,7 @@ We use [yarn](https://yarnpkg.com/lang/en/docs/install) because we like it, and 
 ### use a feature branch
 
 Any pushes to `master` will try to publish to npm (if travis build succeeds).
-So it's best to first develop on a feature branch - named like `feature/my-feature`, and then when it has a green build, merge it to master.
+So it's best to first develop on a feature branch - named like `feature/my-feature`, and then when it has a green build, and it is reviewed, we will merge it to master.
 
 This project uses `semantic release`, so when committing its best to use this script:
 
@@ -49,7 +47,7 @@ before pushing: (saves time waiting for a failed build)
 
 `yarn test:prod`
 
-### merging to master (will create a release!)
+### merging to master [restricted access!] (will create a release!)
 
 merging a feature branch into master: (after the build is green!)
 
@@ -67,7 +65,7 @@ git merge feature/my-feature
 git push
 ```
 
-### releasing (from master branch)
+### releasing (from master branch) [restricted access!]
 To release, simply push to github. This will automatically run builds, generate release notes on github, and release to npm!
 
 `git push`

@@ -20,7 +20,7 @@ export namespace AbsoluteImportResolver {
 
             let resolvedToPackageName: string | null = null;
             packageNames.forEach(packageName => {
-                const paths = tsConfig.paths[packageName];
+                const paths = tsConfig.paths[packageName].map(x => x.replace(/\/\*$/, ""));
 
                 if (
                     paths.some(partialPath => {
@@ -36,7 +36,7 @@ export namespace AbsoluteImportResolver {
                     if (resolvedToPackageName && IS_DEBUG_ENABLED) {
                         console.warn(`Multiple configured paths matching to path '${filePath}'`);
                     } else {
-                        resolvedToPackageName = packageName;
+                        resolvedToPackageName = packageName.replace(/\/\*$/, "");
                     }
                 }
             });

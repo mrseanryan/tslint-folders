@@ -10,8 +10,10 @@
       "baseUrl": ".",
       "strict": true,
       "paths": {
-        "my-editor": ["my-editor/src"],
-        "my-editor-api": ["my-editor/api"]
+        "my-editor/*": ["my-editor/src/*"],
+        "my-editor-api": ["my-editor/api"],
+        "@my/viewer/*": ["my-viewer/src/*"],
+        "@my/viewer-api": ["my-viewer/api"]
       }
     },
     "include": ["src"]

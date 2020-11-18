@@ -32,7 +32,19 @@
                 "importPath": "my-editor-api",
                 "allowedToImport": ["thirdPartySdk", "utils"],
                 "subFolders": []
-              },           
+              },
+              {
+                "description": "My Viewer",
+                "importPath": "@my/viewer",
+                "allowedToImport": ["*"],
+                "subFolders": []
+              },
+              {
+                "description": "My Viewer API",
+                "importPath": "@my/viewer-api",
+                "allowedToImport": ["thirdPartySdk", "utils"],
+                "subFolders": []
+              },
               {
                 "description": "Utils package",
                 "importPath": "utils",

@@ -3,7 +3,7 @@ export namespace DirUtils {
         return cleanPath(filePath).split("/");
     }
 
-    function cleanPath(filePath: string): string {
+    export function cleanPath(filePath: string): string {
         let cleaned = filePath.trim();
 
         cleaned = cleaned.replace(/['"]+/g, "");

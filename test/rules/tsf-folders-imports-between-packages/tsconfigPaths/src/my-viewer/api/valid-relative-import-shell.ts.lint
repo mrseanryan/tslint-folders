@@ -1,0 +1,5 @@
+// some local directory:
+import {SomeClass} from "../../../my-viewer-api/stores/AssistStore";
+
+// some local directory:
+import {SomeClass} from "../../../my-viewer/stores/AssistStore";

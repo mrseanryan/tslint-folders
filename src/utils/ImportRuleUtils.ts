@@ -34,11 +34,13 @@ export namespace ImportRuleUtils {
         tsConfig: TsConfig,
         thisPackageLocation?: PackageLocation
     ): PackageLocation {
+        const dirs = DirUtils.splitPath(filePath);
+
         if (IS_DEBUG_ENABLED) {
-            console.log(`\nchecking ${PathSource[pathSource]} against path:`, filePath);
+            console.log(`\nchecking ${PathSource[pathSource]} against path:`, dirs.join(","));
         }
 
-        let [packageName, dirs] = determinePackageName(config, filePath, pathSource, tsConfig);
+        let packageName = determinePackageName(config, filePath, pathSource, tsConfig);
 
         if (
             packageName === null ||
@@ -133,37 +135,17 @@ export namespace ImportRuleUtils {
         filePath: string,
         pathSource: PathSource,
         tsConfig: TsConfig
-    ): [string | null, string[]] {
+    ): string | null {
         let packageName: string | null = null;
-        let dirs: string[] = [];
-
-        let clearedFilePath = DirUtils.cleanPath(filePath);
         switch (pathSource) {
             case PathSource.ImportText:
                 {
-                    // take the biggest part known to be a package:
-                    let lastSlashIndex = Infinity;
-                    while (lastSlashIndex !== -1) {
-                        let head = clearedFilePath.substring(0, lastSlashIndex);
-                        if (PackageConfigHelper.hasPackage(config, head)) {
-                            dirs.unshift(head);
-                            break;
-                        }
-
-                        const slashIndex = clearedFilePath.lastIndexOf("/", lastSlashIndex - 1);
-                        const part = clearedFilePath.substring(slashIndex + 1, lastSlashIndex);
-                        dirs.unshift(part);
-
-                        lastSlashIndex = slashIndex;
-                    }
-
+                    // take the 1st part of the path:
                     // (ignore local directories that happen to have same name as a package)
-                    packageName = dirs[0];
+                    packageName = DirUtils.splitPath(filePath)[0];
                 }
                 break;
             case PathSource.SourceFilePath: {
-                dirs = clearedFilePath.split("/");
-
                 const pathName = AbsoluteImportResolver.resolvePathToPackageName(
                     filePath,
                     tsConfig,
@@ -180,7 +162,7 @@ export namespace ImportRuleUtils {
             }
         }
 
-        return [packageName, dirs];
+        return packageName;
     }
 
     function determinePackageLocationWithSubFolder(

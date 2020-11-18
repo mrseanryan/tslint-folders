@@ -14,7 +14,7 @@ Keep in mind that after running `npm install` the git repo is reset. So a good w
 
 Make and commit your changes. Make sure the commands npm run build and npm run test:prod are working.
 
-Finally send a [GitHub Pull Request](https://github.com/alexjoverm/tslint-folders/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)). Make sure all of your commits are atomic (one feature per commit).
+Finally send a [GitHub Pull Request](https://github.com/mrseanryan/tslint-folders/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)). Try to make your commits are atomic (one change per commit).
 
 ### dependencies
 
@@ -34,6 +34,10 @@ So it's best to first develop on a feature branch - named like `feature/my-featu
 This project uses `semantic release`, so when committing its best to use this script:
 
 `./commit.sh`
+
+### commit message format
+
+Please **use an appropriate prefix to your commit messages**, so that `semantic release` will know how to decide the next semantic version. See [Angular commit message conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
 
 ### running unit tests
 

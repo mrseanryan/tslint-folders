@@ -11,4 +11,8 @@ export namespace DirUtils {
 
         return cleaned;
     }
+
+    export function convertWindowsToUnix(filePath: string): string {
+        return filePath.split("\\").join("/");
+    }
 }

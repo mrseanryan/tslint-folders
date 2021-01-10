@@ -1,12 +1,12 @@
 import * as fs from "fs";
-import * as glob from "glob";
-import * as parse from "tslint/lib/verify/parse";
 import * as path from "path";
-
 import { consoleTestResultHandler, runTest } from "tslint/lib/test";
+import * as parse from "tslint/lib/verify/parse";
 
 import { RuleFactory } from "./rules/RuleFactory";
 import { getSourceFileFromPath } from "./rules/testUtils/tslint-palantir/utils";
+
+const glob = require("glob"); // workaround when running 'yarn test'
 
 class ConsoleLogger {
     log(m: any) {

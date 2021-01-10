@@ -3,12 +3,24 @@ export namespace DirUtils {
         return cleanPath(filePath).split("/");
     }
 
+    function removeQuotesAndTicksFrom(filePath: string): string {
+        return filePath.replace(/['"]+/g, "");
+    }
+
+    function replaceRepeatedBackslashesIn(filePath: string): string {
+        return filePath.replace(/[\\]+/g, "\\");
+    }
+
     export function cleanPath(filePath: string): string {
         let cleaned = filePath.trim();
 
-        cleaned = cleaned.replace(/['"]+/g, "");
-        cleaned = cleaned.replace(/[\\]+/g, "\\");
+        cleaned = removeQuotesAndTicksFrom(cleaned);
+        cleaned = replaceRepeatedBackslashesIn(cleaned);
 
         return cleaned;
+    }
+
+    export function convertWindowsToUnix(filePath: string): string {
+        return filePath.split("\\").join("/");
     }
 }

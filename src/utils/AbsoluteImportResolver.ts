@@ -1,15 +1,19 @@
+import { Dirent, existsSync } from "fs";
 import * as path from "path";
 
-import { DirUtils } from "./DirUtils";
 import { ImportsBetweenPackagesRuleConfig } from "../tslint-folders";
+import { DirUtils } from "./DirUtils";
 import { PackageConfigHelper } from "./PackageConfigHelper";
 import { TsConfig } from "./TsConfigParser";
-import { existsSync } from "fs";
 
 export const IS_DEBUG_ENABLED = false;
 
 // Resolves an absolute file path, to a 'package' path, as specified in tsconfig.json
 export namespace AbsoluteImportResolver {
+    function removeTrailingSlashStarFrom(packagePath: string): string {
+        return packagePath.replace(/\/\*$/, "");
+    }
+
     export function resolvePathToPackageName(
         filePath: string,
         tsConfig: TsConfig,
@@ -19,24 +23,25 @@ export namespace AbsoluteImportResolver {
             const packageNames = Object.keys(tsConfig.paths);
 
             let resolvedToPackageName: string | null = null;
-            packageNames.forEach(packageName => {
-                const paths = tsConfig.paths[packageName].map(x => x.replace(/\/\*$/, ""));
+            packageNames.forEach((packageName) => {
+                const paths = tsConfig.paths[packageName].map(removeTrailingSlashStarFrom);
 
                 if (
-                    paths.some(partialPath => {
+                    paths.some((partialPath) => {
                         const absolutePaths = tsConfig.include
-                            .map(include => {
-                                return path.join(tsConfig.baseUrl, include, partialPath);
+                            .map((include) => {
+                                const joined = path.join(tsConfig.baseUrl, include, partialPath);
+                                return DirUtils.convertWindowsToUnix(joined); // needs to be Unix style, to handle multicomponent paths like 'my-editor/api'
                             })
-                            .filter(p => existsSync(p));
+                            .filter((p) => existsSync(p));
 
-                        return absolutePaths.some(abs => filePath.startsWith(abs));
+                        return absolutePaths.some((abs) => filePath.startsWith(abs));
                     })
                 ) {
                     if (resolvedToPackageName && IS_DEBUG_ENABLED) {
                         console.warn(`Multiple configured paths matching to path '${filePath}'`);
                     } else {
-                        resolvedToPackageName = packageName.replace(/\/\*$/, "");
+                        resolvedToPackageName = removeTrailingSlashStarFrom(packageName);
                     }
                 }
             });
@@ -57,7 +62,7 @@ export namespace AbsoluteImportResolver {
         const dirs = DirUtils.splitPath(pathToSplit);
         let packageName: string | null = null;
 
-        dirs.forEach(dir => {
+        dirs.forEach((dir) => {
             if (PackageConfigHelper.hasPackage(config, dir)) {
                 if (packageName === null) {
                     // take the 1st recognised folder:

@@ -3,9 +3,8 @@ import * as ts from "typescript";
 import {
     ImportsBetweenPackagesRuleConfig,
     PackageFolder,
-    PackageSubFolder
+    PackageSubFolder,
 } from "../model/ImportsBetweenPackagesRuleConfig";
-
 import { AbsoluteImportResolver } from "./AbsoluteImportResolver";
 import { DirUtils } from "./DirUtils";
 import { GeneralRuleUtils } from "./GeneralRuleUtils";
@@ -14,7 +13,7 @@ import { TsConfig } from "./TsConfigParser";
 
 export enum PathSource {
     SourceFilePath,
-    ImportText
+    ImportText,
 }
 
 export type PackageLocation = {
@@ -46,7 +45,7 @@ export namespace ImportRuleUtils {
                 !PackageConfigHelper.hasPackage(config, packageName))
         ) {
             return {
-                packageName: filePath
+                packageName: filePath,
             };
         }
 
@@ -63,14 +62,14 @@ export namespace ImportRuleUtils {
 
         if (!packageFolderAndName.packageFolder) {
             return {
-                packageName: packageName
+                packageName: packageName,
             };
         }
 
         if (packageFolderAndName.packageFolder.subFolders.length === 0) {
             return {
                 packageName: packageName,
-                packageFolder: packageFolderAndName.packageFolder
+                packageFolder: packageFolderAndName.packageFolder,
             };
         }
 
@@ -124,7 +123,7 @@ export namespace ImportRuleUtils {
 
         return {
             packageFolder: packageFolder,
-            packageName: activePackageName
+            packageName: activePackageName,
         };
     }
 
@@ -203,7 +202,7 @@ export namespace ImportRuleUtils {
                     if (isImportingFromSubFolder) {
                         for (let i = 1; i < dirs.length; i++) {
                             const subFolder = packageFolder.subFolders.find(
-                                folder => folder.importPath === dirs[i]
+                                (folder) => folder.importPath === dirs[i]
                             );
                             if (subFolder) {
                                 packageSubFolder = subFolder;
@@ -216,11 +215,9 @@ export namespace ImportRuleUtils {
                 }
                 break;
             case PathSource.SourceFilePath: {
-                // xxx
-
                 let hasPackageDir = false;
 
-                dirs.forEach(dir => {
+                dirs.forEach((dir) => {
                     if (packageSubFolder) {
                         return;
                     }
@@ -233,7 +230,7 @@ export namespace ImportRuleUtils {
                     {
                         if (hasPackageDir) {
                             const subFolder = packageFolder!.subFolders.find(
-                                folder => folder.importPath === dir
+                                (folder) => folder.importPath === dir
                             );
                             if (subFolder) {
                                 packageSubFolder = subFolder;
@@ -252,7 +249,7 @@ export namespace ImportRuleUtils {
         return {
             packageName: activePackageName,
             packageFolder: packageFolder,
-            packageSubFolder: packageSubFolder
+            packageSubFolder: packageSubFolder,
         };
     }
 
@@ -311,6 +308,6 @@ export namespace ImportRuleUtils {
     }
 
     export function shouldIgnorePath(path: string, ignorePaths: string[]): boolean {
-        return ignorePaths.some(ignore => path.indexOf(ignore) >= 0);
+        return ignorePaths.some((ignore) => path.indexOf(ignore) >= 0);
     }
 }

@@ -10,6 +10,10 @@ export const IS_DEBUG_ENABLED = false;
 
 // Resolves an absolute file path, to a 'package' path, as specified in tsconfig.json
 export namespace AbsoluteImportResolver {
+    function removeTrailingSlashStarFrom(packagePath: string): string {
+        return packagePath.replace(/\/\*$/, "");
+    }
+
     export function resolvePathToPackageName(
         filePath: string,
         tsConfig: TsConfig,
@@ -20,7 +24,7 @@ export namespace AbsoluteImportResolver {
 
             let resolvedToPackageName: string | null = null;
             packageNames.forEach((packageName) => {
-                const paths = tsConfig.paths[packageName].map((x) => x.replace(/\/\*$/, ""));
+                const paths = tsConfig.paths[packageName].map(removeTrailingSlashStarFrom);
 
                 if (
                     paths.some((partialPath) => {
@@ -37,7 +41,7 @@ export namespace AbsoluteImportResolver {
                     if (resolvedToPackageName && IS_DEBUG_ENABLED) {
                         console.warn(`Multiple configured paths matching to path '${filePath}'`);
                     } else {
-                        resolvedToPackageName = packageName.replace(/\/\*$/, "");
+                        resolvedToPackageName = removeTrailingSlashStarFrom(packageName);
                     }
                 }
             });

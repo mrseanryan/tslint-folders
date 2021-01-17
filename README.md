@@ -22,6 +22,8 @@ tslint-folders is stable and in use every day in CI builds and on dev boxes (Lin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K73ALBJ)
+
 ---
 
 ## why?

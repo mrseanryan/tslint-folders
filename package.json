@@ -128,6 +128,7 @@
     "dependencies": {
         "lodash": "^4.17.15"
     },
+    "funding": "https://github.com/mrseanryan/tslint-folders?sponsor=1",
     "keywords": [
         "tslint",
         "folders",
